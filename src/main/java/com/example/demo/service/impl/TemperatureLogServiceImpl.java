@@ -15,10 +15,19 @@ public class TemperatureLogServiceImpl implements TemperatureLogService{
     public TemperatureSensorLog recordLog(TemperatureSensorLog log){
         return temperaturelogrepository.save(log);
     }
+
     @Override
     public List<TemperatureSensorLog> getLogsByShipment(long shipmentId){
-        return temperaturelogrepository.findByshipmentId(shipmentId);
+        return temperaturelogrepository.findByShipmentId(shipmentId);
     }
-    // TemperatureSensorLog getLogById(long id);
-    // List<TemperatureSensorLog> getAllLogs();
+
+    @Override
+    public TemperatureSensorLog getLogById(long id){
+        return temperaturelogrepository.findById(id);
+    }
+
+    @Override
+    public List<TemperatureSensorLog> getAllLogs(){
+        return temperaturelogrepository.findAll();
+    }
 }
