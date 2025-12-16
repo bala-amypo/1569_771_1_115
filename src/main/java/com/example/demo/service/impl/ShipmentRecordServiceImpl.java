@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.example.demo.entity.ShipmentRecord;
 import com.example.demo.service.ShipmentRecordService;
-@Ser
+@Service
 public class ShipmentRecordServiceImpl implements ShipmentRecordService{
 //    ShipmentRecord createShipment(ShipmentRecord shipment);
 //     ShipmentRecord updateShipmentStatus(long id,String status);
