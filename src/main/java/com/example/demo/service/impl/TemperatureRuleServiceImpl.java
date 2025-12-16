@@ -20,13 +20,14 @@ public TemperatureRuleServiceImpl implements TemperatureRuleService{
     public TemperatureRule updateRule(long id,TemperatureRule rule){
         TemperatureRule tr= temperaturerulerepository.findById(id);
         tr.setMinTemp(rule.getMinTemp());
-        tr.setMax
-        return temperaturerulerepository.save(rule);
+        tr.setMaxTemp(rule.getMaxTemp());
+        tr.setActive(rule.isActive());
+        return temperaturerulerepository.save(tr);
     }
 
     @Override
     public List<TemperatureRule> getActiveRules(){
-        return temperaturerulerepository.findAll();
+        return temperaturerulerepository.findByActiveTrue();
     }
 
     @Override
