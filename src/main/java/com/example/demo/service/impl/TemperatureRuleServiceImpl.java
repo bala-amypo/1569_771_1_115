@@ -1,5 +1,5 @@
 package com.example.demo.service.impl;
-
+import java.time.LocalDate;
 import java.util.List;
 
 import com.example.demo.entity.TemperatureRule;
@@ -19,13 +19,19 @@ public TemperatureRuleServiceImpl implements TemperatureRuleService{
     @Override
     public TemperatureRule updateRule(long id,TemperatureRule rule){
         TemperatureRule tr= temperaturerulerepository.findById(id);
-        tr.setRule(rule);
+        tr.setMinTemp(rule.getMinTemp());
+        tr.setMax
         return temperaturerulerepository.save(rule);
     }
 
     @Override
     public List<TemperatureRule> getActiveRules(){
         return temperaturerulerepository.findAll();
+    }
+
+    @Override
+    public TemperatureRule getRuleForProduct(String productType,LocalDate date){
+
     }
 }
  
@@ -34,5 +40,5 @@ public TemperatureRuleServiceImpl implements TemperatureRuleService{
  
     
     
-    TemperatureRule getRuleForProduct(String productType,LocalDate date);
+    
     List<TemperatureRule> getAllRules();
