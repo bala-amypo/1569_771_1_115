@@ -12,15 +12,20 @@ public TemperatureRuleServiceImpl implements TemperatureRuleService{
     TemperatureRuleRepository temperaturerulerepository
 
     @Override
-    TemperatureRule createRule(TemperatureRule rule){
+    public TemperatureRule createRule(TemperatureRule rule){
         return temperaturerulerepository.save(rule);
     }
 
     @Override
-    TemperatureRule updateRule(long id,TemperatureRule rule){
+    public TemperatureRule updateRule(long id,TemperatureRule rule){
         TemperatureRule tr= temperaturerulerepository.findById(id);
         tr.setRule(rule);
-        return temperaturerulerepository.save()
+        return temperaturerulerepository.save(rule);
+    }
+
+    @Override
+    public List<TemperatureRule> getActiveRules(){
+        return temperaturerulerepository.findAll();
     }
 }
  
@@ -28,6 +33,6 @@ public TemperatureRuleServiceImpl implements TemperatureRuleService{
  
  
     
-    List<TemperatureRule> getActiveRules();
+    
     TemperatureRule getRuleForProduct(String productType,LocalDate date);
     List<TemperatureRule> getAllRules();
