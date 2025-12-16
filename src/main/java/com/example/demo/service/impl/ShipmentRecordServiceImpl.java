@@ -17,9 +17,16 @@ public class ShipmentRecordServiceImpl implements ShipmentRecordService{
 
     @Override
     public ShipmentRecord createShipment(ShipmentRecord shipment){
-           
+           return shipmentrecordrepository.save(shipment);
     }
+    @Override
     public ShipmentRecord updateShipmentStatus(long id,String status){
-        
+           ShipmentRecord shipment= shipmentrecordrepository.findById(id);
+           shipment.setStatus(status);
+           return shipmentrecordrepository.save(shipment);
+    }
+    @Override
+    public ShipmentRecord getShipmentByCode(String code){
+        Ship
     }
 }
