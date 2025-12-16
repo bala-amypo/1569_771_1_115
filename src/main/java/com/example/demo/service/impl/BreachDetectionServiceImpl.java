@@ -19,9 +19,19 @@ public BreachDetectionServiceImpl implements BreachDetectionService{
 
        @Override
        public List<BreachRecord> getBreachesByShipment(long shipmentId){
-            return breachrecordrepository.fin
+            return breachrecordrepository.findByShipmentId(shipmentId);
        }
-    BreachRecord resolveBreach(long id);
-    BreachRecord getBreachById(long id);
+
+       @Override
+       public BreachRecord resolveBreach(long id){
+            BreachRecord breach= breachrecordrepository.findById(id);
+            breach.setResolved(true);
+            return breachrecordrepository.save(breach);
+       }
+
+       @Override
+       public BreachRecord getBreachById(long id){
+              
+       }
     List<BreachRecord> getAllBreaches();
 }
