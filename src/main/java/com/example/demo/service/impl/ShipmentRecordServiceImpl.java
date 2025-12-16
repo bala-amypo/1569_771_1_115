@@ -12,13 +12,12 @@ public class ShipmentRecordServiceImpl implements ShipmentRecordService{
 //     ShipmentRecord getShipmentByCode(String code);
 //     ShipmentRecord getShipmentById(long id);
 //     List<ShipmentRecord> getAllShipments();
-    List<ShipmentRecord> sr = new ArrayList<>();
-    int nextShipid=1;
+    @Autowired
+    private ShipmentRecordRepository shipmentrecordrepository;
+
+    @Override
     public ShipmentRecord createShipment(ShipmentRecord shipment){
-           shipment.setId(nextShipid);
-           nextShipid++;
-           sr.add(shipment);
-           return shipment;
+           
     }
     public ShipmentRecord updateShipmentStatus(long id,String status){
         
