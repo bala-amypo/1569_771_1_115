@@ -3,15 +3,15 @@ package com.example.demo.entity;
 import java.time.LocalDate;
 
 public class TemperatureRule {
-     private long id;
-     private String productType;
-     private Double minTemp;
-     private Double maxTemp;
-     private Boolean active;
-     private LocalDate effectiveFrom;
-     private LocalDate effectiveTo;
+    private long id;
+    private String productType;
+    private Double minTemp;
+    private Double maxTemp;
+    private Boolean active;
+    private LocalDate effectiveFrom;
+    private LocalDate effectiveTo;
 
-     public TemperatureRule(){}
+    public TemperatureRule(){}
 
     public TemperatureRule(String productType, Double minTemp, Double maxTemp, Boolean active, LocalDate effectiveFrom,
             LocalDate effectiveTo) {

@@ -3,14 +3,14 @@ package com.example.demo.entity;
 import java.time.LocalDateTime;
 
 public class TemperatureSensorLog {
-       private long id;
-       private long shipmentId;
-       private String sensorId;
-       private LocalDateTime recordedAt;
-       private Double temperatureValue;
-       private String location;
+    private long id;
+    private long shipmentId;
+    private String sensorId;
+    private LocalDateTime recordedAt;
+    private Double temperatureValue;
+    private String location;
 
-       public TemperatureSensorLog(){}
+    public TemperatureSensorLog(){}
 
     public TemperatureSensorLog(long shipmentId, String sensorId, LocalDateTime recordedAt, Double temperatureValue,
             String location) {
