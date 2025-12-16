@@ -7,11 +7,11 @@ import com.example.demo.entity.ShipmentRecord;
 import com.example.demo.service.ShipmentRecordService;
 @Ser
 public class ShipmentRecordServiceImpl implements ShipmentRecordService{
-    // createShipment(ShipmentRecord shipment);
-    // updateShipmentStatus(long id,String status);
-    // getShipmentByCode(String code);
-    // getShipmentById(long id);
-    // getAllShipments(); 
+//    ShipmentRecord createShipment(ShipmentRecord shipment);
+//     ShipmentRecord updateShipmentStatus(long id,String status);
+//     ShipmentRecord getShipmentByCode(String code);
+//     ShipmentRecord getShipmentById(long id);
+//     List<ShipmentRecord> getAllShipments();
     List<ShipmentRecord> sr = new ArrayList<>();
     int nextShipid=1;
     public ShipmentRecord createShipment(ShipmentRecord shipment){
@@ -19,5 +19,8 @@ public class ShipmentRecordServiceImpl implements ShipmentRecordService{
            nextShipid++;
            sr.add(shipment);
            return shipment;
+    }
+    public ShipmentRecord updateShipmentStatus(long id,String status){
+        
     }
 }
