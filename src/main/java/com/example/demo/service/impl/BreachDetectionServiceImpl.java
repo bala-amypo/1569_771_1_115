@@ -7,4 +7,7 @@ import com.example.demo.service.BreachDetectionService;
 import com.example.demo.repository.BreachRecordRepository;
 
 @Service
-public TemperatureRuleServiceImpl implements TemperatureRuleService
+public BreachDetectionServiceImpl implements BreachDetectionService{
+       @Autowired
+       private 
+}

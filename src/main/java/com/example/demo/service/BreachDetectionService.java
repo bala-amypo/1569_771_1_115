@@ -3,9 +3,9 @@ import java.time.LocalDate;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.entity.TemperatureRule;
+import com.example.demo.entity.B;
 
 @Service
-public interface TemperatureRuleService{
-    
+public interface BreachDetectionService{
+
 }
