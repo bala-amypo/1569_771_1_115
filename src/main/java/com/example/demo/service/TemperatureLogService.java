@@ -7,7 +7,7 @@ import com.example.demo.entity.TemperatureLogService;
 
 public interface TemperatureLogService{
     TemperatureSensorLog recordLog(TemperatureSensorLog log);
-    TemperatureSensorLog getLogsByShipment(long shipmentId);
+    List<TemperatureSensorLog> getLogsByShipment(long shipmentId);
     TemperatureSensorLog getLogById(long id);
     List<TemperatureSensorLog> getAllLogs();
 }
