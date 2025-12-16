@@ -27,12 +27,17 @@ public TemperatureRuleServiceImpl implements TemperatureRuleService{
 
     @Override
     public List<TemperatureRule> getActiveRules(){
-        return temperaturerulerepository;//doubtuh
+        return temperaturerulerepository.findAll();//doubtuh
     }
 
     @Override
     public TemperatureRule getRuleForProduct(String productType,LocalDate date){
-           
+        return temperaturerulerepository.findByProductTypeAndDate(productType,date);
+    }
+
+    @Override
+    public List<TemperatureRule> getAllRules(){
+        return temperaturerulerepository.findAll();
     }
 }
  
@@ -42,4 +47,4 @@ public TemperatureRuleServiceImpl implements TemperatureRuleService{
     
     
     
-    List<TemperatureRule> getAllRules();
+    
