@@ -21,22 +21,24 @@ public class ShipmentRecordController{
     ShipmentRecordService shipmentrecordservice;
 
     @PostMapping
-    public ShipmentRecord createShipment(@RequestBody ShipmentRecord shipment){
-        return shipmentrecordservice.createShipment(shipment);
+    public ResponseEntity<ShipmentRecord> createShipment(@RequestBody ShipmentRecord shipment){
+        ShipmentRecord sh = shipmentrecordservice.createShipment(shipment);
+        return ResponseEntity.status(201).body(sh);
     }
 
     @PutMapping
-    public ShipmentRecord updateStatus(@PathVariable Long id,String status){
-        return shipmentrecordservice.updateShipmentStatus(id,status);
+    public ResponseEntity<ShipmentRecord> updateStatus(@PathVariable Long id,String status){
+        ShipmentRecord sh = shipmentrecordservice.updateShipmentStatus(id,status);
+        return ResponseEntity.status(201).body(
     }
     
     @GetMapping("/code/{shipmentCode}")
-    public ShipmentRecord getByCode(@PathVariable String shipmentCode){
+    public ResponseEntity<ShipmentRecord> getByCode(@PathVariable String shipmentCode){
         return shipmentrecordservice.getShipmentByCode(shipmentCode);
     }
     
     @GetMapping("/{id}")
-    public ShipmentRecord getById(@PathVariable Long id){
+    public ResponseEntity<ShipmentRecord> getById(@PathVariable Long id){
         return shipmentrecordservice.getShipmentById(id);
     }
 
