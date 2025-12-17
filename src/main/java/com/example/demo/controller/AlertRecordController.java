@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.model.Vendor;
+import com.example.demo.entity.AlertRecord;
 import com.example.demo.service.VendorService;
 
 @RestController
@@ -21,23 +21,27 @@ public class ShipmentRecordController{
     ShipmentRecordService shipmentrecordservice;
 
     @PostMapping
-    public ShipmentRecord createShipment(@RequestBody ShipmentRecord shipment){
-        return shipmentrecordservice.createShipment(shipment);
+    public ResponseEntity<ShipmentRecord> createShipment(@RequestBody ShipmentRecord shipment){
+        ShipmentRecord sh = shipmentrecordservice.createShipment(shipment);
+        return ResponseEntity.status(201).body(sh);
     }
 
     @PutMapping
-    public ShipmentRecord updateStatus(@PathVariable Long id,String status){
-        return shipmentrecordservice.updateShipmentStatus(id,status);
+    public ResponseEntity<ShipmentRecord> updateStatus(@PathVariable Long id,String status){
+        ShipmentRecord sh = shipmentrecordservice.updateShipmentStatus(id,status);
+        return ResponseEntity.status(201).body(sh);
     }
     
     @GetMapping("/code/{shipmentCode}")
-    public ShipmentRecord getByCode(@PathVariable String shipmentCode){
-        return shipmentrecordservice.getShipmentByCode(shipmentCode);
+    public ResponseEntity<ShipmentRecord> getByCode(@PathVariable String shipmentCode){
+        ShipmentRecord sh = shipmentrecordservice.getShipmentByCode(shipmentCode);
+        return ResponseEntity.status(201).body(sh);
     }
     
     @GetMapping("/{id}")
-    public ShipmentRecord getById(@PathVariable Long id){
-        return shipmentrecordservice.getShipmentById(id);
+    public ResponseEntity<ShipmentRecord> getById(@PathVariable Long id){
+        ShipmentRecord sh = shipmentrecordservice.getShipmentById(id);
+        return ResponseEntity.status(201).body(sh);
     }
 
     @GetMapping

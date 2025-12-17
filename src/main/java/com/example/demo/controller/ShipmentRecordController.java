@@ -29,17 +29,19 @@ public class ShipmentRecordController{
     @PutMapping
     public ResponseEntity<ShipmentRecord> updateStatus(@PathVariable Long id,String status){
         ShipmentRecord sh = shipmentrecordservice.updateShipmentStatus(id,status);
-        return ResponseEntity.status(201).body(
+        return ResponseEntity.status(201).body(sh);
     }
     
     @GetMapping("/code/{shipmentCode}")
     public ResponseEntity<ShipmentRecord> getByCode(@PathVariable String shipmentCode){
         ShipmentRecord sh = shipmentrecordservice.getShipmentByCode(shipmentCode);
+        return ResponseEntity.status(201).body(sh);
     }
     
     @GetMapping("/{id}")
     public ResponseEntity<ShipmentRecord> getById(@PathVariable Long id){
-        return shipmentrecordservice.getShipmentById(id);
+        ShipmentRecord sh = shipmentrecordservice.getShipmentById(id);
+        return ResponseEntity.status(201).body(sh);
     }
 
     @GetMapping
