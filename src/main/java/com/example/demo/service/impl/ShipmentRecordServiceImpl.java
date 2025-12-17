@@ -27,7 +27,7 @@ public class ShipmentRecordServiceImpl implements ShipmentRecordService {
 
     @Override
     public ShipmentRecord getShipmentByCode(String code) {
-        return shipmentRecordRepository.findByCode(code);
+        return shipmentRecordRepository.findByShipmentCode(code);
     }
 
     @Override
