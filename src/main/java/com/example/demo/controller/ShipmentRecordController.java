@@ -34,7 +34,7 @@ public class ShipmentRecordController{
     
     @GetMapping("/code/{shipmentCode}")
     public ResponseEntity<ShipmentRecord> getByCode(@PathVariable String shipmentCode){
-        return shipmentrecordservice.getShipmentByCode(shipmentCode);
+        ShipmentRecord sh = shipmentrecordservice.getShipmentByCode(shipmentCode);
     }
     
     @GetMapping("/{id}")
