@@ -6,5 +6,5 @@ import com.example.demo.entity.ShipmentRecord;
 
 @Repository
 public interface ShipmentRecordRepository extends JpaRepository<ShipmentRecord, Long> {
-    ShipmentRecord findByCode(String code);
+    ShipmentRecord findByCode(String shipmentCode);
 }
