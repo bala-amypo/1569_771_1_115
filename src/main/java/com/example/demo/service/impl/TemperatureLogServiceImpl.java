@@ -1,11 +1,11 @@
-package com.example.demo1.service.impl;
+package com.example.demo.service.impl;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.example.demo1.entity.TemperatureSensorLog;
-import com.example.demo1.service.TemperatureLogService;
-import com.example.demo1.repository.TemperatureSensorLogRepository;
+import com.example.demo.entity.TemperatureSensorLog;
+import com.example.demo.service.TemperatureLogService;
+import com.example.demo.repository.TemperatureSensorLogRepository;
 
 @Service
 public class TemperatureLogServiceImpl implements TemperatureLogService {
