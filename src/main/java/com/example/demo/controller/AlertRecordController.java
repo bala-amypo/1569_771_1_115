@@ -12,40 +12,40 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.AlertRecord;
-import com.example.demo.service.VendorService;
+import com.example.demo.service.AlertService;
 
 @RestController
-@RequestMapping("/api/shipments")
-public class ShipmentRecordController{
+@RequestMapping("/api/alerts")
+public class AlertRecordController{
     @Autowired 
-    ShipmentRecordService shipmentrecordservice;
+    AlertService alertservice;
 
     @PostMapping
-    public ResponseEntity<ShipmentRecord> createShipment(@RequestBody ShipmentRecord shipment){
+    public ResponseEntity<AlertRecord> createShipment(@RequestBody ShipmentRecord shipment){
         ShipmentRecord sh = shipmentrecordservice.createShipment(shipment);
         return ResponseEntity.status(201).body(sh);
     }
 
     @PutMapping
-    public ResponseEntity<ShipmentRecord> updateStatus(@PathVariable Long id,String status){
+    public ResponseEntity<AlertRecord> updateStatus(@PathVariable Long id,String status){
         ShipmentRecord sh = shipmentrecordservice.updateShipmentStatus(id,status);
         return ResponseEntity.status(201).body(sh);
     }
     
     @GetMapping("/code/{shipmentCode}")
-    public ResponseEntity<ShipmentRecord> getByCode(@PathVariable String shipmentCode){
+    public ResponseEntity<AlertRecord> getByCode(@PathVariable String shipmentCode){
         ShipmentRecord sh = shipmentrecordservice.getShipmentByCode(shipmentCode);
         return ResponseEntity.status(201).body(sh);
     }
     
     @GetMapping("/{id}")
-    public ResponseEntity<ShipmentRecord> getById(@PathVariable Long id){
+    public ResponseEntity<AlertRecord> getById(@PathVariable Long id){
         ShipmentRecord sh = shipmentrecordservice.getShipmentById(id);
         return ResponseEntity.status(201).body(sh);
     }
 
     @GetMapping
-    public List<ShipmentRecord> getAll(){
+    public List<AlertRecord> getAll(){
         return shipmentrecordservice.getAllShipments();
     }
 }

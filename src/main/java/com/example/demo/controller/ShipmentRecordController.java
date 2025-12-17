@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.model.Vendor;
-import com.example.demo.service.VendorService;
+import com.example.demo.entity.ShipmentRecord;
+import com.example.demo.service.ShipmentRecordService;
 
 @RestController
 @RequestMapping("/api/shipments")
