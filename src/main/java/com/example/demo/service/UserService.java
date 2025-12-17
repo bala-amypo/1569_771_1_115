@@ -8,5 +8,5 @@ import com.example.demo.entity.User;
 @Service
 public interface UserService{
       User registerUser(User user);
-      User
+      User findByEmail(String email);
 }
