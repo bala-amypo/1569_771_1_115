@@ -15,11 +15,23 @@ public AlertServiceImpl implements AlertService{
     @Override
     public AlertRecord triggerAlert(AlertRecord alert){
         alert.setAcknowledged(false);
-        
+        return alertrecordrepository.save(alert);
+    }
+
+    @Override
+    public AlertRecord acknowledgeAlert(Long id){
+        AlertRecord alert= alertrecordrepository.findById(id);
+        alert.setAcknowledged(true);
+        return alertrecordrepository.save(alert);
+    }
+
+    @Override
+    List<AlertRecord> getAlertsByShipment(Long shipmentId){
+        return alertrecordrepository.findByShipmentId(shipmentId)
     }
 }
 
 
-    AlertRecord acknowledgeAlert(Long id);
+    
     List<AlertRecord> getAlertsByShipment(Long shipmentId);
     List<AlertRecord> getAllAlerts();
