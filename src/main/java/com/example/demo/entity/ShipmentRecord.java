@@ -1,34 +1,65 @@
 package com.example.demo.entity;
 
+
 import java.time.LocalDateTime;
 
-public class ShipmentRecord {
-       
-       private long id;
-       private String shipmentCode;
-       private String origin;
-       private String destination;
-       private String productType;
-       private LocalDateTime startDate;
-       private LocalDateTime expectedDelivery;
-       private String status;
-       private LocalDateTime createdAt;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 
-    public ShipmentRecord(){}
-       
-    public ShipmentRecord(String shipmentCode, String origin, String destination, String productType,
-            LocalDateTime startDate, LocalDateTime expectedDelivery, String status, LocalDateTime createdAt) {
+@Entity
+public class ShipmentRecord {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "shipment_code", nullable = false, unique = true)
+    private String shipmentCode;
+
+    @Column(nullable = false)
+    private String origin;
+
+    @Column(nullable = false)
+    private String destination;
+
+    @Column(nullable = false)
+    private String productType;
+
+    private LocalDateTime startDate;
+
+    private LocalDateTime expectedDelivery;
+
+    @Column(nullable = false)
+    private String status;
+
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
+
+    public ShipmentRecord() {}
+
+    public ShipmentRecord(String shipmentCode, String origin, String destination,
+                          String productType, LocalDateTime startDate,
+                          LocalDateTime expectedDelivery) {
         this.shipmentCode = shipmentCode;
         this.origin = origin;
         this.destination = destination;
         this.productType = productType;
         this.startDate = startDate;
         this.expectedDelivery = expectedDelivery;
-        this.status = status;
-        this.createdAt = createdAt;
     }
 
-    public long getId() {
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        if (this.status == null) {
+            this.status = "IN_TRANSIT";
+        }
+    }
+    public Long getId() {
         return id;
     }
 
@@ -64,7 +95,7 @@ public class ShipmentRecord {
         return createdAt;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -99,5 +130,5 @@ public class ShipmentRecord {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
-    
+
 }
