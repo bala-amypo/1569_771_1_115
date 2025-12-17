@@ -1,134 +1,134 @@
-// package com.example.demo.entity;
+package com.example.demo.entity;
 
 
-// import java.time.LocalDateTime;
+import java.time.LocalDateTime;
 
-// import jakarta.persistence.Column;
-// import jakarta.persistence.Entity;
-// import jakarta.persistence.GeneratedValue;
-// import jakarta.persistence.GenerationType;
-// import jakarta.persistence.Id;
-// import jakarta.persistence.PrePersist;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 
-// @Entity
-// public class ShipmentRecord {
+@Entity
+public class ShipmentRecord {
 
-//     @Id
-//     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//     private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-//     @Column(name = "shipment_code", nullable = false, unique = true)
-//     private String shipmentCode;
+    @Column(name = "shipment_code", nullable = false, unique = true)
+    private String shipmentCode;
 
-//     @Column(nullable = false)
-//     private String origin;
+    @Column(nullable = false)
+    private String origin;
 
-//     @Column(nullable = false)
-//     private String destination;
+    @Column(nullable = false)
+    private String destination;
 
-//     @Column(nullable = false)
-//     private String productType;
+    @Column(nullable = false)
+    private String productType;
 
-//     private LocalDateTime startDate;
+    private LocalDateTime startDate;
 
-//     private LocalDateTime expectedDelivery;
+    private LocalDateTime expectedDelivery;
 
-//     @Column(nullable = false)
-//     private String status;
+    @Column(nullable = false)
+    private String status;
 
-//     @Column(nullable = false, updatable = false)
-//     private LocalDateTime createdAt;
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
-//     public ShipmentRecord() {}
+    public ShipmentRecord() {}
 
-//     public ShipmentRecord(String shipmentCode, String origin, String destination,
-//                           String productType, LocalDateTime startDate,
-//                           LocalDateTime expectedDelivery) {
-//         this.shipmentCode = shipmentCode;
-//         this.origin = origin;
-//         this.destination = destination;
-//         this.productType = productType;
-//         this.startDate = startDate;
-//         this.expectedDelivery = expectedDelivery;
-//     }
+    public ShipmentRecord(String shipmentCode, String origin, String destination,
+                          String productType, LocalDateTime startDate,
+                          LocalDateTime expectedDelivery) {
+        this.shipmentCode = shipmentCode;
+        this.origin = origin;
+        this.destination = destination;
+        this.productType = productType;
+        this.startDate = startDate;
+        this.expectedDelivery = expectedDelivery;
+    }
 
-//     @PrePersist
-//     protected void onCreate() {
-//         this.createdAt = LocalDateTime.now();
-//         if (this.status == null) {
-//             this.status = "IN_TRANSIT";
-//         }
-//     }
-//     public Long getId() {
-//         return id;
-//     }
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+        if (this.status == null) {
+            this.status = "IN_TRANSIT";
+        }
+    }
+    public Long getId() {
+        return id;
+    }
 
-//     public String getShipmentCode() {
-//         return shipmentCode;
-//     }
+    public String getShipmentCode() {
+        return shipmentCode;
+    }
 
-//     public String getOrigin() {
-//         return origin;
-//     }
+    public String getOrigin() {
+        return origin;
+    }
 
-//     public String getDestination() {
-//         return destination;
-//     }
+    public String getDestination() {
+        return destination;
+    }
 
-//     public String getProductType() {
-//         return productType;
-//     }
+    public String getProductType() {
+        return productType;
+    }
 
-//     public LocalDateTime getStartDate() {
-//         return startDate;
-//     }
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
 
-//     public LocalDateTime getExpectedDelivery() {
-//         return expectedDelivery;
-//     }
+    public LocalDateTime getExpectedDelivery() {
+        return expectedDelivery;
+    }
 
-//     public String getStatus() {
-//         return status;
-//     }
+    public String getStatus() {
+        return status;
+    }
 
-//     public LocalDateTime getCreatedAt() {
-//         return createdAt;
-//     }
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 
-//     public void setId(Long id) {
-//         this.id = id;
-//     }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-//     public void setShipmentCode(String shipmentCode) {
-//         this.shipmentCode = shipmentCode;
-//     }
+    public void setShipmentCode(String shipmentCode) {
+        this.shipmentCode = shipmentCode;
+    }
 
-//     public void setOrigin(String origin) {
-//         this.origin = origin;
-//     }
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
 
-//     public void setDestination(String destination) {
-//         this.destination = destination;
-//     }
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
 
-//     public void setProductType(String productType) {
-//         this.productType = productType;
-//     }
+    public void setProductType(String productType) {
+        this.productType = productType;
+    }
 
-//     public void setStartDate(LocalDateTime startDate) {
-//         this.startDate = startDate;
-//     }
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
 
-//     public void setExpectedDelivery(LocalDateTime expectedDelivery) {
-//         this.expectedDelivery = expectedDelivery;
-//     }
+    public void setExpectedDelivery(LocalDateTime expectedDelivery) {
+        this.expectedDelivery = expectedDelivery;
+    }
 
-//     public void setStatus(String status) {
-//         this.status = status;
-//     }
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
-//     public void setCreatedAt(LocalDateTime createdAt) {
-//         this.createdAt = createdAt;
-//     }
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
 
-// }
+}
