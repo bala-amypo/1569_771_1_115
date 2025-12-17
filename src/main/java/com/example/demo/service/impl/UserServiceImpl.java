@@ -13,10 +13,14 @@ public UserServiceImpl implements UserService{
     UserRepository userrepository;
 
     @Override
-    public User registerUser(User user);
+    public User registerUser(User user){
+        return userrepository.save(user);
+    }
 
     @Override
-    p
+    public User findByEmail(String email){
+        return userrepository.findByEmail(email);
+    }
 }
 
 
