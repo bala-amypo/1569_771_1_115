@@ -8,6 +8,7 @@ import com.example.demo.repository.TemperatureRuleRepository;
 
 @Service
 public TemperatureRuleServiceImpl implements TemperatureRuleService{
+
     @Autowired
     TemperatureRuleRepository temperaturerulerepository
 
@@ -27,7 +28,7 @@ public TemperatureRuleServiceImpl implements TemperatureRuleService{
 
     @Override
     public List<TemperatureRule> getActiveRules(){
-        return temperaturerulerepository.findAll();//doubtuh
+        return temperaturerulerepository.findByActiveTrue();//doubtuh
     }
 
     @Override

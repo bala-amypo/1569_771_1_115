@@ -27,11 +27,11 @@ public AlertServiceImpl implements AlertService{
 
     @Override
     List<AlertRecord> getAlertsByShipment(Long shipmentId){
-        return alertrecordrepository.findByShipmentId(shipmentId)
+        return alertrecordrepository.findByShipmentId(shipmentId);
+    }
+
+    @Override
+    List<AlertRecord> getAllAlerts(){
+        return alertrecordrepository.findAll();
     }
 }
-
-
-    
-    List<AlertRecord> getAlertsByShipment(Long shipmentId);
-    List<AlertRecord> getAllAlerts();
