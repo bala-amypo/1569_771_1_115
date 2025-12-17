@@ -1,7 +1,7 @@
 package com.example.demo.service.impl;
 
 import java.util.List;
-
+import org.springframework.stereotype.Service;
 import com.example.demo.entity.ShipmentRecord;
 import com.example.demo.service.ShipmentRecordService;
 import com.example.demo.repository.ShipmentRecordRepository;
