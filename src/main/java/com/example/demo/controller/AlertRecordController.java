@@ -21,9 +21,9 @@ public class AlertRecordController{
     AlertService alertservice;
 
     @PostMapping
-    public ResponseEntity<AlertRecord> createShipment(@RequestBody ShipmentRecord shipment){
-        ShipmentRecord sh = shipmentrecordservice.createShipment(shipment);
-        return ResponseEntity.status(201).body(sh);
+    public ResponseEntity<AlertRecord> triggerAlert(@RequestBody AlertRecord alert){
+        AlertRecord ar = alertservice.triggerAlert(alert);
+        return ResponseEntity.status(201).body(ar);
     }
 
     @PutMapping
