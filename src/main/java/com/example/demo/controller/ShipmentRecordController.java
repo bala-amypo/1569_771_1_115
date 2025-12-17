@@ -5,5 +5,5 @@ public class ShipmentRecordController{
     ShipmentRecordService shipmentrecordservice;
 
     @PostMapping
-    public 
+    public ShipmentRecord createShip
 }
