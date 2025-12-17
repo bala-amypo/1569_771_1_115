@@ -1,3 +1,5 @@
+
+
 @RestController
 @RequestMapping("/api/shipments")
 public class ShipmentRecordController{
@@ -16,7 +18,16 @@ public class ShipmentRecordController{
     
     @GetMapping("/code/{shipmentCode}")
     public ShipmentRecord getByCode(@PathVariable String shipmentCode){
-        return shipmentrecordservice.getShipmentByCode
+        return shipmentrecordservice.getShipmentByCode(shipmentCode);
+    }
+    
+    @GetMapping("/{id}")
+    public ShipmentRecord getById(@PathVariable Long id){
+        return shipmentrecordservice.getShipmentById(id);
     }
 
+    @GetMapping
+    public List<ShipmentRecord> getAll(){
+        return shipmentrecordservice.getAllShipments();
+    }
 }
