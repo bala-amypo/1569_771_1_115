@@ -13,6 +13,10 @@ public class ShipmentRecordController{
     public ShipmentRecord updateStatus(@PathVariable Long id,String status){
         return shipmentrecordservice.updateShipmentStatus(id,status);
     }
-
     
+    @GetMapping("/code/{shipmentCode}")
+    public ShipmentRecord getByCode(@PathVariable String shipmentCode){
+        return shipmentrecordservice.getShipmentByCode
+    }
+
 }
