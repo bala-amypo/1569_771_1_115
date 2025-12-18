@@ -15,9 +15,5 @@ public interface TemperatureRuleRepository extends JpaRepository<TemperatureRule
     List<TemperatureRule> findByActiveTrue();
 
     
-    TemperatureRule findByProductTypeAndEffectiveFromLessThanEqualAndEffectiveToGreaterThanEqual(
-            String productType,
-            LocalDate date1,
-            LocalDate date2
-    );
+    TemperatureRule getRuleForProduct(String productType,LocalDate date);
 }
