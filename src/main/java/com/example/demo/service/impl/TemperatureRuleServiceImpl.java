@@ -53,4 +53,9 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
         return temperaturerulerepository.findAll();
     }
 
+    @Override
+    public TemperatureRule getRuleById(Long id) {
+        return temperaturerulerepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Temperature rule not found with id: " + id));
+    }
 }
