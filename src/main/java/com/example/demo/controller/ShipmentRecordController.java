@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.entity.ShipmentRecord; 
 import com.example.demo.service.ShipmentRecordService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/shipments")
@@ -24,7 +25,7 @@ public class ShipmentRecordController {
     ShipmentRecordService shipmentRecordService;
 
     @PostMapping
-    public ResponseEntity<ShipmentRecord> createShipment(@RequestBody ShipmentRecord shipment) {
+    public ResponseEntity<ShipmentRecord> createShipment(@Valid @RequestBody ShipmentRecord shipment) {
         ShipmentRecord sh = shipmentRecordService.createShipment(shipment);
 
         if (sh != null) {
