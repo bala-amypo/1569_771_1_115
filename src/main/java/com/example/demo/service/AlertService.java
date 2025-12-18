@@ -11,4 +11,5 @@ public interface AlertService{
     AlertRecord acknowledgeAlert(Long id);
     List<AlertRecord> getAlertsByShipment(Long shipmentId);
     List<AlertRecord> getAllAlerts();
+    AlertRecord findById(Long id);
 }

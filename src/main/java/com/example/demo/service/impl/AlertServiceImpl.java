@@ -42,4 +42,8 @@ public class AlertServiceImpl implements AlertService {
     public List<AlertRecord> getAllAlerts() {
         return alertRecordRepository.findAll();
     }
+    @Override
+    public AlertRecord findById(Long id) {
+        return alertRecordRepository.findById(id).orElse(null);
+    }
 }
