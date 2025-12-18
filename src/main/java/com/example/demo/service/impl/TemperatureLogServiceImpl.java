@@ -6,15 +6,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.example.demo.entity.TemperatureSensorLog;
 import com.example.demo.service.TemperatureLogService;
 import com.example.demo.repository.TemperatureSensorLogRepository;
+import com.example.demo.exception.ResourceNotFoundException; // Added import
 
 @Service
 public class TemperatureLogServiceImpl implements TemperatureLogService {
 
     @Autowired
-    TemperatureSensorLogRepository temperatureLogRepository;
+    private TemperatureSensorLogRepository temperatureLogRepository;
 
     @Override
     public TemperatureSensorLog recordLog(TemperatureSensorLog log) {
+        // You could add a check here for null fields to throw BadRequestException
+        if (log == null) {
+            throw new com.example.demo.exception.BadRequestException("Log data cannot be null");
+        }
         return temperatureLogRepository.save(log);
     }
 
@@ -23,15 +28,17 @@ public class TemperatureLogServiceImpl implements TemperatureLogService {
         List<TemperatureSensorLog> logs = temperatureLogRepository.findByShipmentId(shipmentId);
         
         if (logs.isEmpty()) {
-            throw new RuntimeException("No logs found for Shipment ID: " + shipmentId);
+            // Updated to use your custom exception
+            throw new ResourceNotFoundException("No logs found for Shipment ID: " + shipmentId);
         }
         return logs;
     }
 
     @Override
     public TemperatureSensorLog getLogById(long id) {
+        // Updated to use your custom exception
         return temperatureLogRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Temperature Log not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Temperature Log not found with ID: " + id));
     }
 
     @Override
