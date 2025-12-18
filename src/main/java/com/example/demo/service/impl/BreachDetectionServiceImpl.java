@@ -1,37 +1,54 @@
 package com.example.demo.service.impl;
-import java.time.LocalDate;
+
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.example.demo.entity.BreachRecord;
-import com.example.demo.service.BreachDetectionService;
 import com.example.demo.repository.BreachRecordRepository;
+import com.example.demo.service.BreachDetectionService;
 
 @Service
-public BreachDetectionServiceImpl implements BreachDetectionService{
-       @Autowired
-       private BreachRecordRepository breachrecordrepository;
+public class BreachDetectionServiceImpl implements BreachDetectionService {
 
-       @Override
-       public BreachRecord logBreach(BreachRecord breach){
-            breach.setResolved(false);
-            return breachrecordrepository.save(breach);
-       }
+    @Autowired
+    BreachRecordRepository breachRecordRepository;
 
-       @Override
-       public List<BreachRecord> getBreachesByShipment(long shipmentId){
-            return breachrecordrepository.findByShipmentId(shipmentId);
-       }
+    @Override
+    public BreachRecord logBreach(BreachRecord breach) {
+        breach.setResolved(false);
+        return breachRecordRepository.save(breach);
+    }
 
-       @Override
-       public BreachRecord resolveBreach(long id){
-            BreachRecord breach = breachrecordrepository.findById(id);
-            breach.setResolved(true);
-            return breachrecordrepository.save(breach);
-       }
+    @Override
+    public List<BreachRecord> getBreachesByShipment(long shipmentId) {
+        List<BreachRecord> breaches = breachRecordRepository.findByShipmentId(shipmentId);
 
-       @Override
-       public BreachRecord getBreachById(long id){
-              
-       }
-    List<BreachRecord> getAllBreaches();
+        if (breaches.isEmpty()) {
+            throw new RuntimeException("No breaches found for Shipment ID: " + shipmentId);
+        }
+
+        return breaches;
+    }
+
+    @Override
+    public BreachRecord resolveBreach(long id) {
+        BreachRecord breach = breachRecordRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Breach not found with ID: " + id));
+
+        breach.setResolved(true);
+        return breachRecordRepository.save(breach);
+    }
+
+    @Override
+    public BreachRecord getBreachById(long id) {
+        return breachRecordRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Breach not found with ID: " + id));
+    }
+
+    @Override
+    public List<BreachRecord> getAllBreaches() {
+        return breachRecordRepository.findAll();
+    }
 }
