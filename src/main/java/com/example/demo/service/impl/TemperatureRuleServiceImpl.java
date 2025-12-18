@@ -13,8 +13,13 @@ public TemperatureRuleServiceImpl implements TemperatureRuleService{
     TemperatureRuleRepository temperaturerulerepository
 
     @Override
-    public TemperatureRule createRule(TemperatureRule rule){
-        return temperaturerulerepository.save(rule);
+    public TemperatureRule createRule(TemperatureRule rule) {
+
+        if (rule.getMinTemp() < rule.getMaxTemp()) {
+            return temperaturerulerepository.save(rule);
+        } else {
+            return null;
+        }
     }
 
     @Override
