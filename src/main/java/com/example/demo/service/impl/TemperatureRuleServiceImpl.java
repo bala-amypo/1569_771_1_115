@@ -35,7 +35,7 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
         if (existingRule != null) {
             existingRule.setMinTemp(rule.getMinTemp());
             existingRule.setMaxTemp(rule.getMaxTemp());
-            existingRule.setActive(rule.isActive());
+            existingRule.setActive(rule.getActive());
             return temperaturerulerepository.save(existingRule);
         } else {
             return null;

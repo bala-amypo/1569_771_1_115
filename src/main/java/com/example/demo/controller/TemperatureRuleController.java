@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
-import com.demo.entity.TemperatureRule;
-import com.demo.service.TemperatureRuleService;
+import com.example.demo.entity.TemperatureRule;
+import com.example.demo.service.TemperatureRuleService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
