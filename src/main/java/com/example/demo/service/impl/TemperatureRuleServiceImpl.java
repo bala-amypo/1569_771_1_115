@@ -26,10 +26,10 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
         }
         return temperaturerulerepository.save(rule);
     }
-
+     
     @Override
-    public Optional<TemperatureRule> getRuleForProduct(String productType, LocalDate date) {
-        return findApplicableRule(productType, date);
+    public TemperatureRule getRuleForProduct(String productType, LocalDate date) {
+        return temperaturerulerepository.findApplicableRule(productType, date).orElse(null); 
     }
 
     @Override
@@ -45,11 +45,5 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
     @Override
     public Optional<TemperatureRule> getRuleById(Long id) {
         return temperaturerulerepository.findById(id);
-    }
-
-    private Optional<TemperatureRule> findApplicableRule(String productType, LocalDate date) {
-        return temperaturerulerepository
-                .findByProductTypeAndEffectiveFromLessThanEqualAndEffectiveToGreaterThanEqual(
-                        productType, date, date);
     }
 }
