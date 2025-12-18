@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.entity.ShipmentRecord;
 import com.example.demo.repository.ShipmentRecordRepository;
 import com.example.demo.service.ShipmentRecordService;
-import com.example.demo.exception.ResourceNotFoundException; // Custom exception
+import com.example.demo.exception.ResourceNotFoundException;
 
 @Service
 public class ShipmentRecordServiceImpl implements ShipmentRecordService {
@@ -33,6 +33,11 @@ public class ShipmentRecordServiceImpl implements ShipmentRecordService {
     @Override
     public Optional<ShipmentRecord> getShipmentByCode(String shipmentCode) {
         return shipmentRecordRepository.findByShipmentCode(shipmentCode);
+    }
+    
+    @Override
+    public ShipmentRecord getShipmentById(long id) {
+        return repository.findById(id).orElse(null);
     }
 
     @Override
