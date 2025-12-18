@@ -11,6 +11,7 @@ import com.example.demo.entity.TemperatureRule;
 public interface TemperatureRuleService{
     TemperatureRule createRule(TemperatureRule rule);
     TemperatureRule updateRule(long id,TemperatureRule rule);
+    TemperatureRule getRuleById(Long id);
     List<TemperatureRule> getActiveRules();
     TemperatureRule getRuleForProduct(String productType,LocalDate date);
     List<TemperatureRule> getAllRules();
