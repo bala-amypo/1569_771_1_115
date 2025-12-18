@@ -61,7 +61,7 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
 
     @Override
     public Optional<TemperatureRule> getRuleById(Long id) {
-        return temperatureRuleRepository.findById(id);
+        return temperaturerulerepository.findById(id);
     }
 
 }
