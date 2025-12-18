@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.entity.BreachRecord;
 import com.example.demo.repository.BreachRecordRepository;
 import com.example.demo.service.BreachDetectionService;
+import com.example.demo.exception.ResourceNotFoundException;
 
 @Service
 public class BreachDetectionServiceImpl implements BreachDetectionService {
@@ -18,33 +19,31 @@ public class BreachDetectionServiceImpl implements BreachDetectionService {
     @Override
     public BreachRecord logBreach(BreachRecord breach) {
         breach.setResolved(false);
+        return breachRecordRepository.save(breach); 
+    }
+
+    @Override
+    public BreachRecord resolveBreach(Long id) {
+        BreachRecord breach = breachRecordRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Breach not found with ID: " + id));
+        breach.setResolved(true);
         return breachRecordRepository.save(breach);
     }
 
     @Override
-    public List<BreachRecord> getBreachesByShipment(long shipmentId) {
+    public List<BreachRecord> getBreachesByShipment(Long shipmentId) {
         List<BreachRecord> breaches = breachRecordRepository.findByShipmentId(shipmentId);
 
         if (breaches.isEmpty()) {
-            throw new RuntimeException("No breaches found for Shipment ID: " + shipmentId);
+            throw new RuntimeException("No breaches found for Shipment ID ");
         }
 
         return breaches;
     }
 
     @Override
-    public BreachRecord resolveBreach(long id) {
-        BreachRecord breach = breachRecordRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Breach not found with ID: " + id));
-
-        breach.setResolved(true);
-        return breachRecordRepository.save(breach);
-    }
-
-    @Override
     public BreachRecord getBreachById(long id) {
         return breachRecordRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Breach not found with ID: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Breach not found with ID: " + id));
     }
 
     @Override
