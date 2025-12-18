@@ -1,6 +1,14 @@
 package com.example.demo.entity;
 
-import javax.persistence.*;
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import java.time.LocalDateTime;
 
 @Entity
@@ -26,10 +34,8 @@ public class User {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    // No-arg constructor
     public User() {}
 
-    // Parameterized constructor
     public User(Long id, String fullName, String email, String password, String role, LocalDateTime createdAt) {
         this.id = id;
         this.fullName = fullName;
@@ -39,16 +45,16 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    // PrePersist lifecycle hook to set default role and createdAt
+  
     @PrePersist
     private void prePersist() {
         if (this.role == null) {
-            this.role = "MONITOR"; // Default role if not provided
+            this.role = "MONITOR"; 
         }
-        this.createdAt = LocalDateTime.now(); // Set createdAt to the current time
+        this.createdAt = LocalDateTime.now();
     }
 
-    // Getters and setters
+
     public Long getId() {
         return id;
     }
