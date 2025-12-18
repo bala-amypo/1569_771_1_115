@@ -40,7 +40,7 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
     }
     @Override
     public TemperatureRule getRuleForProduct(String productType, LocalDate date) {
-        return temperaturerulerepository.findByProductTypeAndRuleDate(productType, date)
+        return temperaturerulerepository.findByProductTypeAndDate(productType, date)
                 .orElseThrow(() -> new ResourceNotFoundException("No rule found for: " + productType));
     }
 

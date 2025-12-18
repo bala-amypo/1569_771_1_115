@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface TemperatureRuleRepository extends JpaRepository<TemperatureRule, Long> {
 
     List<TemperatureRule> findByActiveTrue();
-    Optional<TemperatureRule> findByProductTypeAndRuleDate(String productType, LocalDate ruleDate);
+    Optional<TemperatureRule> findByProductTypeAndDate(String productType, LocalDate ruleDate);
 }
