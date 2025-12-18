@@ -27,42 +27,48 @@ public class AlertRecordController {
 
     @PostMapping
     public ResponseEntity<AlertRecord> triggerAlert(@RequestBody AlertRecord alert) {
+
         AlertRecord savedAlert = alertService.triggerAlert(alert);
 
         if (savedAlert != null) {
             return ResponseEntity.status(201).body(savedAlert);
         } else {
+
             return ResponseEntity.status(400).build();
         }
     }
 
-
     @PutMapping("/{id}/acknowledge")
     public ResponseEntity<AlertRecord> acknowledgeAlert(@PathVariable Long id) {
-        AlertRecord alert = alertService.getAlertById(id);
+
+        AlertRecord alert = alertService.findById(id);
 
         if (alert != null) {
+
             AlertRecord acknowledgedAlert = alertService.acknowledgeAlert(id);
             return ResponseEntity.status(200).body(acknowledgedAlert);
         } else {
+     
             return ResponseEntity.status(404).build();
         }
     }
 
- 
+
     @GetMapping("/shipment/{shipmentId}")
     public ResponseEntity<List<AlertRecord>> getAlertsByShipment(@PathVariable Long shipmentId) {
+
         List<AlertRecord> alerts = alertService.getAlertsByShipment(shipmentId);
 
         if (alerts != null && !alerts.isEmpty()) {
             return ResponseEntity.status(200).body(alerts);
         } else {
+
             return ResponseEntity.status(404).build();
         }
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<AlertRecord> getAlertById(@PathVariable Long id) {
+       
         AlertRecord alert = alertService.findById(id);
 
         if (alert != null) {
@@ -74,11 +80,13 @@ public class AlertRecordController {
 
     @GetMapping
     public ResponseEntity<List<AlertRecord>> getAllAlerts() {
+    
         List<AlertRecord> alerts = alertService.getAllAlerts();
 
         if (alerts != null && !alerts.isEmpty()) {
             return ResponseEntity.status(200).body(alerts);
         } else {
+
             return ResponseEntity.status(404).build();
         }
     }
