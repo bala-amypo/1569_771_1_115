@@ -19,18 +19,16 @@ public class AuthController {
     @Autowired
     UserService userService;
    
-   @PostMapping("/register")
-
-public ResponseEntity<String> register(@RequestBody User user) {
-
-    try {
-        userService.findByEmail(user.getEmail());
-        return ResponseEntity.status(400).body("Email is already in use");  
-    } catch (UserNotFoundException e) {
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody User user) {
+        User existingUser = userService.findByEmail(user.getEmail());
+        if (existingUser != null) {
+            return ResponseEntity.status(400).body("Email is already in use");
+        }
         userService.registerUser(user);
         return ResponseEntity.status(201).body("User registered successfully");
     }
-}
+    
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody User loginUser) {
         User foundUser = userService.findByEmail(loginUser.getEmail());
