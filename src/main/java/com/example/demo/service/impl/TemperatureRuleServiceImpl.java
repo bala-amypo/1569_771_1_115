@@ -28,6 +28,17 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
     }
      
     @Override
+    public TemperatureRule updateRule(long id, TemperatureRule rule) {
+    
+        TemperatureRule existingRule = temperaturerulerepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("TemperatureRule not found with id: " + id));
+        existingRule.setMinTemp(rule.getMinTemp());
+        existingRule.setMaxTemp(rule.getMaxTemp());
+        existingRule.setActive(rule.getActive());
+
+        return temperaturerulerepository.save(existingRule);
+    }
+    @Override
     public TemperatureRule getRuleForProduct(String productType, LocalDate date) {
         return temperaturerulerepository.findApplicableRule(productType, date).orElse(null); 
     }
@@ -42,8 +53,4 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
         return temperaturerulerepository.findAll();
     }
 
-    @Override
-    public Optional<TemperatureRule> getRuleById(Long id) {
-        return temperaturerulerepository.findById(id);
-    }
 }
