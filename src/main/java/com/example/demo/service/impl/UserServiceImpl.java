@@ -1,28 +1,27 @@
-// package com.example.demo.service.impl;
-// import java.time.LocalDate;
-// import java.util.List;
-// import org.springframework.stereotype.Service;
-// import com.example.demo.entity.AlertRecord;
-// import com.example.demo.service.AlertService;
-// import com.example.demo.repository.AlertRecordRepository;
+package com.example.demo.service.impl;
 
-// @Service
-// public UserServiceImpl implements UserService{
+import com.example.demo.entity.User;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-//     @Autowired
-//     UserRepository userrepository;
+@Service
+public class UserServiceImpl implements UserService {
 
-//     @Override
-//     public User registerUser(User user){
-//         return userrepository.save(user);
-//     }
+    @Autowired
+    UserRepository userRepository;
 
-//     @Override
-//     public User findByEmail(String email){
-//         return userrepository.findByEmail(email);
-//     }
-// }
+    @Override
+    public User registerUser(User user) {
+        if (userRepository.existsByEmail(user.getEmail())) {
+            throw new IllegalArgumentException("Email is already in use");
+        }
+        return userRepository.save(user);
+    }
 
-
-
-      
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+    }
+}
