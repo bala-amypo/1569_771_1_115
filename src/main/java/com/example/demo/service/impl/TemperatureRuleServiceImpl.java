@@ -2,7 +2,7 @@ package com.example.demo.service.impl;
 
 import java.time.LocalDate;
 import java.util.List;
-
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -58,4 +58,10 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
     public List<TemperatureRule> getAllRules() {
         return temperaturerulerepository.findAll();
     }
+
+    @Override
+    public Optional<TemperatureRule> getRuleById(Long id) {
+        return temperatureRuleRepository.findById(id);
+    }
+
 }
