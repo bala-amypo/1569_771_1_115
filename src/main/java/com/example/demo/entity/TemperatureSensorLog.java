@@ -9,7 +9,6 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "temperature_sensor_log")
 public class TemperatureSensorLog {
 
     @Id
