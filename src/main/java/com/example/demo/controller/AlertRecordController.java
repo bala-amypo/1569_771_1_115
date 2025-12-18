@@ -1,51 +1,51 @@
-// package com.example.demo.controller;
+package com.example.demo.controller;
 
-// import java.util.List;
+import java.util.List;
 
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.http.ResponseEntity;
-// import org.springframework.web.bind.annotation.GetMapping;
-// import org.springframework.web.bind.annotation.PathVariable;
-// import org.springframework.web.bind.annotation.PostMapping;
-// import org.springframework.web.bind.annotation.RequestBody;
-// import org.springframework.web.bind.annotation.RequestMapping;
-// import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-// import com.example.demo.entity.AlertRecord;
-// import com.example.demo.service.AlertService;
+import com.example.demo.entity.AlertRecord;
+import com.example.demo.service.AlertService;
 
-// @RestController
-// @RequestMapping("/api/alerts")
-// public class AlertRecordController{
-//     @Autowired 
-//     AlertService alertservice;
+@RestController
+@RequestMapping("/api/alerts")
+public class AlertRecordController{
+    @Autowired 
+    AlertService alertservice;
 
-//     @PostMapping
-//     public ResponseEntity<AlertRecord> triggerAlert(@RequestBody AlertRecord alert){
-//         AlertRecord ar = alertservice.triggerAlert(alert);
-//         return ResponseEntity.status(201).body(ar);
-//     }
+    @PostMapping
+    public ResponseEntity<AlertRecord> triggerAlert(@RequestBody AlertRecord alert){
+        AlertRecord ar = alertservice.triggerAlert(alert);
+        return ResponseEntity.status(201).body(ar);
+    }
 
-//     @PutMapping
-//     public ResponseEntity<AlertRecord> updateStatus(@PathVariable Long id,String status){
-//         ShipmentRecord sh = shipmentrecordservice.updateShipmentStatus(id,status);
-//         return ResponseEntity.status(201).body(sh);
-//     }
+    @PutMapping
+    public ResponseEntity<AlertRecord> updateStatus(@PathVariable Long id,String status){
+        ShipmentRecord sh = shipmentrecordservice.updateShipmentStatus(id,status);
+        return ResponseEntity.status(201).body(sh);
+    }
     
-//     @GetMapping("/code/{shipmentCode}")
-//     public ResponseEntity<AlertRecord> getByCode(@PathVariable String shipmentCode){
-//         ShipmentRecord sh = shipmentrecordservice.getShipmentByCode(shipmentCode);
-//         return ResponseEntity.status(201).body(sh);
-//     }
+    @GetMapping("/code/{shipmentCode}")
+    public ResponseEntity<AlertRecord> getByCode(@PathVariable String shipmentCode){
+        ShipmentRecord sh = shipmentrecordservice.getShipmentByCode(shipmentCode);
+        return ResponseEntity.status(201).body(sh);
+    }
     
-//     @GetMapping("/{id}")
-//     public ResponseEntity<AlertRecord> getById(@PathVariable Long id){
-//         ShipmentRecord sh = shipmentrecordservice.getShipmentById(id);
-//         return ResponseEntity.status(201).body(sh);
-//     }
+    @GetMapping("/{id}")
+    public ResponseEntity<AlertRecord> getById(@PathVariable Long id){
+        ShipmentRecord sh = shipmentrecordservice.getShipmentById(id);
+        return ResponseEntity.status(201).body(sh);
+    }
 
-//     @GetMapping
-//     public List<AlertRecord> getAll(){
-//         return shipmentrecordservice.getAllShipments();
-//     }
-// }
+    @GetMapping
+    public List<AlertRecord> getAll(){
+        return shipmentrecordservice.getAllShipments();
+    }
+}
