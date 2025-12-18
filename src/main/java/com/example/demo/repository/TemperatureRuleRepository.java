@@ -13,7 +13,5 @@ import com.example.demo.entity.TemperatureRule;
 public interface TemperatureRuleRepository extends JpaRepository<TemperatureRule, Long> {
 
     List<TemperatureRule> findByActiveTrue();
-
-    Optional<TemperatureRule> findByProductTypeAndEffectiveFromLessThanEqualAndEffectiveToGreaterThanEqual(
-            String productType, LocalDate effectiveFrom, LocalDate effectiveTo);
+    Optional<TemperatureRule> findApplicableRule(String productType, LocalDate date);
 }
