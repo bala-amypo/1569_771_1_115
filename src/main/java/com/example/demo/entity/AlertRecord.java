@@ -6,14 +6,14 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+
 
 @Entity
 @Table(name = "alert_records")
 public class AlertRecord {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-increment the id field
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "shipment_id", nullable = false)
@@ -22,31 +22,45 @@ public class AlertRecord {
     @Column(name = "breach_id", nullable = false)
     private Long breachId;
 
+    @Column(name = "alert_type", nullable = false)
+    private String alertType;
+
+    @Column(name = "message", nullable = false)
+    private String message;
+
     @Column(name = "acknowledged", nullable = false)
-    private boolean acknowledged;
+    private Boolean acknowledged;
 
     @Column(name = "sent_at", nullable = false)
     private LocalDateTime sentAt;
-    
+
+    // No-arg constructor (needed for JPA)
     public AlertRecord() {
     }
 
-    
-    public AlertRecord(Long shipmentId, Long breachId, boolean acknowledged, LocalDateTime sentAt) {
+    // Parameterized constructor with all the fields
+    public AlertRecord(Long shipmentId, Long breachId, String alertType, String message, LocalDateTime sentAt, Boolean acknowledged) {
         this.shipmentId = shipmentId;
         this.breachId = breachId;
-        this.acknowledged = acknowledged;
+        this.alertType = alertType;
+        this.message = message;
         this.sentAt = sentAt;
+        this.acknowledged = acknowledged;
     }
 
-    
+    // Lifecycle hook - this is called before persisting the entity to the database
     @PrePersist
     private void prePersist() {
-        this.acknowledged = false; 
-        this.sentAt = LocalDateTime.now();
+        // Default values before persisting
+        if (this.acknowledged == null) {
+            this.acknowledged = false; // Default to false if not provided
+        }
+        if (this.sentAt == null) {
+            this.sentAt = LocalDateTime.now(); // Set sentAt to current timestamp if not provided
+        }
     }
 
-    
+    // Getters and setters
     public Long getId() {
         return id;
     }
@@ -71,11 +85,27 @@ public class AlertRecord {
         this.breachId = breachId;
     }
 
-    public boolean isAcknowledged() {
+    public String getAlertType() {
+        return alertType;
+    }
+
+    public void setAlertType(String alertType) {
+        this.alertType = alertType;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public Boolean getAcknowledged() {
         return acknowledged;
     }
 
-    public void setAcknowledged(boolean acknowledged) {
+    public void setAcknowledged(Boolean acknowledged) {
         this.acknowledged = acknowledged;
     }
 
@@ -86,5 +116,4 @@ public class AlertRecord {
     public void setSentAt(LocalDateTime sentAt) {
         this.sentAt = sentAt;
     }
-
 }
