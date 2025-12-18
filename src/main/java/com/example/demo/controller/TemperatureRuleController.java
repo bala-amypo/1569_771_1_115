@@ -42,7 +42,14 @@ public class TemperatureRuleController {
             return ResponseEntity.status(404).build();
         }
     }
+    // TemperatureRuleController.java
 
+@GetMapping("/{id}")
+public ResponseEntity<TemperatureRule> getRuleById(@PathVariable Long id) {
+    // FIX: Change the variable type from Optional<TemperatureRule> to just TemperatureRule
+    TemperatureRule rule = temperatureRuleService.getRuleById(id);
+    return ResponseEntity.ok(rule);
+}
     @PostMapping
     public ResponseEntity<TemperatureRule> createRule(
             @RequestBody TemperatureRule temperatureRule) {
