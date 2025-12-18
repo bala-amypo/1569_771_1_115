@@ -37,7 +37,7 @@ public class ShipmentRecordServiceImpl implements ShipmentRecordService {
     
     @Override
     public ShipmentRecord getShipmentById(long id) {
-        return repository.findById(id).orElse(null);
+        return shipmentRecordRepository.findById(id).orElse(null);
     }
 
     @Override
