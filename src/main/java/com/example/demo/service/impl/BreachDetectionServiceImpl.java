@@ -42,8 +42,7 @@ public class BreachDetectionServiceImpl implements BreachDetectionService {
 
     @Override
     public BreachRecord getBreachById(long id) {
-        return breachRecordRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Breach not found with ID: " + id));
+        return breachRecordRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Breach not found with ID: " + id));
     }
 
     @Override
