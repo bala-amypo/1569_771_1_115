@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -47,15 +48,14 @@ public class ShipmentRecordController {
 
     @GetMapping("/code/{shipmentCode}")
     public ResponseEntity<ShipmentRecord> getByCode(@PathVariable String shipmentCode) {
-        ShipmentRecord sh = shipmentRecordService.getShipmentByCode(shipmentCode);
+        Optional<ShipmentRecord> shipment = shipmentRecordService.getShipmentByCode(shipmentCode);
 
-        if (sh != null) {
-            return ResponseEntity.status(201).body(sh);
+        if (shipment.isPresent()) {
+            return ResponseEntity.status(200).body(shipment.get()); 
         } else {
             return ResponseEntity.status(404).build();
         }
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<ShipmentRecord> getById(@PathVariable Long id) {
         ShipmentRecord sh = shipmentRecordService.getShipmentById(id);
