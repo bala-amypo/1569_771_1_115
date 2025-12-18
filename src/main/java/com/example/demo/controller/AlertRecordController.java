@@ -63,7 +63,7 @@ public class AlertRecordController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AlertRecord> getAlertById(@PathVariable Long id) {
-        AlertRecord alert = alertService.getAlertById(id);
+        AlertRecord alert = alertService.findById(id);
 
         if (alert != null) {
             return ResponseEntity.status(200).body(alert);
