@@ -23,14 +23,7 @@ public class BreachDetectionServiceImpl implements BreachDetectionService {
     }
 
     @Override
-    public BreachRecord resolveBreach(Long id) {
-        BreachRecord breach = breachRecordRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Breach not found with ID: " + id));
-        breach.setResolved(true);
-        return breachRecordRepository.save(breach);
-    }
-
-    @Override
-    public List<BreachRecord> getBreachesByShipment(Long shipmentId) {
+    public List<BreachRecord> getBreachesByShipment(long shipmentId) {
         List<BreachRecord> breaches = breachRecordRepository.findByShipmentId(shipmentId);
 
         if (breaches.isEmpty()) {
@@ -38,6 +31,13 @@ public class BreachDetectionServiceImpl implements BreachDetectionService {
         }
 
         return breaches;
+    }
+    
+    @Override
+    public BreachRecord resolveBreach(long id) {
+        BreachRecord breach = breachRecordRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Breach not found with ID: " + id));
+        breach.setResolved(true);
+        return breachRecordRepository.save(breach);
     }
 
     @Override
