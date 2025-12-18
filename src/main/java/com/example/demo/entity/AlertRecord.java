@@ -6,7 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "alert_records")
@@ -34,11 +34,9 @@ public class AlertRecord {
     @Column(name = "sent_at", nullable = false)
     private LocalDateTime sentAt;
 
-    // No-arg constructor (needed for JPA)
     public AlertRecord() {
     }
 
-    // Parameterized constructor with all the fields
     public AlertRecord(Long shipmentId, Long breachId, String alertType, String message, LocalDateTime sentAt, Boolean acknowledged) {
         this.shipmentId = shipmentId;
         this.breachId = breachId;
@@ -48,19 +46,17 @@ public class AlertRecord {
         this.acknowledged = acknowledged;
     }
 
-    // Lifecycle hook - this is called before persisting the entity to the database
     @PrePersist
     private void prePersist() {
-        // Default values before persisting
+        
         if (this.acknowledged == null) {
-            this.acknowledged = false; // Default to false if not provided
+            this.acknowledged = false; 
         }
         if (this.sentAt == null) {
-            this.sentAt = LocalDateTime.now(); // Set sentAt to current timestamp if not provided
+            this.sentAt = LocalDateTime.now(); 
         }
     }
 
-    // Getters and setters
     public Long getId() {
         return id;
     }
