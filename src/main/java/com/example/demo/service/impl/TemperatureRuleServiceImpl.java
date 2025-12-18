@@ -2,7 +2,6 @@ package com.example.demo.service.impl;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,24 +23,38 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
         if (rule.getMinTemp() >= rule.getMaxTemp()) {
             throw new BadRequestException("Min temperature must be less than max temperature.");
         }
+        if (rule.getEffectiveFrom().isAfter(rule.getEffectiveTo())) {
+            throw new BadRequestException("Effective From date must be before Effective To date.");
+        }
         return temperaturerulerepository.save(rule);
     }
-     
+
     @Override
     public TemperatureRule updateRule(long id, TemperatureRule rule) {
-    
         TemperatureRule existingRule = temperaturerulerepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("TemperatureRule not found with id: " + id));
+        
         existingRule.setMinTemp(rule.getMinTemp());
         existingRule.setMaxTemp(rule.getMaxTemp());
         existingRule.setActive(rule.getActive());
+        existingRule.setEffectiveFrom(rule.getEffectiveFrom());
+        existingRule.setEffectiveTo(rule.getEffectiveTo());
 
         return temperaturerulerepository.save(existingRule);
     }
+
+    @Override
+    public TemperatureRule getRuleById(Long id) {
+        return temperaturerulerepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Rule not found with id: " + id));
+    }
+
     @Override
     public TemperatureRule getRuleForProduct(String productType, LocalDate date) {
-        return temperaturerulerepository.findByProductTypeAndDate(productType, date)
-                .orElseThrow(() -> new ResourceNotFoundException("No rule found for: " + productType));
+        // We pass 'date' twice to satisfy both 'LessThanEqual' and 'GreaterThanEqual'
+        return temperaturerulerepository
+                .findByProductTypeAndEffectiveFromLessThanEqualAndEffectiveToGreaterThanEqual(productType, date, date)
+                .orElseThrow(() -> new ResourceNotFoundException("No applicable rule found for product: " + productType));
     }
 
     @Override
@@ -53,5 +66,4 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
     public List<TemperatureRule> getAllRules() {
         return temperaturerulerepository.findAll();
     }
-
 }
