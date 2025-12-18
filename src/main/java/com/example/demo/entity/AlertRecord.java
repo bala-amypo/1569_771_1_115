@@ -2,7 +2,12 @@ package com.example.demo.entity;
 
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "alert_records")
 public class AlertRecord {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private long shipmentId;
     private long breachId;
