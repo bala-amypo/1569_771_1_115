@@ -27,7 +27,6 @@ public class AlertRecord {
 
     @Column(name = "sent_at", nullable = false)
     private LocalDateTime sentAt;
-
     
     public AlertRecord() {
     }
