@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,38 +15,71 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.entity.AlertRecord;
 import com.example.demo.service.AlertService;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @RestController
 @RequestMapping("/api/alerts")
-public class AlertRecordController{
-    @Autowired 
-    AlertService alertservice;
+@Tag(name = "Alerts")
+public class AlertRecordController {
+
+    @Autowired
+    private AlertService alertService;
 
     @PostMapping
-    public ResponseEntity<AlertRecord> triggerAlert(@RequestBody AlertRecord alert){
-        AlertRecord ar = alertservice.triggerAlert(alert);
-        return ResponseEntity.status(201).body(ar);
+    public ResponseEntity<AlertRecord> triggerAlert(@RequestBody AlertRecord alert) {
+        AlertRecord savedAlert = alertService.triggerAlert(alert);
+
+        if (savedAlert != null) {
+            return ResponseEntity.status(201).body(savedAlert);
+        } else {
+            return ResponseEntity.status(400).build();
+        }
     }
 
-    @PutMapping
-    public ResponseEntity<AlertRecord> updateStatus(@PathVariable Long id,String status){
-        ShipmentRecord sh = shipmentrecordservice.updateShipmentStatus(id,status);
-        return ResponseEntity.status(201).body(sh);
+
+    @PutMapping("/{id}/acknowledge")
+    public ResponseEntity<AlertRecord> acknowledgeAlert(@PathVariable Long id) {
+        AlertRecord alert = alertService.getAlertById(id);
+
+        if (alert != null) {
+            AlertRecord acknowledgedAlert = alertService.acknowledgeAlert(id);
+            return ResponseEntity.status(200).body(acknowledgedAlert);
+        } else {
+            return ResponseEntity.status(404).build();
+        }
     }
-    
-    @GetMapping("/code/{shipmentCode}")
-    public ResponseEntity<AlertRecord> getByCode(@PathVariable String shipmentCode){
-        ShipmentRecord sh = shipmentrecordservice.getShipmentByCode(shipmentCode);
-        return ResponseEntity.status(201).body(sh);
+
+ 
+    @GetMapping("/shipment/{shipmentId}")
+    public ResponseEntity<List<AlertRecord>> getAlertsByShipment(@PathVariable Long shipmentId) {
+        List<AlertRecord> alerts = alertService.getAlertsByShipment(shipmentId);
+
+        if (alerts != null && !alerts.isEmpty()) {
+            return ResponseEntity.status(200).body(alerts);
+        } else {
+            return ResponseEntity.status(404).build();
+        }
     }
-    
+
     @GetMapping("/{id}")
-    public ResponseEntity<AlertRecord> getById(@PathVariable Long id){
-        ShipmentRecord sh = shipmentrecordservice.getShipmentById(id);
-        return ResponseEntity.status(201).body(sh);
+    public ResponseEntity<AlertRecord> getAlertById(@PathVariable Long id) {
+        AlertRecord alert = alertService.getAlertById(id);
+
+        if (alert != null) {
+            return ResponseEntity.status(200).body(alert);
+        } else {
+            return ResponseEntity.status(404).build();
+        }
     }
 
     @GetMapping
-    public List<AlertRecord> getAll(){
-        return shipmentrecordservice.getAllShipments();
+    public ResponseEntity<List<AlertRecord>> getAllAlerts() {
+        List<AlertRecord> alerts = alertService.getAllAlerts();
+
+        if (alerts != null && !alerts.isEmpty()) {
+            return ResponseEntity.status(200).body(alerts);
+        } else {
+            return ResponseEntity.status(404).build();
+        }
     }
 }

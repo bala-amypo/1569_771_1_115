@@ -1,37 +1,48 @@
 package com.example.demo.service.impl;
-import java.time.LocalDate;
+
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.example.demo.entity.AlertRecord;
-import com.example.demo.service.AlertService;
 import com.example.demo.repository.AlertRecordRepository;
+import com.example.demo.service.AlertService;
 
 @Service
-public AlertServiceImpl implements AlertService{
+public class AlertServiceImpl implements AlertService {
 
     @Autowired
-    private AlertRecordRepository alertrecordrepository;
+    AlertRecordRepository alertRecordRepository;
 
     @Override
-    public AlertRecord triggerAlert(AlertRecord alert){
+    public AlertRecord triggerAlert(AlertRecord alert) {
         alert.setAcknowledged(false);
-        return alertrecordrepository.save(alert);
+        return alertRecordRepository.save(alert);
     }
 
     @Override
-    public AlertRecord acknowledgeAlert(Long id){
-        AlertRecord alert= alertrecordrepository.findById(id);
+    public AlertRecord acknowledgeAlert(Long id) {
+        AlertRecord alert = alertRecordRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Alert not found with ID: " + id));
+
         alert.setAcknowledged(true);
-        return alertrecordrepository.save(alert);
+        return alertRecordRepository.save(alert);
     }
 
     @Override
-    List<AlertRecord> getAlertsByShipment(Long shipmentId){
-        return alertrecordrepository.findByShipmentId(shipmentId);
+    public List<AlertRecord> getAlertsByShipment(Long shipmentId) {
+        List<AlertRecord> alerts = alertRecordRepository.findByShipmentId(shipmentId);
+
+        if (alerts.isEmpty()) {
+            throw new RuntimeException("No alerts found for Shipment ID: " + shipmentId);
+        }
+
+        return alerts;
     }
 
     @Override
-    List<AlertRecord> getAllAlerts(){
-        return alertrecordrepository.findAll();
+    public List<AlertRecord> getAllAlerts() {
+        return alertRecordRepository.findAll();
     }
 }
