@@ -9,6 +9,6 @@ import com.example.demo.service.TemperatureLogService;
 public interface TemperatureLogService{
     TemperatureSensorLog recordLog(TemperatureSensorLog log);
     List<TemperatureSensorLog> getLogsByShipment(long shipmentId);
-    TemperatureSensorLog getLogById(long id);
+    Optional<TemperatureSensorLog> getLogById(long id);
     List<TemperatureSensorLog> getAllLogs();
 }
