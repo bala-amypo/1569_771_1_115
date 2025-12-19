@@ -103,7 +103,7 @@ public class BreachRecord {
     }
 
     public Long getShipmentId() {
-        return shipmentId;
+        return (shipment != null) ? shipment.getId() : null;
     }
 
     public Long getLogId() {
