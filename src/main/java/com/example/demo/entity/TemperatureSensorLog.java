@@ -23,14 +23,13 @@ public class TemperatureSensorLog {
     private long id;
 
 
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shipment_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "shipment_id")
     private ShipmentRecord shipment;
 
-  
-
-    private long shipmentId;
+    public Long getShipmentId() {
+        return (shipment != null) ? shipment.getId() : null;
+    }
 
     @Column(nullable = false)
     private String sensorId;
@@ -82,9 +81,6 @@ public class TemperatureSensorLog {
         return shipment;
     }
 
-    public long getShipmentId() {
-        return shipmentId;
-    }
 
     public String getSensorId() {
         return sensorId;
