@@ -7,10 +7,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TemperatureRuleRepository extends JpaRepository<TemperatureRule, Long> {
-
     List<TemperatureRule> findByActiveTrue();
-    // Optional<TemperatureRule> findApplicableRule(String productType, Object value);
+    
     Optional<TemperatureRule> findByProductTypeAndEffectiveFromLessThanEqualAndEffectiveToGreaterThanEqual(
-            String productType, LocalDate date1, LocalDate date2);
+        String productType, LocalDate dateStart, LocalDate dateEnd);
 }
-

@@ -19,9 +19,12 @@ public class BreachDetectionServiceImpl implements BreachDetectionService {
         this.breachRecordRepository = breachRecordRepository;
     }
 
-
     @Override
     public BreachRecord logBreach(BreachRecord breach) {
+        // Validation: ensure objects are present before saving
+        if (breach.getShipment() == null || breach.getTemperatureLog() == null) {
+            throw new BadRequestException("Breach must be linked to a Shipment and a Log record.");
+        }
         breach.setResolved(false);
         return breachRecordRepository.save(breach); 
     }

@@ -15,23 +15,28 @@ import com.example.demo.exception.BadRequestException;
 @Service
 public class TemperatureRuleServiceImpl implements TemperatureRuleService {
 
-    private final TemperatureRuleRepository temperaturerulerepository;
+    private final TemperatureRuleRepository repository;
 
-    public TemperatureRuleServiceImpl(TemperatureRuleRepository temperaturerulerepository) {
-        this.temperaturerulerepository = temperaturerulerepository;
+    public TemperatureRuleServiceImpl(TemperatureRuleRepository repository) {
+        this.repository = repository;
     }
 
     @Override
-    public TemperatureRule createRule(TemperatureRule rule) {
-        if (rule.getMinTemp() >= rule.getMaxTemp()) {
-            throw new BadRequestException("Min temperature must be less than max temperature.");
-        }
-        if (rule.getEffectiveFrom().isAfter(rule.getEffectiveTo())) {
-            throw new BadRequestException("Effective From date must be before Effective To date.");
-        }
-        return temperaturerulerepository.save(rule);
-    }
+    public TemperatureRule updateRule(long id, TemperatureRule rule) {
+        TemperatureRule existing = repository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Rule not found with id: " + id));
+        
+        existing.setProductType(rule.getProductType());
+        existing.setMinTemp(rule.getMinTemp());
+        existing.setMaxTemp(rule.getMaxTemp());
+        existing.setSeverity(rule.getSeverity());
+        existing.setActive(rule.getActive());
+        existing.setEffectiveFrom(rule.getEffectiveFrom());
+        existing.setEffectiveTo(rule.getEffectiveTo());
 
+        return repository.save(existing);
+    }
+    // ... other methods same as before
     @Override
     public TemperatureRule updateRule(long id, TemperatureRule rule) {
         TemperatureRule existingRule = temperaturerulerepository.findById(id)
