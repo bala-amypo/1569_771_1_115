@@ -23,9 +23,6 @@ public class BreachRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "shipment_id", insertable = false, updatable = false)
-    private Long shipmentId; 
-
     @ManyToOne
     @JoinColumn(name = "shipment_id")
     private ShipmentRecord shipment;
