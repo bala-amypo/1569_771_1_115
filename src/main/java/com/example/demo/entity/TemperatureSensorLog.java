@@ -103,10 +103,6 @@ public class TemperatureSensorLog {
         this.shipment = shipment;
     }
 
-    public void setShipmentId(ShipmentRecord shipment) {
-        this.shipment = shipment;
-    }
-
     public void setSensorId(String sensorId) {
         this.sensorId = sensorId;
     }
