@@ -103,24 +103,3 @@ public class User {
         this.createdAt = createdAt;
     }
 }
-
-edit this for
-5. User Entity
-Package: com.example.demo.entity
-Table Name: users
-Fields
-• id (Long): Primary key
-• name (String): User name
-• email (String): Email address
-• password (String): Encrypted password
-• role (String): User role
-• createdAt (LocalDateTime): Creation timestamp
-Validation
-• email: Required, valid, unique
-• password: Required
-Business Rules
-• Default role assigned as USER
-Repositories
-All repositories extend JpaRepository<Entity, Long> providing standard CRUD operations.
-
-dont remove ant fields 
