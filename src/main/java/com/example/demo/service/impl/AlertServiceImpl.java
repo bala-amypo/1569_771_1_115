@@ -13,9 +13,9 @@ import java.util.Optional;
 @Service
 public class AlertServiceImpl implements AlertService {
 
-    private final AlertRepository alertRecordRepository;
+    private final AlertRecordRepository alertRecordRepository;
 
-    public AlertServiceImpl(AlertRepository alertRecordRepository) {
+    public AlertServiceImpl(AlertRecordRepository alertRecordRepository) {
         this.alertRecordRepository = alertRecordRepository;
     }
 
