@@ -31,24 +31,35 @@ public class TemperatureSensorLog {
 
     @NotNull
     @Column(nullable = false)
-    private Double temperature;
+    private Double temperatureValue;
 
     @NotNull
     @Column(nullable = false)
     private LocalDateTime recordedAt;
-     
+
+    @Column(name = "shipment_id")
+    private Long shipmentId;
+
+    @Column(name = "location")
+    private String location;
+
     public TemperatureSensorLog() {
     }
 
     public TemperatureSensorLog(ShipmentRecord shipment,
                           String sensorId,
-                          Double temperature,
-                          LocalDateTime recordedAt) {
+                          Double temperatureValue,
+                          LocalDateTime recordedAt,
+                          Long shipmentId,
+                          String location) {
         this.shipment = shipment;
         this.sensorId = sensorId;
-        this.temperature = temperature;
+        this.temperatureValue = temperatureValue;
         this.recordedAt = recordedAt;
+        this.shipmentId = shipmentId;
+        this.location = location;
     }
+
     @PrePersist
     protected void onCreate() {
         if (this.recordedAt == null) {
@@ -68,14 +79,33 @@ public class TemperatureSensorLog {
         return sensorId;
     }
 
-    public Double getTemperature() {
-        return temperature;
+    public Double getTemperatureValue() {
+        return temperatureValue;
     }
 
     public LocalDateTime getRecordedAt() {
         return recordedAt;
     }
 
+    // Getter and setter for shipmentId
+    public Long getShipmentId() {
+        return shipmentId;
+    }
+
+    public void setShipmentId(Long shipmentId) {
+        this.shipmentId = shipmentId;
+    }
+
+    // Getter and setter for location
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    // Setters for the existing fields
     public void setId(Long id) {
         this.id = id;
     }
@@ -88,8 +118,8 @@ public class TemperatureSensorLog {
         this.sensorId = sensorId;
     }
 
-    public void setTemperature(Double temperature) {
-        this.temperature = temperature;
+    public void setTemperatureValue(Double temperatureValue) {
+        this.temperatureValue = temperatureValue;
     }
 
     public void setRecordedAt(LocalDateTime recordedAt) {
