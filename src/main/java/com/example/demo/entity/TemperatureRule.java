@@ -34,11 +34,11 @@ public class TemperatureRule {
 
     @NotNull
     @Column(nullable = false)
-    private Double minTemperature;
+    private Double minTemp;
 
     @NotNull
     @Column(nullable = false)
-    private Double maxTemperature;
+    private Double maxTemp;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -61,15 +61,15 @@ public class TemperatureRule {
     }
 
     public TemperatureRule(String productType,
-                           Double minTemperature,
-                           Double maxTemperature,
+                           Double minTemp,
+                           Double maxTemp,
                            Severity severity,
                            Boolean active,
                            LocalDate effectiveFrom,
                            LocalDate effectiveTo) {
         this.productType = productType;
-        this.minTemperature = minTemperature;
-        this.maxTemperature = maxTemperature;
+        this.minTemp = minTemp;
+        this.maxTemp = maxTemp;
         this.severity = severity;
         this.active = active;
         this.effectiveFrom = effectiveFrom;
@@ -80,10 +80,10 @@ public class TemperatureRule {
 
     @AssertTrue(message = "minTemperature must be less than maxTemperature")
     private boolean isTemperatureRangeValid() {
-        if (minTemperature == null || maxTemperature == null) {
+        if (minTemp == null || maxTemp == null) {
             return true;
         }
-        return minTemperature < maxTemperature;
+        return minTemp < maxTemp;
     }
 
     /* ---------------- Getters & Setters ---------------- */
@@ -96,11 +96,11 @@ public class TemperatureRule {
         return productType;
     }
 
-    public Double getMinTemperature() {
+    public Double getMinTemp() {
         return minTemperature;
     }
 
-    public Double getMaxTemperature() {
+    public Double getMaxTemp() {
         return maxTemperature;
     }
 
@@ -128,11 +128,11 @@ public class TemperatureRule {
         this.productType = productType;
     }
 
-    public void setMinTemperature(Double minTemperature) {
+    public void setMinTemp(Double minTemperature) {
         this.minTemperature = minTemperature;
     }
 
-    public void setMaxTemperature(Double maxTemperature) {
+    public void setMaxTemp(Double maxTemperature) {
         this.maxTemperature = maxTemperature;
     }
 

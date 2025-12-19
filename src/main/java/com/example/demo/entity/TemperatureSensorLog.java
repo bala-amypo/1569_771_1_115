@@ -41,10 +41,10 @@ public class TemperatureSensorLog {
 
     /* ---------------- Constructors ---------------- */
 
-    public TemperatureLog() {
+    public TemperatureSensorLog() {
     }
 
-    public TemperatureLog(Shipment shipment,
+    public TemperatureSensorLog(Shipment shipment,
                           String sensorId,
                           Double temperature,
                           LocalDateTime recordedAt) {
