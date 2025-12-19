@@ -1,84 +1,107 @@
 package com.example.demo.entity;
 
 import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
-public class TemperatureSensorLog {
+@Table(name = "temperature_logs")
+public class TemperatureLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private long shipmentId;
+    private Long id;
+
+    /* ---------------- Relationships ---------------- */
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shipment_id", nullable = false)
+    private Shipment shipment;
+
+    @Column(nullable = false)
     private String sensorId;
+
+    @NotNull
+    @Column(nullable = false)
+    private Double temperature;
+
+    @NotNull
+    @Column(nullable = false)
     private LocalDateTime recordedAt;
-    private Double temperatureValue;
-    private String location;
-    @PrePersist
-    public void setDefaultTime() {
-            this.recordedAt = LocalDateTime.now();
-    }
-    public TemperatureSensorLog(){}
 
-    public TemperatureSensorLog(long shipmentId, String sensorId, LocalDateTime recordedAt, Double temperatureValue,
-            String location) {
-        this.shipmentId = shipmentId;
+    /* ---------------- Constructors ---------------- */
+
+    public TemperatureLog() {
+    }
+
+    public TemperatureLog(Shipment shipment,
+                          String sensorId,
+                          Double temperature,
+                          LocalDateTime recordedAt) {
+        this.shipment = shipment;
         this.sensorId = sensorId;
+        this.temperature = temperature;
         this.recordedAt = recordedAt;
-        this.temperatureValue = temperatureValue;
-        this.location = location;
     }
 
-    public long getId() {
+    /* ---------------- Lifecycle ---------------- */
+
+    @PrePersist
+    protected void onCreate() {
+        if (this.recordedAt == null) {
+            this.recordedAt = LocalDateTime.now();
+        }
+    }
+
+    /* ---------------- Getters & Setters ---------------- */
+
+    public Long getId() {
         return id;
     }
 
-    public long getShipmentId() {
-        return shipmentId;
+    public Shipment getShipment() {
+        return shipment;
     }
 
     public String getSensorId() {
         return sensorId;
     }
 
+    public Double getTemperature() {
+        return temperature;
+    }
+
     public LocalDateTime getRecordedAt() {
         return recordedAt;
     }
 
-    public Double getTemperatureValue() {
-        return temperatureValue;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public void setShipmentId(long shipmentId) {
-        this.shipmentId = shipmentId;
+    public void setShipment(Shipment shipment) {
+        this.shipment = shipment;
     }
 
     public void setSensorId(String sensorId) {
         this.sensorId = sensorId;
     }
 
+    public void setTemperature(Double temperature) {
+        this.temperature = temperature;
+    }
+
     public void setRecordedAt(LocalDateTime recordedAt) {
         this.recordedAt = recordedAt;
     }
-
-    public void setTemperatureValue(Double temperatureValue) {
-        this.temperatureValue = temperatureValue;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-    
 }
