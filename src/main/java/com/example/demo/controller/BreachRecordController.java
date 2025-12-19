@@ -26,12 +26,9 @@ public class BreachRecordController {
 public class BreachDetectionController {
 
     private final BreachDetectionService breachService;
-
-    public BreachDetectionController(BreachDetectionService breachService) {
-        this.breachService= breachService;
+    public BreachRecordController(BreachDetectionService breachService) {
+        this.breachService = breachService;
     }
-}
-
 
     @PostMapping
     public ResponseEntity<BreachRecord> logBreach(@RequestBody BreachRecord breach) {

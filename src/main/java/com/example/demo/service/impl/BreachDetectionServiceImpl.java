@@ -19,6 +19,7 @@ public class BreachDetectionServiceImpl implements BreachDetectionService {
         this.breachRecordRepository = breachRecordRepository;
     }
 
+
     @Override
     public BreachRecord logBreach(BreachRecord breach) {
         breach.setResolved(false);
