@@ -1,6 +1,6 @@
 package com.example.demo.controller;
 
-import java.util.List;
+import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +34,7 @@ public class TemperatureLogController {
 
     @GetMapping("/{id}")
 public ResponseEntity<TemperatureSensorLog> getLogById(@PathVariable Long id) {
-    java.util.Optional<TemperatureSensorLog> logOptional = temperatureLogService.getLogById(id);
+    Optional<TemperatureSensorLog> logOptional = temperatureLogService.getLogById(id);
     
     if (logOptional.isPresent()) {
         return ResponseEntity.ok(logOptional.get());
