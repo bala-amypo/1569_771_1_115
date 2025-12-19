@@ -69,7 +69,6 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
         return temperaturerulerepository.findAll();
     }
 
-    // ✅ New method
     @Override
     public Optional<TemperatureRule> findApplicableRule(String productType, LocalDate date) {
         return temperaturerulerepository
