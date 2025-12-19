@@ -23,19 +23,18 @@ public class BreachRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shipment_id", nullable = false)
-    private ShipmentRecord shipment;
+    @Column(name = "shipment_id", insertable = false, updatable = false)
+private Long shipmentId;
+
+@ManyToOne
+@JoinColumn(name = "shipment_id")
+private ShipmentRecord shipment;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "temperature_log_id", nullable = false)
     private TemperatureSensorLog temperatureLog;
 
-    
-
-    private long shipmentId;     
-    private long logId;          
+       private long logId;          
     private String breachType;   
 
     private Double breachValue;
