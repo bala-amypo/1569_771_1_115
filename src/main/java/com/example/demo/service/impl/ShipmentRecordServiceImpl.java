@@ -14,8 +14,15 @@ import com.example.demo.exception.ResourceNotFoundException;
 @Service
 public class ShipmentRecordServiceImpl implements ShipmentRecordService {
 
-    @Autowired
-    private ShipmentRecordRepository shipmentRecordRepository;
+    @Service
+public class ShipmentRecordServiceImpl {
+
+    private final ShipmentRecordRepository shipmentRecordRepository;
+
+    public ShipmentRecordServiceImpl(ShipmentRecordRepository shipmentRecordRepository) {
+            this.shipmentRecordRepository = shipmentRecordRepository;
+        }
+    }
 
     @Override
     public ShipmentRecord createShipment(ShipmentRecord shipment) {
