@@ -24,17 +24,17 @@ public class BreachRecord {
     private long id;
 
     @Column(name = "shipment_id", insertable = false, updatable = false)
-private Long shipmentId;
+    private Long shipmentId;
 
-@ManyToOne
-@JoinColumn(name = "shipment_id")
-private ShipmentRecord shipment;
+    @ManyToOne
+    @JoinColumn(name = "shipment_id")
+    private ShipmentRecord shipment;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "temperature_log_id", nullable = false)
     private TemperatureSensorLog temperatureLog;
 
-       private long logId;          
+    private long logId;          
     private String breachType;   
 
     private Double breachValue;
