@@ -1,12 +1,14 @@
 package com.example.demo.service.impl;
 
+import java.time.LocalDateTime; // This was the missing import
+import java.util.List;
+import org.springframework.stereotype.Service;
+
 import com.example.demo.entity.BreachRecord;
 import com.example.demo.repository.BreachRecordRepository;
 import com.example.demo.service.BreachDetectionService;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.exception.BadRequestException;
-import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 public class BreachDetectionServiceImpl implements BreachDetectionService {
@@ -17,29 +19,27 @@ public class BreachDetectionServiceImpl implements BreachDetectionService {
         this.breachRecordRepository = breachRecordRepository;
     }
 
-   @Override
-public BreachRecord logBreach(BreachRecord breach) {
-    if (breach.getShipment() == null || breach.getShipment().getId() == null) {
-        throw new BadRequestException("Shipment ID must be provided");
+    @Override
+    public BreachRecord logBreach(BreachRecord breach) {
+        if (breach.getShipment() == null || breach.getShipment().getId() == null) {
+            throw new BadRequestException("Shipment ID must be provided");
+        }
+        
+        // Use LocalDateTime safely now that it is imported
+        if (breach.getDetectedAt() == null) {
+            breach.setDetectedAt(LocalDateTime.now());
+        }
+        
+        if (breach.getResolved() == null) {
+            breach.setResolved(false);
+        }
+        
+        return breachRecordRepository.save(breach); 
     }
-    
-    // Logic: If the user passed just an ID, Hibernate handles it.
-    // We set defaults if missing.
-    if (breach.getDetectedAt() == null) breach.setDetectedAt(LocalDateTime.now());
-    if (breach.getResolved() == null) breach.setResolved(false);
-    
-    return breachRecordRepository.save(breach); 
-}
 
     @Override
-    public List<BreachRecord> getAllBreaches() {
-        return breachRecordRepository.findAll();
-    }
-
-    @Override
-    public BreachRecord getBreachById(long id) {
-        return breachRecordRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Breach not found"));
+    public List<BreachRecord> getBreachesByShipment(long shipmentId) {
+        return breachRecordRepository.findByShipmentId(shipmentId);
     }
     
     @Override
@@ -50,7 +50,13 @@ public BreachRecord logBreach(BreachRecord breach) {
     }
 
     @Override
-    public List<BreachRecord> getBreachesByShipment(long shipmentId) {
-        return breachRecordRepository.findByShipmentId(shipmentId);
+    public BreachRecord getBreachById(long id) {
+        return breachRecordRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Breach not found with ID: " + id));
+    }
+
+    @Override
+    public List<BreachRecord> getAllBreaches() {
+        return breachRecordRepository.findAll();
     }
 }
