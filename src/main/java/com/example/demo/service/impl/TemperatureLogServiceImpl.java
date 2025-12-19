@@ -11,16 +11,11 @@ import com.example.demo.exception.ResourceNotFoundException; // Added import
 @Service
 public class TemperatureLogServiceImpl implements TemperatureLogService {
 
-   @Service
-public class TemperatureLogServiceImpl {
-
     private final TemperatureSensorLogRepository temperatureLogRepository;
 
     public TemperatureSensorLogServiceImpl(TemperatureLogRepository temperatureLogRepository) {
         this.temperatureLogRepository = temperatureLogRepository;
     }
-}
-
 
     @Override
     public TemperatureSensorLog recordLog(TemperatureSensorLog log) {

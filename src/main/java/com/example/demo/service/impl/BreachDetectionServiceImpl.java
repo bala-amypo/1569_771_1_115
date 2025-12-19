@@ -13,8 +13,11 @@ import com.example.demo.exception.ResourceNotFoundException;
 @Service
 public class BreachDetectionServiceImpl implements BreachDetectionService {
 
-    @Autowired
-    BreachRecordRepository breachRecordRepository;
+    private final BreachDetectionRepository breachRecordRepository;
+
+    public BreachDetectionServiceImpl(BreachDetectionRepository breachRecordRepository) {
+        this.breachRecordRepository = breachRecordRepository;
+    }
 
     @Override
     public BreachRecord logBreach(BreachRecord breach) {
