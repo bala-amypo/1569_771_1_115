@@ -1,12 +1,11 @@
 package com.example.demo.repository;
 
-import java.util.List;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.demo.entity.TemperatureSensorLog;
 
-public interface TemperatureSensorLogRepository extends JpaRepository<TemperatureLog, Long> {
+import java.util.List;
 
-    List<TemperatureSensorLog> findByShipmentIdOrderByRecordedAt(Long shipmentId);
+public interface TemperatureSensorLogRepository extends JpaRepository<TemperatureSensorLog, Long> {
+    List<TemperatureSensorLog> findByShipmentId(Long shipmentId);
 }
