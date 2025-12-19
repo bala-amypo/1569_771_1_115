@@ -1,36 +1,82 @@
 package com.example.demo.entity;
 
-import java.time.LocalDate;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.AssertTrue;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
+@Table(
+    name = "temperature_rules",
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = { "productType", "active" })
+    }
+)
 public class TemperatureRule {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+
+    @NotBlank
+    @Column(nullable = false)
     private String productType;
-    private Double minTemp;
-    private Double maxTemp;
+
+    @NotNull
+    @Column(nullable = false)
+    private Double minTemperature;
+
+    @NotNull
+    @Column(nullable = false)
+    private Double maxTemperature;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Severity severity;
+
+    @NotNull
+    @Column(nullable = false)
     private Boolean active;
-    private LocalDate effectiveFrom;
-    private LocalDate effectiveTo;
 
-    public TemperatureRule(){}
+    /* ---------------- Constructors ---------------- */
 
-    public TemperatureRule(String productType, Double minTemp, Double maxTemp, Boolean active, LocalDate effectiveFrom,
-            LocalDate effectiveTo) {
-        this.productType = productType;
-        this.minTemp = minTemp;
-        this.maxTemp = maxTemp;
-        this.active = active;
-        this.effectiveFrom = effectiveFrom;
-        this.effectiveTo = effectiveTo;
+    public TemperatureRule() {
     }
 
-    public long getId() {
+    public TemperatureRule(String productType,
+                           Double minTemperature,
+                           Double maxTemperature,
+                           Severity severity,
+                           Boolean active) {
+        this.productType = productType;
+        this.minTemperature = minTemperature;
+        this.maxTemperature = maxTemperature;
+        this.severity = severity;
+        this.active = active;
+    }
+
+    /* ---------------- Validation ---------------- */
+
+    @AssertTrue(message = "minTemperature must be less than maxTemperature")
+    private boolean isTemperatureRangeValid() {
+        if (minTemperature == null || maxTemperature == null) {
+            return true;
+        }
+        return minTemperature < maxTemperature;
+    }
+
+    /* ---------------- Getters & Setters ---------------- */
+
+    public Long getId() {
         return id;
     }
 
@@ -38,27 +84,23 @@ public class TemperatureRule {
         return productType;
     }
 
-    public Double getMinTemp() {
-        return minTemp;
+    public Double getMinTemperature() {
+        return minTemperature;
     }
 
-    public Double getMaxTemp() {
-        return maxTemp;
+    public Double getMaxTemperature() {
+        return maxTemperature;
+    }
+
+    public Severity getSeverity() {
+        return severity;
     }
 
     public Boolean getActive() {
         return active;
     }
 
-    public LocalDate getEffectiveFrom() {
-        return effectiveFrom;
-    }
-
-    public LocalDate getEffectiveTo() {
-        return effectiveTo;
-    }
-
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -66,23 +108,19 @@ public class TemperatureRule {
         this.productType = productType;
     }
 
-    public void setMinTemp(Double minTemp) {
-        this.minTemp = minTemp;
+    public void setMinTemperature(Double minTemperature) {
+        this.minTemperature = minTemperature;
     }
 
-    public void setMaxTemp(Double maxTemp) {
-        this.maxTemp = maxTemp;
+    public void setMaxTemperature(Double maxTemperature) {
+        this.maxTemperature = maxTemperature;
+    }
+
+    public void setSeverity(Severity severity) {
+        this.severity = severity;
     }
 
     public void setActive(Boolean active) {
         this.active = active;
-    }
-
-    public void setEffectiveFrom(LocalDate effectiveFrom) {
-        this.effectiveFrom = effectiveFrom;
-    }
-
-    public void setEffectiveTo(LocalDate effectiveTo) {
-        this.effectiveTo = effectiveTo;
     }
 }
