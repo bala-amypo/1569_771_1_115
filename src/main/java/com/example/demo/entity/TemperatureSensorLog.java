@@ -69,7 +69,7 @@ public class TemperatureSensorLog {
         return id;
     }
 
-    public Shipment getShipment() {
+    public ShipmentRecord getShipment() {
         return shipment;
     }
 

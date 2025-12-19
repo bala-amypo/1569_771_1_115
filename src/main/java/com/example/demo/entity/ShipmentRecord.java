@@ -132,7 +132,7 @@ public class ShipmentRecord {
         return createdAt;
     }
 
-    public List<TemperatureLog> getTemperatureLogs() {
+    public List<TemperatureSensorLog> getTemperatureLogs() {
         return temperatureLogs;
     }
 

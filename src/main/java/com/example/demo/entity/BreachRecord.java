@@ -100,11 +100,11 @@ public class BreachRecord {
         return id;
     }
 
-    public ShipmentRes getShipment() {
+    public ShipmentRecord getShipment() {
         return shipment;
     }
 
-    public TemperatureLog getTemperatureLog() {
+    public TemperatureSensorLog getTemperatureLog() {
         return temperatureLog;
     }
 
@@ -148,7 +148,7 @@ public class BreachRecord {
         this.shipment = shipment;
     }
 
-    public void setTemperatureLog(TemperatureLog temperatureLog) {
+    public void setTemperatureLog(TemperatureSensorLog temperatureLog) {
         this.temperatureLog = temperatureLog;
     }
 
