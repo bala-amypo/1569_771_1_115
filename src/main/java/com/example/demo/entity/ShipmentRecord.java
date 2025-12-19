@@ -36,7 +36,6 @@ public class ShipmentRecord {
     @Column(nullable = false)
     private String productType;
 
-    // Fields explicitly requested to keep
     private LocalDateTime startDate;
 
     private LocalDateTime expectedDelivery;
@@ -46,8 +45,6 @@ public class ShipmentRecord {
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
-
-    /* ---------------- Relationships ---------------- */
 
     @OneToMany(
         mappedBy = "shipment",
@@ -63,11 +60,8 @@ public class ShipmentRecord {
     )
     private List<BreachRecord> breachRecords;
 
-    /* ---------------- Constructors ---------------- */
-
     public ShipmentRecord() {
     }
-
     public ShipmentRecord(String shipmentCode,
                     String origin,
                     String destination,
@@ -84,8 +78,6 @@ public class ShipmentRecord {
         this.status = status;
     }
 
-    /* ---------------- Lifecycle ---------------- */
-
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
@@ -93,8 +85,6 @@ public class ShipmentRecord {
             this.status = "IN_TRANSIT";
         }
     }
-
-    /* ---------------- Getters & Setters ---------------- */
 
     public Long getId() {
         return id;
