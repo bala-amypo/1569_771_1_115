@@ -29,7 +29,7 @@ public class TemperatureLogServiceImpl implements TemperatureLogService {
     }
 
     @Override
-    public List<TemperatureSensorLog> getLogsByShipmentId(long shipmentId) { // The name here...
+    public List<TemperatureSensorLog> getLogsByShipment(long shipmentId) { // The name here...
         return temperatureLogRepository.findByShipmentId(shipmentId);     // ...must match the name here.
     }
 
