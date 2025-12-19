@@ -19,13 +19,16 @@ public class BreachDetectionServiceImpl implements BreachDetectionService {
 
     @Override
 public BreachRecord logBreach(BreachRecord breach) {
+    // Check if the shipment object exists AND has an ID
     if (breach.getShipment() == null || breach.getShipment().getId() == null) {
         throw new BadRequestException("Shipment ID must be provided");
     }
-    if (breach.getTemperatureLog() == null || breach.getTemperatureLog().getId() == 0) {
-        throw new BadRequestException("Temperature Log ID must be provided");
+    
+    // Ensure the resolved status is set for new records
+    if (breach.getResolved() == null) {
+        breach.setResolved(false);
     }
-    breach.setResolved(false);
+    
     return breachRecordRepository.save(breach); 
 }
 
