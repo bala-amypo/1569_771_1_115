@@ -1,60 +1,33 @@
 package com.example.demo.entity;
 
 import java.time.LocalDateTime;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 @Entity
-@Table(name = "breach_records")
 public class BreachRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    // ✅ Direct ID field for queries
-    @Column(name = "shipment_id", insertable = false, updatable = false)
-    private Long shipmentId;
-
-    // ✅ Relationship to ShipmentRecord
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shipment_id", nullable = false)
-    private ShipmentRecord shipment;
-
-    // ✅ Relationship to TemperatureSensorLog
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "temperature_log_id", nullable = false)
-    private TemperatureSensorLog temperatureLog;
-
+    private long id;
+    private long shipmentId;
+    private long logId;
     private String breachType;
-
-    @Column(nullable = false)
     private Double breachValue;
-
-    @NotNull
-    @Column(nullable = false)
     private String severity;
-
     private String details;
-
-    @Column(nullable = false)
     private LocalDateTime detectedAt;
-
     private Boolean resolved;
 
-    public BreachRecord() {
-    }
+    public BreachRecord(){}
 
-    public BreachRecord(ShipmentRecord shipment,
-                        TemperatureSensorLog temperatureLog,
-                        String breachType,
-                        Double breachValue,
-                        String severity,
-                        String details,
-                        LocalDateTime detectedAt,
-                        Boolean resolved) {
-        this.shipment = shipment;
-        this.temperatureLog = temperatureLog;
+    public BreachRecord(long shipmentId, long logId, String breachType, Double breachValue, String severity,
+            String details, LocalDateTime detectedAt, Boolean resolved) {
+        this.shipmentId = shipmentId;
+        this.logId = logId;
         this.breachType = breachType;
         this.breachValue = breachValue;
         this.severity = severity;
@@ -63,32 +36,16 @@ public class BreachRecord {
         this.resolved = resolved;
     }
 
-    /* ---------------- Lifecycle ---------------- */
-    @PrePersist
-    public void onCreate() {
-        if (this.detectedAt == null) {
-            this.detectedAt = LocalDateTime.now();
-        }
-        if (this.resolved == null) {
-            this.resolved = false;
-        }
-    }
-
-    /* ---------------- Getters ---------------- */
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public Long getShipmentId() {
-        return (shipment != null) ? shipment.getId() : shipmentId;
+    public long getShipmentId() {
+        return shipmentId;
     }
 
-    public ShipmentRecord getShipment() {
-        return shipment;
-    }
-
-    public TemperatureSensorLog getTemperatureLog() {
-        return temperatureLog;
+    public long getLogId() {
+        return logId;
     }
 
     public String getBreachType() {
@@ -115,21 +72,16 @@ public class BreachRecord {
         return resolved;
     }
 
-    /* ---------------- Setters ---------------- */
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public void setShipment(ShipmentRecord shipment) {
-        this.shipment = shipment;
-    }
-
-    public void setTemperatureLog(TemperatureSensorLog temperatureLog) {
-        this.temperatureLog = temperatureLog;
-    }
-
-    public void setShipmentId(Long shipmentId) {
+    public void setShipmentId(long shipmentId) {
         this.shipmentId = shipmentId;
+    }
+
+    public void setLogId(long logId) {
+        this.logId = logId;
     }
 
     public void setBreachType(String breachType) {
@@ -155,4 +107,15 @@ public class BreachRecord {
     public void setResolved(Boolean resolved) {
         this.resolved = resolved;
     }
-}
+
+
+@PrePersist
+    public void prePersist() {
+        if (this.detectedAt == null) {
+            this.detectedAt = LocalDateTime.now();
+        }
+        if (this.resolved == null) {
+            this.resolved = false;
+        }
+    }
+} 

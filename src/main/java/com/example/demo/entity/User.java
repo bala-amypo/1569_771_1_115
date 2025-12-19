@@ -2,15 +2,14 @@ package com.example.demo.entity;
 
 import java.time.LocalDateTime;
 
+import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
@@ -20,19 +19,14 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /* name (mapped as fullName – field NOT removed) */
-    @NotBlank
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
-    @NotBlank
-    @Email
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @NotBlank
     @Column(name = "password", nullable = false)
-    private String password; // encrypted password
+    private String password;
 
     @Column(name = "role", nullable = false)
     private String role;
@@ -40,17 +34,9 @@ public class User {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    /* ---------------- Constructors ---------------- */
+    public User() {}
 
-    public User() {
-    }
-
-    public User(Long id,
-                String fullName,
-                String email,
-                String password,
-                String role,
-                LocalDateTime createdAt) {
+    public User(Long id, String fullName, String email, String password, String role, LocalDateTime createdAt) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
@@ -59,17 +45,15 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    /* ---------------- Lifecycle ---------------- */
-
+  
     @PrePersist
     private void prePersist() {
         if (this.role == null) {
-            this.role = "USER"; // default role as per business rule
+            this.role = "MONITOR"; 
         }
         this.createdAt = LocalDateTime.now();
     }
 
-    /* ---------------- Getters & Setters ---------------- */
 
     public Long getId() {
         return id;
@@ -119,3 +103,24 @@ public class User {
         this.createdAt = createdAt;
     }
 }
+
+edit this for
+5. User Entity
+Package: com.example.demo.entity
+Table Name: users
+Fields
+• id (Long): Primary key
+• name (String): User name
+• email (String): Email address
+• password (String): Encrypted password
+• role (String): User role
+• createdAt (LocalDateTime): Creation timestamp
+Validation
+• email: Required, valid, unique
+• password: Required
+Business Rules
+• Default role assigned as USER
+Repositories
+All repositories extend JpaRepository<Entity, Long> providing standard CRUD operations.
+
+dont remove ant fields 
