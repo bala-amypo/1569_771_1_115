@@ -24,7 +24,7 @@ public class BreachDetectionServiceImpl implements BreachDetectionService {
 
     @Override
     public List<BreachRecord> getBreachesByShipment(long shipmentId) {
-        List<BreachRecord> breaches = breachRecordRepository.findByShipmentId(shipmentId);
+        List<BreachRecord> breaches = breachRecordRepository.findByShipment_Id(shipmentId);
 
         if (breaches.isEmpty()) {
             throw new RuntimeException("No breaches found for Shipment ID ");
