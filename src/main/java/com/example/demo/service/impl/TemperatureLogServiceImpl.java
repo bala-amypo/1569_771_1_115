@@ -28,7 +28,7 @@ public class TemperatureLogServiceImpl implements TemperatureLogService {
         List<TemperatureSensorLog> logs = temperatureLogRepository.findByShipmentId(shipmentId);
         
         if (logs.isEmpty()) {
-            // Updated to use your custom exception
+            
             throw new ResourceNotFoundException("No logs found for Shipment ID: " + shipmentId);
         }
         return logs;
@@ -36,7 +36,7 @@ public class TemperatureLogServiceImpl implements TemperatureLogService {
 
     @Override
     public TemperatureSensorLog getLogById(long id) {
-        // Updated to use your custom exception
+        
         return temperatureLogRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Temperature Log not found with ID: " + id));
     }
