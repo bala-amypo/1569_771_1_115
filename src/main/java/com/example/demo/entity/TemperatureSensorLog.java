@@ -59,13 +59,11 @@ public class TemperatureSensorLog {
     }
 
     public TemperatureSensorLog(ShipmentRecord shipment,
-                                long shipmentId,
                                 String sensorId,
                                 LocalDateTime recordedAt,
                                 Double temperatureValue,
                                 String location) {
         this.shipment = shipment;
-        this.shipmentId = shipmentId;
         this.sensorId = sensorId;
         this.recordedAt = recordedAt;
         this.temperatureValue = temperatureValue;
@@ -81,6 +79,9 @@ public class TemperatureSensorLog {
         return shipment;
     }
 
+    public long getShipmentId() {
+        return (this.shipment != null) ? this.shipment.getId() : null;
+    }
 
     public String getSensorId() {
         return sensorId;
