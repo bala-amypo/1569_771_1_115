@@ -16,11 +16,13 @@ public class BreachRecord {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "shipment_id", nullable = false)
-    @JsonIgnoreProperties({"temperatureLogs", "breachRecords"})
+    // This stops the JSON from trying to load all logs/breaches inside the shipment
+    @JsonIgnoreProperties({"temperatureLogs", "breachRecords", "createdAt"})
     private ShipmentRecord shipment;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "temperature_log_id", nullable = false)
+    // This stops the JSON from trying to load the shipment again inside the log
     @JsonIgnoreProperties("shipment")
     private TemperatureSensorLog temperatureLog;
 
@@ -47,7 +49,7 @@ public class BreachRecord {
         if (this.resolved == null) this.resolved = false;
     }
 
-    // Getters and Setters
+    // Standard Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public ShipmentRecord getShipment() { return shipment; }

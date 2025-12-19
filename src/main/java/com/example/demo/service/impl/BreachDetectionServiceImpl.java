@@ -18,12 +18,16 @@ public class BreachDetectionServiceImpl implements BreachDetectionService {
     }
 
     @Override
-    public BreachRecord logBreach(BreachRecord breach) {
-        if (breach.getShipment() == null || breach.getShipment().getId() == null) {
-            throw new BadRequestException("Breach must have a valid Shipment ID");
-        }
-        return breachRecordRepository.save(breach); 
+public BreachRecord logBreach(BreachRecord breach) {
+    if (breach.getShipment() == null || breach.getShipment().getId() == null) {
+        throw new BadRequestException("Shipment ID must be provided");
     }
+    if (breach.getTemperatureLog() == null || breach.getTemperatureLog().getId() == null) {
+        throw new BadRequestException("Temperature Log ID must be provided");
+    }
+    breach.setResolved(false);
+    return breachRecordRepository.save(breach); 
+}
 
     @Override
     public List<BreachRecord> getAllBreaches() {
