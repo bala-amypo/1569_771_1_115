@@ -13,9 +13,9 @@ import com.example.demo.exception.ResourceNotFoundException;
 @Service
 public class BreachDetectionServiceImpl implements BreachDetectionService {
 
-    private final BreachDetectionRepository breachRecordRepository;
+    private final BreachRecordRepository breachRecordRepository;
 
-    public BreachDetectionServiceImpl(BreachDetectionRepository breachRecordRepository) {
+    public BreachDetectionServiceImpl(BreachRecordRepository breachRecordRepository) {
         this.breachRecordRepository = breachRecordRepository;
     }
 
