@@ -10,6 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface BreachRecordRepository extends JpaRepository<BreachRecord, Long> {
 
-    List<BreachRecord> findByShipment_Id(Long shipmentId);
+    List<BreachRecord> findByShipmentId(Long shipmentId);
     Optional<BreachRecord> findById(Long id);
 }
