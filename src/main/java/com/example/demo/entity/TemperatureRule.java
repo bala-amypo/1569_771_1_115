@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import java.time.LocalDate;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -47,6 +49,12 @@ public class TemperatureRule {
     @Column(nullable = false)
     private Boolean active;
 
+    /* -------- Fields explicitly INCLUDED as requested -------- */
+
+    private LocalDate effectiveFrom;
+
+    private LocalDate effectiveTo;
+
     /* ---------------- Constructors ---------------- */
 
     public TemperatureRule() {
@@ -56,12 +64,16 @@ public class TemperatureRule {
                            Double minTemperature,
                            Double maxTemperature,
                            Severity severity,
-                           Boolean active) {
+                           Boolean active,
+                           LocalDate effectiveFrom,
+                           LocalDate effectiveTo) {
         this.productType = productType;
         this.minTemperature = minTemperature;
         this.maxTemperature = maxTemperature;
         this.severity = severity;
         this.active = active;
+        this.effectiveFrom = effectiveFrom;
+        this.effectiveTo = effectiveTo;
     }
 
     /* ---------------- Validation ---------------- */
@@ -100,6 +112,14 @@ public class TemperatureRule {
         return active;
     }
 
+    public LocalDate getEffectiveFrom() {
+        return effectiveFrom;
+    }
+
+    public LocalDate getEffectiveTo() {
+        return effectiveTo;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -122,5 +142,13 @@ public class TemperatureRule {
 
     public void setActive(Boolean active) {
         this.active = active;
+    }
+
+    public void setEffectiveFrom(LocalDate effectiveFrom) {
+        this.effectiveFrom = effectiveFrom;
+    }
+
+    public void setEffectiveTo(LocalDate effectiveTo) {
+        this.effectiveTo = effectiveTo;
     }
 }
