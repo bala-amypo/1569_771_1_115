@@ -128,12 +128,12 @@ public class TemperatureRule {
         this.productType = productType;
     }
 
-    public void setMinTemp(Double minTemperature) {
-        this.minTemerature = minTemperature;
+    public void setMinTemp(Double minTemp) {
+        this.minTemp = minTemp;
     }
 
-    public void setMaxTemp(Double maxTemperature) {
-        this.maxTemperature = maxTemperature;
+    public void setMaxTemp(Double maxTemp) {
+        this.maxTemp = maxTemp;
     }
 
     public void setSeverity(Severity severity) {

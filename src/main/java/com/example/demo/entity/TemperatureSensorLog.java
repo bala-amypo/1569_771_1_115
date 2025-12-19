@@ -89,7 +89,7 @@ public class TemperatureSensorLog {
         this.id = id;
     }
 
-    public void setShipment(Shipment shipment) {
+    public void setShipment(ShipmentRecord shipment) {
         this.shipment = shipment;
     }
 
