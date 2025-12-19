@@ -16,7 +16,7 @@ public class TemperatureLogServiceImpl implements TemperatureLogService {
 
     @Override
     public TemperatureSensorLog recordLog(TemperatureSensorLog log) {
-        // You could add a check here for null fields to throw BadRequestException
+
         if (log == null) {
             throw new com.example.demo.exception.BadRequestException("Log data cannot be null");
         }
@@ -25,7 +25,7 @@ public class TemperatureLogServiceImpl implements TemperatureLogService {
 
     @Override
     public List<TemperatureSensorLog> getLogsByShipment(long shipmentId) {
-        List<TemperatureSensorLog> logs = temperatureLogRepository.findByShipmentId(shipmentId);
+        List<TemperatureSensorLog> logs = temperatureLogRepository.findByShipment_Id(shipmentId);
         
         if (logs.isEmpty()) {
             
