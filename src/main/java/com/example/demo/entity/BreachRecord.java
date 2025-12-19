@@ -1,7 +1,6 @@
 package com.example.demo.entity;
 
 import java.time.LocalDateTime;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -31,9 +30,8 @@ public class BreachRecord {
     @JoinColumn(name = "temperature_log_id", nullable = false)
     private TemperatureSensorLog temperatureLog;
 
-    private Long shipmentId;
-
-    private Long logId;
+    // REMOVED: Long shipmentId (Conflicts with ManyToOne)
+    // REMOVED: Long logId (Conflicts with OneToOne)
 
     private String breachType;
 
@@ -56,8 +54,6 @@ public class BreachRecord {
 
     public BreachRecord(ShipmentRecord shipment,
                         TemperatureSensorLog temperatureLog,
-                        Long shipmentId,
-                        Long logId,
                         String breachType,
                         Double breachValue,
                         String severity,
@@ -66,8 +62,6 @@ public class BreachRecord {
                         Boolean resolved) {
         this.shipment = shipment;
         this.temperatureLog = temperatureLog;
-        this.shipmentId = shipmentId;
-        this.logId = logId;
         this.breachType = breachType;
         this.breachValue = breachValue;
         this.severity = severity;
@@ -88,8 +82,6 @@ public class BreachRecord {
         }
     }
 
-    /* ---------------- Getters & Setters ---------------- */
-
     public Long getId() {
         return id;
     }
@@ -102,12 +94,14 @@ public class BreachRecord {
         return temperatureLog;
     }
 
+    // Helper method to keep your getters working without the extra field
     public Long getShipmentId() {
         return (shipment != null) ? shipment.getId() : null;
     }
 
+    // Helper method to keep your getters working without the extra field
     public Long getLogId() {
-        return logId;
+        return (temperatureLog != null) ? temperatureLog.getId() : null;
     }
 
     public String getBreachType() {
@@ -146,12 +140,13 @@ public class BreachRecord {
         this.temperatureLog = temperatureLog;
     }
 
+    // These setters are now empty or can be deleted if not used in logic
     public void setShipmentId(Long shipmentId) {
-        this.shipmentId = shipmentId;
+        // Logically handled by setShipment
     }
 
     public void setLogId(Long logId) {
-        this.logId = logId;
+        // Logically handled by setTemperatureLog
     }
 
     public void setBreachType(String breachType) {
