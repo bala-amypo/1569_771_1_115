@@ -1,16 +1,12 @@
 package com.example.demo.repository;
 
-import com.example.demo.entity.TemperatureRule;
-import org.springframework.data.jpa.repository.JpaRepository;
-import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.example.demo.entity.TemperatureRule;
 
 public interface TemperatureRuleRepository extends JpaRepository<TemperatureRule, Long> {
 
-    List<TemperatureRule> findByActiveTrue();
-
-    // Logic: productType matches AND effectiveFrom <= date AND effectiveTo >= date
-    Optional<TemperatureRule> findByProductTypeAndEffectiveFromLessThanEqualAndEffectiveToGreaterThanEqual(
-            String productType, LocalDate date1, LocalDate date2);
+    Optional<TemperatureRule> findByProductTypeAndActiveTrue(String productType);
 }
