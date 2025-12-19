@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
@@ -41,13 +42,18 @@ public class BreachRecord {
 
     private Boolean resolved;
 
+    @JsonProperty("shipmentId")
+    public Long getShipmentIdValue() {
+        return (shipment != null) ? shipment.getId() : null;
+    }
+
     @PrePersist
     public void prePersist() {
         if (this.detectedAt == null) this.detectedAt = LocalDateTime.now();
         if (this.resolved == null) this.resolved = false;
     }
 
-    // Standard Getters and Setters
+    // Getters and Setters...
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public ShipmentRecord getShipment() { return shipment; }
