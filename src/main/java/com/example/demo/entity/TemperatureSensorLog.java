@@ -22,13 +22,13 @@ public class TemperatureSensorLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    /* -------- Relationship required by spec -------- */
+
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shipment_id", nullable = false)
-    private Shipment shipment;
+    private ShipmentRecord shipment;
 
-    /* -------- Existing / legacy fields (KEPT) -------- */
+  
 
     private long shipmentId;
 
@@ -45,7 +45,7 @@ public class TemperatureSensorLog {
 
     private String location;
 
-    /* ---------------- Lifecycle ---------------- */
+  
 
     @PrePersist
     public void setDefaultTime() {
@@ -54,12 +54,12 @@ public class TemperatureSensorLog {
         }
     }
 
-    /* ---------------- Constructors ---------------- */
+ 
 
     public TemperatureSensorLog() {
     }
 
-    public TemperatureSensorLog(Shipment shipment,
+    public TemperatureSensorLog(ShipmentRecord shipment,
                                 long shipmentId,
                                 String sensorId,
                                 LocalDateTime recordedAt,
@@ -73,13 +73,12 @@ public class TemperatureSensorLog {
         this.location = location;
     }
 
-    /* ---------------- Getters & Setters ---------------- */
-
+  
     public long getId() {
         return id;
     }
 
-    public Shipment getShipment() {
+    public ShipmentRecord getShipment() {
         return shipment;
     }
 

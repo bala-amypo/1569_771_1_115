@@ -36,16 +36,15 @@ public class TemperatureRule {
     @NotNull
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private Severity severity;   // LOW / MEDIUM / HIGH
+    private Severity severity;  
 
     private Boolean active;
 
-    // --- Existing fields kept as-is ---
+   
     private LocalDate effectiveFrom;
     private LocalDate effectiveTo;
 
-    /* ---------------- Constructors ---------------- */
-
+    
     public TemperatureRule() {}
 
     public TemperatureRule(String productType,
@@ -64,8 +63,7 @@ public class TemperatureRule {
         this.effectiveTo = effectiveTo;
     }
 
-    /* ---------------- Validation ---------------- */
-
+   
     @AssertTrue(message = "minTemp must be less than maxTemp")
     private boolean isTemperatureRangeValid() {
         if (minTemp == null || maxTemp == null) {
@@ -74,7 +72,7 @@ public class TemperatureRule {
         return minTemp < maxTemp;
     }
 
-    /* ---------------- Getters & Setters ---------------- */
+    
 
     public long getId() {
         return id;

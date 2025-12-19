@@ -20,27 +20,24 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Spec: name (String)
     @NotBlank(message = "Name is required")
     @Column(name = "name", nullable = false)
     private String fullName;
 
-    // Spec: email required, valid, unique
+
     @NotBlank(message = "Email is required")
     @Email(message = "Invalid email format")
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    // Spec: password required (encrypted handled in service layer)
+
     @NotBlank(message = "Password is required")
     @Column(name = "password", nullable = false)
     private String password;
 
-    // Spec: role with default USER
     @Column(name = "role", nullable = false)
     private String role;
 
-    // Spec: createdAt timestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
@@ -55,17 +52,16 @@ public class User {
         this.createdAt = createdAt;
     }
 
-    /* ---------------- Business Rules ---------------- */
 
     @PrePersist
     private void prePersist() {
         if (this.role == null) {
-            this.role = "USER"; // Default role as per spec
+            this.role = "USER";
         }
         this.createdAt = LocalDateTime.now();
     }
 
-    /* ---------------- Getters & Setters ---------------- */
+   
 
     public Long getId() {
         return id;

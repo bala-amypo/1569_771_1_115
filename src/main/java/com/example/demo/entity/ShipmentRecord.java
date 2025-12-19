@@ -40,7 +40,7 @@ public class ShipmentRecord {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    // Relationships
+   
     @OneToMany(mappedBy = "shipment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<TemperatureSensorLog> temperatureLogs;
 
@@ -64,11 +64,11 @@ public class ShipmentRecord {
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
         if (this.status == null) {
-            this.status = "IN_TRANSIT"; // Default status if not provided
+            this.status = "IN_TRANSIT"; 
         }
     }
 
-    // Getters and Setters
+   
     public Long getId() {
         return id;
     }
