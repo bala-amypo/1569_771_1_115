@@ -22,7 +22,7 @@ public BreachRecord logBreach(BreachRecord breach) {
     if (breach.getShipment() == null || breach.getShipment().getId() == null) {
         throw new BadRequestException("Shipment ID must be provided");
     }
-    if (breach.getTemperatureLog() == null || breach.getTemperatureLog().getId() == null) {
+    if (breach.getTemperatureLog() == null || breach.getTemperatureLog().getId() == 0) {
         throw new BadRequestException("Temperature Log ID must be provided");
     }
     breach.setResolved(false);
