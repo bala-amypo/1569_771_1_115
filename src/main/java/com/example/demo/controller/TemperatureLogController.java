@@ -33,10 +33,15 @@ public class TemperatureLogController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TemperatureSensorLog> getById(@PathVariable Long id) {
-        TemperatureSensorLog log = logService.getLogById(id);
-        return ResponseEntity.ok(log); // Return 200 OK
+public ResponseEntity<TemperatureSensorLog> getLogById(@PathVariable Long id) {
+    java.util.Optional<TemperatureSensorLog> logOptional = temperatureLogService.getLogById(id);
+    
+    if (logOptional.isPresent()) {
+        return ResponseEntity.ok(logOptional.get());
+    } else {
+        return ResponseEntity.status(404).build();
     }
+}
 
     @GetMapping
     public ResponseEntity<List<TemperatureSensorLog>> getAll() {
