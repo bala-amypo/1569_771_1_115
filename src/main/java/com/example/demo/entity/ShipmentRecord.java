@@ -1,22 +1,28 @@
 package com.example.demo.entity;
 
-
 import java.time.LocalDateTime;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
-public class ShipmentRecord {
+@Table(name = "shipments")
+public class Shipment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank
     @Column(name = "shipment_code", nullable = false, unique = true)
     private String shipmentCode;
 
@@ -26,9 +32,11 @@ public class ShipmentRecord {
     @Column(nullable = false)
     private String destination;
 
+    @NotBlank
     @Column(nullable = false)
     private String productType;
 
+    // Fields explicitly requested to keep
     private LocalDateTime startDate;
 
     private LocalDateTime expectedDelivery;
@@ -39,18 +47,44 @@ public class ShipmentRecord {
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    public ShipmentRecord() {}
+    /* ---------------- Relationships ---------------- */
 
-    public ShipmentRecord(String shipmentCode, String origin, String destination,
-                          String productType, LocalDateTime startDate,
-                          LocalDateTime expectedDelivery) {
+    @OneToMany(
+        mappedBy = "shipment",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    private List<TemperatureLog> temperatureLogs;
+
+    @OneToMany(
+        mappedBy = "shipment",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    private List<BreachRecord> breachRecords;
+
+    /* ---------------- Constructors ---------------- */
+
+    public Shipment() {
+    }
+
+    public Shipment(String shipmentCode,
+                    String origin,
+                    String destination,
+                    String productType,
+                    LocalDateTime startDate,
+                    LocalDateTime expectedDelivery,
+                    String status) {
         this.shipmentCode = shipmentCode;
         this.origin = origin;
         this.destination = destination;
         this.productType = productType;
         this.startDate = startDate;
         this.expectedDelivery = expectedDelivery;
+        this.status = status;
     }
+
+    /* ---------------- Lifecycle ---------------- */
 
     @PrePersist
     protected void onCreate() {
@@ -59,6 +93,9 @@ public class ShipmentRecord {
             this.status = "IN_TRANSIT";
         }
     }
+
+    /* ---------------- Getters & Setters ---------------- */
+
     public Long getId() {
         return id;
     }
@@ -93,6 +130,14 @@ public class ShipmentRecord {
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public List<TemperatureLog> getTemperatureLogs() {
+        return temperatureLogs;
+    }
+
+    public List<BreachRecord> getBreachRecords() {
+        return breachRecords;
     }
 
     public void setId(Long id) {
@@ -130,5 +175,4 @@ public class ShipmentRecord {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
-
 }
