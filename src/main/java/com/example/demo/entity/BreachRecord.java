@@ -1,17 +1,7 @@
 package com.example.demo.entity;
 
 import java.time.LocalDateTime;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -22,16 +12,19 @@ public class BreachRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "shipment_id")
+    // ✅ Direct ID field for queries
+    @Column(name = "shipment_id", insertable = false, updatable = false)
+    private Long shipmentId;
+
+    // ✅ Relationship to ShipmentRecord
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shipment_id", nullable = false)
     private ShipmentRecord shipment;
 
+    // ✅ Relationship to TemperatureSensorLog
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "temperature_log_id", nullable = false)
     private TemperatureSensorLog temperatureLog;
-
-    // REMOVED: Long shipmentId (Conflicts with ManyToOne)
-    // REMOVED: Long logId (Conflicts with OneToOne)
 
     private String breachType;
 
@@ -71,7 +64,6 @@ public class BreachRecord {
     }
 
     /* ---------------- Lifecycle ---------------- */
-
     @PrePersist
     public void onCreate() {
         if (this.detectedAt == null) {
@@ -82,8 +74,13 @@ public class BreachRecord {
         }
     }
 
+    /* ---------------- Getters ---------------- */
     public Long getId() {
         return id;
+    }
+
+    public Long getShipmentId() {
+        return (shipment != null) ? shipment.getId() : shipmentId;
     }
 
     public ShipmentRecord getShipment() {
@@ -92,16 +89,6 @@ public class BreachRecord {
 
     public TemperatureSensorLog getTemperatureLog() {
         return temperatureLog;
-    }
-
-    // Helper method to keep your getters working without the extra field
-    public Long getShipmentId() {
-        return (shipment != null) ? shipment.getId() : null;
-    }
-
-    // Helper method to keep your getters working without the extra field
-    public Long getLogId() {
-        return (temperatureLog != null) ? temperatureLog.getId() : null;
     }
 
     public String getBreachType() {
@@ -128,6 +115,7 @@ public class BreachRecord {
         return resolved;
     }
 
+    /* ---------------- Setters ---------------- */
     public void setId(Long id) {
         this.id = id;
     }
@@ -140,13 +128,8 @@ public class BreachRecord {
         this.temperatureLog = temperatureLog;
     }
 
-    // These setters are now empty or can be deleted if not used in logic
     public void setShipmentId(Long shipmentId) {
-        // Logically handled by setShipment
-    }
-
-    public void setLogId(Long logId) {
-        // Logically handled by setTemperatureLog
+        this.shipmentId = shipmentId;
     }
 
     public void setBreachType(String breachType) {
