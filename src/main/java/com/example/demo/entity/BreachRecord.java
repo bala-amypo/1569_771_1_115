@@ -21,65 +21,49 @@ public class BreachRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    @Column(name = "shipment_id", insertable = false, updatable = false)
-    private Long shipmentId;
+    private Long id; // Changed to Long (wrapper)
 
     @ManyToOne
-    @JoinColumn(name = "shipment_id")
+    @JoinColumn(name = "shipment_id", nullable = false)
     private ShipmentRecord shipment;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "temperature_log_id", nullable = false)
     private TemperatureSensorLog temperatureLog;
 
-    private long logId;          
-    private String breachType;   
-
+    private String breachType; 
     private Double breachValue;
 
     @NotBlank
     @Column(nullable = false)
     private String severity;
 
-    private String details;      
+    private String details;
 
     @Column(nullable = false)
     private LocalDateTime detectedAt;
 
-    private Boolean resolved;    
+    private Boolean resolved;
 
-    public BreachRecord() {}
-
-    public BreachRecord(long shipmentId,
-                        long logId,
-                        String breachType,
-                        Double breachValue,
-                        String severity,
-                        String details,
-                        LocalDateTime detectedAt,
-                        Boolean resolved) {
-        this.shipmentId = shipmentId;
-        this.logId = logId;
+    // Fix: Updated constructor to accept Objects, not just IDs
+    public BreachRecord(ShipmentRecord shipment, TemperatureSensorLog temperatureLog, 
+                        String breachType, Double breachValue, String severity, 
+                        String details) {
+        this.shipment = shipment;
+        this.temperatureLog = temperatureLog;
         this.breachType = breachType;
         this.breachValue = breachValue;
         this.severity = severity;
         this.details = details;
-        this.detectedAt = detectedAt;
-        this.resolved = resolved;
     }
 
-  
     @PrePersist
     public void prePersist() {
-        if (this.detectedAt == null) {
-            this.detectedAt = LocalDateTime.now();
-        }
-        if (this.resolved == null) {
-            this.resolved = false;
-        }
+        if (this.detectedAt == null) this.detectedAt = LocalDateTime.now();
+        if (this.resolved == null) this.resolved = false;
     }
+
+    // Getters and Setters...
 
  
     public long getId() {
