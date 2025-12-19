@@ -2,8 +2,8 @@ package com.example.demo.service.impl;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.TemperatureRule;
@@ -54,7 +54,7 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
 
     @Override
     public TemperatureRule getRuleForProduct(String productType, LocalDate date) {
-             return temperaturerulerepository
+        return temperaturerulerepository
                 .findByProductTypeAndEffectiveFromLessThanEqualAndEffectiveToGreaterThanEqual(productType, date, date)
                 .orElseThrow(() -> new ResourceNotFoundException("No applicable rule found for product: " + productType));
     }
@@ -67,5 +67,12 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
     @Override
     public List<TemperatureRule> getAllRules() {
         return temperaturerulerepository.findAll();
+    }
+
+    // ✅ New method
+    @Override
+    public Optional<TemperatureRule> findApplicableRule(String productType, LocalDate date) {
+        return temperaturerulerepository
+                .findByProductTypeAndEffectiveFromLessThanEqualAndEffectiveToGreaterThanEqual(productType, date, date);
     }
 }
