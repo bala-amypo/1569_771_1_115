@@ -15,8 +15,16 @@ import com.example.demo.exception.BadRequestException;
 @Service
 public class TemperatureRuleServiceImpl implements TemperatureRuleService {
 
-    @Autowired
-    private TemperatureRuleRepository temperaturerulerepository;
+    @Service
+public class TemperatureRuleServiceImpl {
+
+    private final TemperatureRuleRepository temperaturerulerepository;
+
+    public TemperatureRuleServiceImpl(TemperatureRuleRepository temperaturerulerepository) {
+        this.temperaturerulerepository = temperaturerulerepository;
+    }
+}
+
 
     @Override
     public TemperatureRule createRule(TemperatureRule rule) {
