@@ -1,16 +1,13 @@
 package com.example.demo.entity;
 
-
 import java.time.LocalDateTime;
+import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "shipments")
 public class ShipmentRecord {
 
     @Id
@@ -18,15 +15,19 @@ public class ShipmentRecord {
     private Long id;
 
     @Column(name = "shipment_code", nullable = false, unique = true)
+    @NotNull
     private String shipmentCode;
 
     @Column(nullable = false)
+    @NotNull
     private String origin;
 
     @Column(nullable = false)
+    @NotNull
     private String destination;
 
     @Column(nullable = false)
+    @NotNull
     private String productType;
 
     private LocalDateTime startDate;
@@ -38,6 +39,13 @@ public class ShipmentRecord {
 
     @Column(nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    // Relationships
+    @OneToMany(mappedBy = "shipment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<TemperatureSensorLog> temperatureLogs;
+
+    @OneToMany(mappedBy = "shipment", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<BreachRecord> breachRecords;
 
     public ShipmentRecord() {}
 
@@ -56,9 +64,11 @@ public class ShipmentRecord {
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
         if (this.status == null) {
-            this.status = "IN_TRANSIT";
+            this.status = "IN_TRANSIT"; // Default status if not provided
         }
     }
+
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -95,6 +105,15 @@ public class ShipmentRecord {
         return createdAt;
     }
 
+    public List<TemperatureSensorLog> getTemperatureLogs() {
+        return temperatureLogs;
+    }
+
+    public List<BreachRecord> getBreachRecords() {
+        return breachRecords;
+    }
+
+    // Setters
     public void setId(Long id) {
         this.id = id;
     }
@@ -131,4 +150,11 @@ public class ShipmentRecord {
         this.createdAt = createdAt;
     }
 
+    public void setTemperatureLogs(List<TemperatureSensorLog> temperatureLogs) {
+        this.temperatureLogs = temperatureLogs;
+    }
+
+    public void setBreachRecords(List<BreachRecord> breachRecords) {
+        this.breachRecords = breachRecords;
+    }
 }
