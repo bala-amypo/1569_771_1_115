@@ -69,9 +69,9 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
         return temperaturerulerepository.findAll();
     }
 
-    @Override
-    public Optional<TemperatureRule> findApplicableRule(String productType, LocalDate date) {
-        return temperaturerulerepository
-                .findByProductTypeAndEffectiveFromLessThanEqualAndEffectiveToGreaterThanEqual(productType, date, date);
-    }
+    // @Override
+    // public Optional<TemperatureRule> findApplicableRule(String productType, LocalDate date) {
+    //     return temperaturerulerepository
+    //             .findByProductTypeAndEffectiveFromLessThanEqualAndEffectiveToGreaterThanEqual(productType, date, date);
+    // }
 }

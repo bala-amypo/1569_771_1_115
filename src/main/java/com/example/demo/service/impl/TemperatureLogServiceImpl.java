@@ -30,11 +30,7 @@ public class TemperatureLogServiceImpl implements TemperatureLogService {
 
     @Override
     public List<TemperatureSensorLog> getLogsByShipment(long shipmentId) {
-        List<TemperatureSensorLog> logs = temperatureLogRepository.findByShipment_Id(shipmentId);
-        if (logs.isEmpty()) {
-            throw new ResourceNotFoundException("No logs found for Shipment ID: " + shipmentId);
-        }
-        return logs;
+        return temperatureLogRepository.findByShipmentId(id);
     }
 
     @Override
