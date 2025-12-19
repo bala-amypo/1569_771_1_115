@@ -36,7 +36,7 @@ public class TemperatureSensorLog {
     @NotNull
     @Column(nullable = false)
     private LocalDateTime recordedAt;
-
+     
     public TemperatureSensorLog() {
     }
 
