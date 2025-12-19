@@ -61,7 +61,7 @@ public class TemperatureSensorLog {
     }
 
     @PrePersist
-    protected void onCreate() {
+    public void onCreate() {
         if (this.recordedAt == null) {
             this.recordedAt = LocalDateTime.now();
         }
@@ -87,7 +87,6 @@ public class TemperatureSensorLog {
         return recordedAt;
     }
 
-    // Getter and setter for shipmentId
     public Long getShipmentId() {
         return shipmentId;
     }
@@ -96,7 +95,7 @@ public class TemperatureSensorLog {
         this.shipmentId = shipmentId;
     }
 
-    // Getter and setter for location
+    
     public String getLocation() {
         return location;
     }
@@ -105,7 +104,6 @@ public class TemperatureSensorLog {
         this.location = location;
     }
 
-    // Setters for the existing fields
     public void setId(Long id) {
         this.id = id;
     }

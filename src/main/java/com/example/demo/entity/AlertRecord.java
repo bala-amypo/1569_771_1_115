@@ -49,7 +49,7 @@ public class AlertRecord {
     }
 
     @PrePersist
-    private void prePersist() {
+    public void prePersist() {
         
         if (this.acknowledged == null) {
             this.acknowledged = false; 

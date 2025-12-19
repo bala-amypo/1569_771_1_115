@@ -73,7 +73,7 @@ public class BreachRecord {
     /* ---------------- Lifecycle ---------------- */
 
     @PrePersist
-    protected void onCreate() {
+    public void onCreate() {
         if (this.detectedAt == null) {
             this.detectedAt = LocalDateTime.now();
         }
