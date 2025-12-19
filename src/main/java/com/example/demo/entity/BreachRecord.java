@@ -27,11 +27,11 @@ public class BreachRecord {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shipment_id", nullable = false)
-    private Shipment shipment;
+    private ShipmentRecord shipment;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "temperature_log_id", nullable = false)
-    private TemperatureLog temperatureLog;
+    private TemperatureSensorLog temperatureLog;
 
     /* ---------- Legacy / existing fields (KEPT) ---------- */
 
@@ -100,7 +100,7 @@ public class BreachRecord {
         return id;
     }
 
-    public Shipment getShipment() {
+    public ShipmentRes getShipment() {
         return shipment;
     }
 
