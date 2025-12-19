@@ -13,8 +13,11 @@ import java.util.List;
 @RequestMapping("/api/temperature-rules")
 public class TemperatureRuleController {
 
-    @Autowired
-    private TemperatureRuleService temperatureRuleService;
+     private final TemperatureRuleService service;
+
+    public TemperatureRuleController(TemperatureRuleService service) {
+        this.service = service;
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<TemperatureRule> getRuleById(@PathVariable Long id) {

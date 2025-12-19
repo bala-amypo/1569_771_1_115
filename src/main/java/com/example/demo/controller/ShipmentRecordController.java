@@ -21,8 +21,11 @@ import com.example.demo.service.ShipmentRecordService;
 @RequestMapping("/api/shipments")
 public class ShipmentRecordController {
 
-    @Autowired
-    ShipmentRecordService shipmentRecordService;
+    private final ShipmentRecordService shipmentRecordService;
+
+    public ShipmentRecordController(ShipmentRecordService shipmentRecordService) {
+        this.shipmentRecordService = shipmentRecordService;
+    }
 
     @PostMapping
     public ResponseEntity<ShipmentRecord> createShipment(@RequestBody ShipmentRecord shipment) {

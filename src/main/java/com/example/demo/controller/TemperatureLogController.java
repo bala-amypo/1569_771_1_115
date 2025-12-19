@@ -14,8 +14,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Temperature Logs")
 public class TemperatureLogController {
 
-    @Autowired
-    private TemperatureLogService logService;
+    private final TemperatureLogService logService;
+
+    public TemperatureLogController(TemperatureLogService logService) {
+        this.logService = logService;
+    }
 
     @PostMapping
     public ResponseEntity<TemperatureSensorLog> recordLog(@RequestBody TemperatureSensorLog log) {
