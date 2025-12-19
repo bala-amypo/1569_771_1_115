@@ -3,7 +3,8 @@ package com.example.demo.entity;
 import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "breach_records")
@@ -13,13 +14,14 @@ public class BreachRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "shipment_id", nullable = false)
-    @JsonIgnore
+    @JsonIgnoreProperties({"temperatureLogs", "breachRecords"})
     private ShipmentRecord shipment;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "temperature_log_id", nullable = false)
+    @JsonIgnoreProperties("shipment")
     private TemperatureSensorLog temperatureLog;
 
     private String breachType; 
@@ -32,33 +34,20 @@ public class BreachRecord {
     private String details;
 
     @Column(nullable = false)
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime detectedAt;
 
     private Boolean resolved;
 
     public BreachRecord() {}
 
-    public BreachRecord(ShipmentRecord shipment, TemperatureSensorLog temperatureLog,
-                        String breachType, Double breachValue, String severity,
-                        String details) {
-        this.shipment = shipment;
-        this.temperatureLog = temperatureLog;
-        this.breachType = breachType;
-        this.breachValue = breachValue;
-        this.severity = severity;
-        this.details = details;
-    }
-
     @PrePersist
     public void prePersist() {
-        if (this.detectedAt == null) {
-            this.detectedAt = LocalDateTime.now();
-        }
-        if (this.resolved == null) {
-            this.resolved = false;
-        }
+        if (this.detectedAt == null) this.detectedAt = LocalDateTime.now();
+        if (this.resolved == null) this.resolved = false;
     }
 
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public ShipmentRecord getShipment() { return shipment; }
