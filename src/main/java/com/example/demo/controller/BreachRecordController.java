@@ -22,8 +22,16 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Breach-record-controller")
 public class BreachRecordController {
 
-    @Autowired
-    BreachDetectionService breachService;
+   @RestController
+public class BreachDetectionController {
+
+    private final BreachDetectionService breachService;
+
+    public BreachDetectionController(BreachDetectionService breachService) {
+        this.breachService= breachService;
+    }
+}
+
 
     @PostMapping
     public ResponseEntity<BreachRecord> logBreach(@RequestBody BreachRecord breach) {

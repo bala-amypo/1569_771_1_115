@@ -13,10 +13,10 @@ import java.util.List;
 @RequestMapping("/api/temperature-rules")
 public class TemperatureRuleController {
 
-     private final TemperatureRuleService service;
+    private final TemperatureRuleService temperatureRuleService;
 
-    public TemperatureRuleController(TemperatureRuleService service) {
-        this.service = service;
+    public TemperatureRuleController(TemperatureRuleService temperatureRuleService) {
+        this.temperatureRuleService = temperatureRuleService;
     }
 
     @GetMapping("/{id}")
