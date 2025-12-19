@@ -2,14 +2,15 @@ package com.example.demo.entity;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
-import java.time.LocalDateTime;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "users")
@@ -19,14 +20,19 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /* name (mapped as fullName – field NOT removed) */
+    @NotBlank
     @Column(name = "full_name", nullable = false)
     private String fullName;
 
-    @Column(name = "email", unique = true, nullable = false)
+    @NotBlank
+    @Email
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
+    @NotBlank
     @Column(name = "password", nullable = false)
-    private String password;
+    private String password; // encrypted password
 
     @Column(name = "role", nullable = false)
     private String role;
@@ -34,9 +40,17 @@ public class User {
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
-    public User() {}
+    /* ---------------- Constructors ---------------- */
 
-    public User(Long id, String fullName, String email, String password, String role, LocalDateTime createdAt) {
+    public User() {
+    }
+
+    public User(Long id,
+                String fullName,
+                String email,
+                String password,
+                String role,
+                LocalDateTime createdAt) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
@@ -45,15 +59,17 @@ public class User {
         this.createdAt = createdAt;
     }
 
-  
+    /* ---------------- Lifecycle ---------------- */
+
     @PrePersist
     private void prePersist() {
         if (this.role == null) {
-            this.role = "MONITOR"; 
+            this.role = "USER"; // default role as per business rule
         }
         this.createdAt = LocalDateTime.now();
     }
 
+    /* ---------------- Getters & Setters ---------------- */
 
     public Long getId() {
         return id;
