@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
@@ -14,9 +15,9 @@ public class TemperatureSensorLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id; // Use Long wrapper for consistency
+    private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "shipment_id")
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
@@ -36,12 +37,20 @@ public class TemperatureSensorLog {
 
     private String location;
 
-    public TemperatureSensorLog() {}
-
     @PrePersist
-    public void prePersist() {
-        if (this.recordedAt == null) this.recordedAt = LocalDateTime.now();
+    public void setDefaultTime() {
+        if (this.recordedAt == null) {
+            this.recordedAt = LocalDateTime.now();
+        }
     }
+
+    // This ensures "shipmentId" appears in your JSON response
+    @JsonProperty("shipmentId")
+    public Long getShipmentIdValue() {
+        return (shipment != null) ? shipment.getId() : null;
+    }
+
+    public TemperatureSensorLog() {}
 
     // Getters and Setters
     public Long getId() { return id; }
@@ -56,9 +65,4 @@ public class TemperatureSensorLog {
     public void setTemperatureValue(Double temperatureValue) { this.temperatureValue = temperatureValue; }
     public String getLocation() { return location; }
     public void setLocation(String location) { this.location = location; }
-
-    @Transient // Helps Spring show the ID in the response without recursion
-    public Long getShipmentId() {
-        return (shipment != null) ? shipment.getId() : null;
-    }
 }
