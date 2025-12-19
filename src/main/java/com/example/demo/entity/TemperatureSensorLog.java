@@ -44,7 +44,7 @@ public class TemperatureSensorLog {
     public TemperatureSensorLog() {
     }
 
-    public TemperatureSensorLog(Shipment shipment,
+    public TemperatureSensorLog(ShipmentRecord shipment,
                           String sensorId,
                           Double temperature,
                           LocalDateTime recordedAt) {

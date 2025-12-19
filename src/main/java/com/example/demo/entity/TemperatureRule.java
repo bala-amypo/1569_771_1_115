@@ -97,11 +97,11 @@ public class TemperatureRule {
     }
 
     public Double getMinTemp() {
-        return minTemperature;
+        return minTemp;
     }
 
     public Double getMaxTemp() {
-        return maxTemperature;
+        return maxTemp;
     }
 
     public Severity getSeverity() {
@@ -129,7 +129,7 @@ public class TemperatureRule {
     }
 
     public void setMinTemp(Double minTemperature) {
-        this.minTemperature = minTemperature;
+        this.minTemerature = minTemperature;
     }
 
     public void setMaxTemp(Double maxTemperature) {

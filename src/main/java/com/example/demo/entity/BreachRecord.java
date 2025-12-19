@@ -60,8 +60,8 @@ public class BreachRecord {
     public BreachRecord() {
     }
 
-    public BreachRecord(Shipment shipment,
-                        TemperatureLog temperatureLog,
+    public BreachRecord(ShipmentRecord shipment,
+                        TemperatureSensorLog temperatureLog,
                         Long shipmentId,
                         Long logId,
                         String breachType,
