@@ -35,9 +35,7 @@ public class ShipmentRecord {
     @NotBlank
     @Column(nullable = false)
     private String productType;
-
     private LocalDateTime startDate;
-
     private LocalDateTime expectedDelivery;
 
     @Column(nullable = false)
