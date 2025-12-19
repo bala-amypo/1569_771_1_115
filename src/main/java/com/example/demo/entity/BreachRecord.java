@@ -23,17 +23,16 @@ public class BreachRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /* ---------- Relationship-based references (SPEC) ---------- */
+    @Column(name = "shipment_id", insertable = false, updatable = false)
+    private Long shipmentId; 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "shipment_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "shipment_id")
     private ShipmentRecord shipment;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "temperature_log_id", nullable = false)
     private TemperatureSensorLog temperatureLog;
-
-    /* ---------- Legacy / existing fields (KEPT) ---------- */
 
     private Long shipmentId;
 
@@ -54,8 +53,6 @@ public class BreachRecord {
     private LocalDateTime detectedAt;
 
     private Boolean resolved;
-
-    /* ---------------- Constructors ---------------- */
 
     public BreachRecord() {
     }
