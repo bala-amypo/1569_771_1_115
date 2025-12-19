@@ -20,14 +20,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/api/alerts")
 @Tag(name = "Alerts")
+
 public class AlertRecordController {
 
     private final AlertService alertService;
 
-    public AlertController(AlertService alertService) {
+    public AlertRecordController(AlertService alertService) { 
         this.alertService = alertService;
     }
-
 
     @PostMapping
     public ResponseEntity<AlertRecord> triggerAlert(@RequestBody AlertRecord alert) {
