@@ -16,7 +16,7 @@ import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "temperature_logs")
-public class TemperatureLog {
+public class TemperatureSensorLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
