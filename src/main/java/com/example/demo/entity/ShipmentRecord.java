@@ -54,7 +54,7 @@ public class ShipmentRecord {
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
-    private List<TemperatureLog> temperatureLogs;
+    private List<TemperatureSensorLog> temperatureLogs;
 
     @OneToMany(
         mappedBy = "shipment",
