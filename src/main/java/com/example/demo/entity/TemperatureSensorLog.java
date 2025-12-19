@@ -79,10 +79,6 @@ public class TemperatureSensorLog {
         return shipment;
     }
 
-    public long getShipmentId() {
-        return (this.shipment != null) ? this.shipment.getId() : null;
-    }
-
     public String getSensorId() {
         return sensorId;
     }
@@ -107,8 +103,8 @@ public class TemperatureSensorLog {
         this.shipment = shipment;
     }
 
-    public void setShipmentId(long shipmentId) {
-        this.shipmentId = shipmentId;
+    public void setShipment(ShipmentRecord shipment) {
+        this.shipment = shipment;
     }
 
     public void setSensorId(String sensorId) {
