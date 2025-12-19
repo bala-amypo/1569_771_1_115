@@ -23,21 +23,20 @@ public class BreachRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    /* ----------- Spec Relationships ----------- */
-
+    
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shipment_id", nullable = false)
-    private Shipment shipment;
+    private ShipmentRecord shipment;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "temperature_log_id", nullable = false)
-    private TemperatureLog temperatureLog;
+    private TemperatureSensorLog temperatureLog;
 
-    /* ----------- Existing Fields (NOT REMOVED) ----------- */
+    
 
-    private long shipmentId;     // retained
-    private long logId;          // retained
-    private String breachType;   // retained
+    private long shipmentId;     
+    private long logId;          
+    private String breachType;   
 
     private Double breachValue;
 
@@ -45,14 +44,12 @@ public class BreachRecord {
     @Column(nullable = false)
     private String severity;
 
-    private String details;      // retained
+    private String details;      
 
     @Column(nullable = false)
     private LocalDateTime detectedAt;
 
-    private Boolean resolved;    // retained
-
-    /* ----------- Constructors ----------- */
+    private Boolean resolved;    
 
     public BreachRecord() {}
 
@@ -74,8 +71,7 @@ public class BreachRecord {
         this.resolved = resolved;
     }
 
-    /* ----------- Lifecycle ----------- */
-
+  
     @PrePersist
     public void prePersist() {
         if (this.detectedAt == null) {
@@ -86,17 +82,16 @@ public class BreachRecord {
         }
     }
 
-    /* ----------- Getters & Setters ----------- */
-
+ 
     public long getId() {
         return id;
     }
 
-    public Shipment getShipment() {
+    public ShipmentRecord getShipment() {
         return shipment;
     }
 
-    public TemperatureLog getTemperatureLog() {
+    public TemperatureSensorLog getTemperatureLog() {
         return temperatureLog;
     }
 
