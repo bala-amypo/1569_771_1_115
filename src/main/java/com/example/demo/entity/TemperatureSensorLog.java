@@ -22,8 +22,6 @@ public class TemperatureSensorLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /* ---------------- Relationships ---------------- */
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shipment_id", nullable = false)
     private ShipmentRecord shipment;
@@ -39,8 +37,6 @@ public class TemperatureSensorLog {
     @Column(nullable = false)
     private LocalDateTime recordedAt;
 
-    /* ---------------- Constructors ---------------- */
-
     public TemperatureSensorLog() {
     }
 
@@ -53,17 +49,12 @@ public class TemperatureSensorLog {
         this.temperature = temperature;
         this.recordedAt = recordedAt;
     }
-
-    /* ---------------- Lifecycle ---------------- */
-
     @PrePersist
     protected void onCreate() {
         if (this.recordedAt == null) {
             this.recordedAt = LocalDateTime.now();
         }
     }
-
-    /* ---------------- Getters & Setters ---------------- */
 
     public Long getId() {
         return id;
