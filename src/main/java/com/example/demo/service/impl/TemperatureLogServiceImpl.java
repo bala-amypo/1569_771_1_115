@@ -38,12 +38,8 @@ public class TemperatureLogServiceImpl implements TemperatureLogService {
     }
 
     @Override
-    public Optional<TemperatureSensorLogg = > getLogById(long id) {
-        Optional<TemperatureSensorLog> lotemperatureLogRepository.findById(id);
-            if (log.isPresent()) {
-            TemperatureSensorLog realLog = log.get();
-            }
-        return log; 
+    public Optional<TemperatureSensorLog> getLogById(long id) {
+        return temperatureLogRepository.findById(id);
     }
 
     @Override
