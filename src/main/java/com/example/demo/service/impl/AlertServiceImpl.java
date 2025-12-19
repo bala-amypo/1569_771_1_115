@@ -13,7 +13,11 @@ import java.util.Optional;
 @Service
 public class AlertServiceImpl implements AlertService {
 
-    breachRecordRepository
+    private final AlertRepository alertRecordRepository;
+
+    public AlertServiceImpl(AlertRepository alertRecordRepository) {
+        this.alertRecordRepository = alertRecordRepository;
+    }
 
     @Override
     public AlertRecord triggerAlert(AlertRecord alert) {

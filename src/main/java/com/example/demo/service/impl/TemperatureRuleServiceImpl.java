@@ -54,8 +54,7 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
 
     @Override
     public TemperatureRule getRuleForProduct(String productType, LocalDate date) {
-        // We pass 'date' twice to satisfy both 'LessThanEqual' and 'GreaterThanEqual'
-        return temperaturerulerepository
+             return temperaturerulerepository
                 .findByProductTypeAndEffectiveFromLessThanEqualAndEffectiveToGreaterThanEqual(productType, date, date)
                 .orElseThrow(() -> new ResourceNotFoundException("No applicable rule found for product: " + productType));
     }
