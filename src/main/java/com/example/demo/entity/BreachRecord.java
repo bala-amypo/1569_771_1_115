@@ -3,8 +3,10 @@ package com.example.demo.entity;
 import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "breach_records")
@@ -16,14 +18,12 @@ public class BreachRecord {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "shipment_id", nullable = false)
-    // This stops the JSON from trying to load all logs/breaches inside the shipment
-    @JsonIgnoreProperties({"temperatureLogs", "breachRecords", "createdAt"})
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @JsonIdentityReference(alwaysAsId = true)
     private ShipmentRecord shipment;
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "temperature_log_id", nullable = false)
-    // This stops the JSON from trying to load the shipment again inside the log
-    @JsonIgnoreProperties("shipment")
     private TemperatureSensorLog temperatureLog;
 
     private String breachType; 
@@ -36,12 +36,10 @@ public class BreachRecord {
     private String details;
 
     @Column(nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     private LocalDateTime detectedAt;
 
     private Boolean resolved;
-
-    public BreachRecord() {}
 
     @PrePersist
     public void prePersist() {
