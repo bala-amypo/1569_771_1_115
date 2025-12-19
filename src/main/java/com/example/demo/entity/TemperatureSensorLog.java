@@ -14,12 +14,12 @@ public class TemperatureSensorLog {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id; // Use Long wrapper for consistency
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shipment_id")
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = true) // This ensures only the ID is sent/received
+    @JsonIdentityReference(alwaysAsId = true)
     private ShipmentRecord shipment;
 
     @Column(nullable = false)
@@ -36,18 +36,16 @@ public class TemperatureSensorLog {
 
     private String location;
 
-    @PrePersist
-    public void setDefaultTime() {
-        if (this.recordedAt == null) {
-            this.recordedAt = LocalDateTime.now();
-        }
-    }
-
     public TemperatureSensorLog() {}
 
+    @PrePersist
+    public void prePersist() {
+        if (this.recordedAt == null) this.recordedAt = LocalDateTime.now();
+    }
+
     // Getters and Setters
-    public long getId() { return id; }
-    public void setId(long id) { this.id = id; }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
     public ShipmentRecord getShipment() { return shipment; }
     public void setShipment(ShipmentRecord shipment) { this.shipment = shipment; }
     public String getSensorId() { return sensorId; }
@@ -58,7 +56,8 @@ public class TemperatureSensorLog {
     public void setTemperatureValue(Double temperatureValue) { this.temperatureValue = temperatureValue; }
     public String getLocation() { return location; }
     public void setLocation(String location) { this.location = location; }
-    
+
+    @Transient // Helps Spring show the ID in the response without recursion
     public Long getShipmentId() {
         return (shipment != null) ? shipment.getId() : null;
     }
