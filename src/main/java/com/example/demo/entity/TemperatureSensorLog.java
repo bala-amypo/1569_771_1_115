@@ -26,7 +26,7 @@ public class TemperatureSensorLog {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shipment_id", nullable = false)
-    private Shipment shipment;
+    private ShipmentRecord shipment;
 
     @Column(nullable = false)
     private String sensorId;

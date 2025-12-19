@@ -65,10 +65,10 @@ public class ShipmentRecord {
 
     /* ---------------- Constructors ---------------- */
 
-    public Shipment() {
+    public ShipmentRecord() {
     }
 
-    public Shipment(String shipmentCode,
+    public ShipmentRecord(String shipmentCode,
                     String origin,
                     String destination,
                     String productType,
