@@ -11,7 +11,7 @@ import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.exception.BadRequestException;
 
 @Service
-public class BreachDetectionServiceImpl implements BreachDetectionService {
+public class BreachDetection~ServiceImpl implements BreachDetectionService {
 
     private final BreachRecordRepository breachRecordRepository;
 
