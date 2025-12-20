@@ -37,20 +37,20 @@ public class TemperatureSensorLog {
 
     private String location;
 
-    @PrePersist
-    public void setDefaultTime() {
-        if (this.recordedAt == null) {
-            this.recordedAt = LocalDateTime.now();
-        }
-    }
-
-    // This ensures "shipmentId" appears in your JSON response
+    // This ensures "shipmentId" is visible in the JSON response even if the object is hidden
     @JsonProperty("shipmentId")
     public Long getShipmentIdValue() {
         return (shipment != null) ? shipment.getId() : null;
     }
 
     public TemperatureSensorLog() {}
+
+    @PrePersist
+    public void setDefaultTime() {
+        if (this.recordedAt == null) {
+            this.recordedAt = LocalDateTime.now();
+        }
+    }
 
     // Getters and Setters
     public Long getId() { return id; }

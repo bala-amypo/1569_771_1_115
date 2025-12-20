@@ -1,45 +1,44 @@
 package com.example.demo.service.impl;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-
 import com.example.demo.entity.TemperatureSensorLog;
+import com.example.demo.entity.ShipmentRecord;
 import com.example.demo.repository.TemperatureSensorLogRepository;
+import com.example.demo.repository.ShipmentRecordRepository;
 import com.example.demo.service.TemperatureLogService;
 import com.example.demo.exception.ResourceNotFoundException;
-import com.example.demo.exception.BadRequestException;
+import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class TemperatureLogServiceImpl implements TemperatureLogService {
 
-    private final TemperatureSensorLogRepository temperatureLogRepository;
+    private final TemperatureSensorLogRepository repository;
+    private final ShipmentRecordRepository shipmentRepository;
 
-    public TemperatureLogServiceImpl(TemperatureSensorLogRepository temperatureLogRepository) {
-        this.temperatureLogRepository = temperatureLogRepository;
+    public TemperatureLogServiceImpl(TemperatureSensorLogRepository repository, 
+                                     ShipmentRecordRepository shipmentRepository) {
+        this.repository = repository;
+        this.shipmentRepository = shipmentRepository;
     }
 
     @Override
-    public TemperatureSensorLog recordLog(TemperatureSensorLog log) {
-        if (log == null) {
-            throw new BadRequestException("Log data cannot be null");
+    public TemperatureSensorLog addLog(TemperatureSensorLog log) {
+        // If the JSON sent "shipment": 1, we fetch the real shipment to populate the response
+        if (log.getShipment() != null && log.getShipment().getId() != null) {
+            ShipmentRecord shipment = shipmentRepository.findById(log.getShipment().getId())
+                .orElseThrow(() -> new ResourceNotFoundException("Shipment not found with ID: " + log.getShipment().getId()));
+            log.setShipment(shipment);
         }
-        return temperatureLogRepository.save(log);
+        return repository.save(log);
     }
 
     @Override
-    public List<TemperatureSensorLog> getLogsByShipment(long shipmentId) {
-        return temperatureLogRepository.findByShipmentId(shipmentId); 
-    }
-
-    @Override
-    public Optional<TemperatureSensorLog> getLogById(long id) {
-        return temperatureLogRepository.findById(id);
+    public List<TemperatureSensorLog> getLogsByShipment(Long shipmentId) {
+        return repository.findByShipmentId(shipmentId);
     }
 
     @Override
     public List<TemperatureSensorLog> getAllLogs() {
-        return temperatureLogRepository.findAll();
+        return repository.findAll();
     }
 }
