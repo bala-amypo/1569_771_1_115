@@ -7,7 +7,9 @@ import com.example.demo.repository.ShipmentRecordRepository;
 import com.example.demo.service.TemperatureLogService;
 import com.example.demo.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TemperatureLogServiceImpl implements TemperatureLogService {
@@ -22,8 +24,8 @@ public class TemperatureLogServiceImpl implements TemperatureLogService {
     }
 
     @Override
-    public TemperatureSensorLog addLog(TemperatureSensorLog log) {
-        // If the JSON sent "shipment": 1, we fetch the real shipment to populate the response
+    public TemperatureSensorLog recordLog(TemperatureSensorLog log) {
+        // Associate the shipment if an ID is provided to prevent nulls in response
         if (log.getShipment() != null && log.getShipment().getId() != null) {
             ShipmentRecord shipment = shipmentRepository.findById(log.getShipment().getId())
                 .orElseThrow(() -> new ResourceNotFoundException("Shipment not found with ID: " + log.getShipment().getId()));
@@ -33,8 +35,13 @@ public class TemperatureLogServiceImpl implements TemperatureLogService {
     }
 
     @Override
-    public List<TemperatureSensorLog> getLogsByShipment(Long shipmentId) {
+    public List<TemperatureSensorLog> getLogsByShipment(long shipmentId) {
         return repository.findByShipmentId(shipmentId);
+    }
+
+    @Override
+    public Optional<TemperatureSensorLog> getLogById(long id) {
+        return repository.findById(id);
     }
 
     @Override
