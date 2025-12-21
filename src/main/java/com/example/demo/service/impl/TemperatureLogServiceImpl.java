@@ -1,9 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.TemperatureSensorLog;
-import com.example.demo.entity.ShipmentRecord;
 import com.example.demo.repository.TemperatureSensorLogRepository;
-import com.example.demo.repository.ShipmentRecordRepository;
 import com.example.demo.service.TemperatureLogService;
 import com.example.demo.exception.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
@@ -15,22 +13,23 @@ import java.util.Optional;
 public class TemperatureLogServiceImpl implements TemperatureLogService {
 
     private final TemperatureSensorLogRepository repository;
-    private final ShipmentRecordRepository shipmentRepository;
 
-    public TemperatureLogServiceImpl(TemperatureSensorLogRepository repository, 
-                                     ShipmentRecordRepository shipmentRepository) {
+    public TemperatureLogServiceImpl(TemperatureSensorLogRepository repository) {
         this.repository = repository;
-        this.shipmentRepository = shipmentRepository;
     }
 
     @Override
     public TemperatureSensorLog recordLog(TemperatureSensorLog log) {
-        // Associate the shipment if an ID is provided to prevent nulls in response
-        if (log.getShipment() != null && log.getShipment().getId() != null) {
-            ShipmentRecord shipment = shipmentRepository.findById(log.getShipment().getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Shipment not found with ID: " + log.getShipment().getId()));
-            log.setShipment(shipment);
+        // Ensure shipmentId is provided
+        if (log.getShipmentId() == null) {
+            throw new ResourceNotFoundException("Shipment ID must be provided");
         }
+
+        // Set recordedAt if null (already handled by @PrePersist, but extra safety)
+        if (log.getRecordedAt() == null) {
+            log.setRecordedAt(java.time.LocalDateTime.now());
+        }
+
         return repository.save(log);
     }
 
