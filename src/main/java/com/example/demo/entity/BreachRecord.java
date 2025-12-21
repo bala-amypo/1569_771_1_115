@@ -189,4 +189,7 @@ public class BreachRecord {
     public LocalDateTime getDetectedAt() {
         return detectedAt;
     }
+     public void setDetectedAt(LocalDateTime detectedAt) {
+        this.detectedAt = detectedAt;
+    }
 }
