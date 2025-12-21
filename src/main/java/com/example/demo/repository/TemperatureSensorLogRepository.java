@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface TemperatureSensorLogRepository extends JpaRepository<TemperatureSensorLog, Long> {
 
-    @Query("SELECT t FROM TemperatureSensorLog t WHERE t.shipment.id = :shipmentId")
-    List<TemperatureSensorLog> findByShipmentId(@Param("shipmentId") Long shipmentId);
+    @Query("SELECT t FROM TemperatureSensorLog t WHERE t.shipmentId = :shipmentId")
+    List<TemperatureSensorLog> findByShipmentId(Long shipmentId);
 }
