@@ -20,8 +20,7 @@ public class TemperatureLogController {
     }
 
    @PostMapping
-public ResponseEntity<TemperatureSensorLog> recordLog(@RequestBody TemperatureSensorLog log) {
-    // validate required fields
+    public ResponseEntity<TemperatureSensorLog> recordLog(@RequestBody TemperatureSensorLog log) {
     if (log.getShipmentId() == null) {
         throw new BadRequestException("Shipment ID must be provided");
     }
@@ -32,7 +31,6 @@ public ResponseEntity<TemperatureSensorLog> recordLog(@RequestBody TemperatureSe
         throw new BadRequestException("Temperature value must be provided");
     }
 
-    // set recordedAt if missing
     if (log.getRecordedAt() == null) {
         log.setRecordedAt(LocalDateTime.now());
     }
