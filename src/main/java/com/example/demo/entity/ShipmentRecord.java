@@ -37,15 +37,12 @@
 //     public String getStatus() { return status; }
 //     public void setStatus(String status) { this.status = status; }
 // }
-
 package com.example.demo.entity;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(
@@ -83,15 +80,6 @@ public class ShipmentRecord {
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
-    // Relationships
-    @OneToMany(mappedBy = "shipment", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("shipment")
-    private List<TemperatureSensorLog> temperatureLogs;
-
-    @OneToMany(mappedBy = "shipment", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("shipment")
-    private List<BreachRecord> breachRecords;
-
     public ShipmentRecord() {}
 
     @PrePersist
@@ -106,36 +94,71 @@ public class ShipmentRecord {
 
     // Getters and Setters
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getShipmentCode() { return shipmentCode; }
-    public void setShipmentCode(String shipmentCode) { this.shipmentCode = shipmentCode; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getOrigin() { return origin; }
-    public void setOrigin(String origin) { this.origin = origin; }
+    public String getShipmentCode() {
+        return shipmentCode;
+    }
 
-    public String getDestination() { return destination; }
-    public void setDestination(String destination) { this.destination = destination; }
+    public void setShipmentCode(String shipmentCode) {
+        this.shipmentCode = shipmentCode;
+    }
 
-    public String getProductType() { return productType; }
-    public void setProductType(String productType) { this.productType = productType; }
+    public String getOrigin() {
+        return origin;
+    }
 
-    public LocalDateTime getStartDate() { return startDate; }
-    public void setStartDate(LocalDateTime startDate) { this.startDate = startDate; }
+    public void setOrigin(String origin) {
+        this.origin = origin;
+    }
 
-    public LocalDateTime getExpectedDelivery() { return expectedDelivery; }
-    public void setExpectedDelivery(LocalDateTime expectedDelivery) { this.expectedDelivery = expectedDelivery; }
+    public String getDestination() {
+        return destination;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
 
-    public LocalDateTime getCreatedAt() { return createdAt; }
-    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+    public String getProductType() {
+        return productType;
+    }
 
-    public List<TemperatureSensorLog> getTemperatureLogs() { return temperatureLogs; }
-    public void setTemperatureLogs(List<TemperatureSensorLog> temperatureLogs) { this.temperatureLogs = temperatureLogs; }
+    public void setProductType(String productType) {
+        this.productType = productType;
+    }
 
-    public List<BreachRecord> getBreachRecords() { return breachRecords; }
-    public void setBreachRecords(List<BreachRecord> breachRecords) { this.breachRecords = breachRecords; }
+    public LocalDateTime getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(LocalDateTime startDate) {
+        this.startDate = startDate;
+    }
+
+    public LocalDateTime getExpectedDelivery() {
+        return expectedDelivery;
+    }
+
+    public void setExpectedDelivery(LocalDateTime expectedDelivery) {
+        this.expectedDelivery = expectedDelivery;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
 }

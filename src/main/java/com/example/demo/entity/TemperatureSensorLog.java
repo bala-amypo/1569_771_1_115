@@ -69,13 +69,12 @@
 package com.example.demo.entity;
 
 import java.time.LocalDateTime;
+
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
 
-@Data
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 @Entity
 @Table(name = "temperature_sensor_log")
 public class TemperatureSensorLog {
@@ -84,38 +83,28 @@ public class TemperatureSensorLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // Simple FK reference (no JPA relationship)
+    @NotNull
+    @Column(name = "shipment_id", nullable = false)
+    private Long shipmentId;
+
     @NotNull
     @Column(nullable = false)
     private String sensorId;
 
     @NotNull
     @Column(nullable = false)
-    private Double temperatureValue;
-
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
-    @NotNull
-    @Column(nullable = false)
     private LocalDateTime recordedAt;
 
+    @NotNull
+    @Column(nullable = false)
+    private Double temperatureValue;
+
+    // Optional field
     private String location;
 
-    // Many-to-One relationship with ShipmentRecord
-    @ManyToOne
-    @JoinColumn(name = "shipment_id", nullable = false)
-    @JsonIgnoreProperties("temperatureLogs") // prevent infinite recursion
-    private ShipmentRecord shipment;
-
-    // ===== Default constructor =====
     public TemperatureSensorLog() {}
-
-    // ===== Parameterized constructor =====
-    public TemperatureSensorLog(String sensorId, Double temperatureValue, LocalDateTime recordedAt, String location, ShipmentRecord shipment) {
-        this.sensorId = sensorId;
-        this.temperatureValue = temperatureValue;
-        this.recordedAt = recordedAt;
-        this.location = location;
-        this.shipment = shipment;
-    }
 
     @PrePersist
     public void prePersist() {
@@ -123,6 +112,50 @@ public class TemperatureSensorLog {
             this.recordedAt = LocalDateTime.now();
         }
     }
+
+    // ===== Getters & Setters =====
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getShipmentId() {
+        return shipmentId;
+    }
+
+    public void setShipmentId(Long shipmentId) {
+        this.shipmentId = shipmentId;
+    }
+
+    public String getSensorId() {
+        return sensorId;
+    }
+
+    public void setSensorId(String sensorId) {
+        this.sensorId = sensorId;
+    }
+
+    public LocalDateTime getRecordedAt() {
+        return recordedAt;
+    }
+
+    public void setRecordedAt(LocalDateTime recordedAt) {
+        this.recordedAt = recordedAt;
+    }
+
+    public Double getTemperatureValue() {
+        return temperatureValue;
+    }
+
+    public void setTemperatureValue(Double temperatureValue) {
+        this.temperatureValue = temperatureValue;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 }
-
-
