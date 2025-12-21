@@ -94,7 +94,6 @@ public class TemperatureSensorLog {
 
     @NotNull
     @Column(nullable = false)
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
     private LocalDateTime recordedAt;
 
     @NotNull
