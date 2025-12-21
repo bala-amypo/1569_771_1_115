@@ -2,42 +2,60 @@ package com.example.demo.controller;
 
 import com.example.demo.entity.TemperatureSensorLog;
 import com.example.demo.service.TemperatureLogService;
-import org.springframework.http.ResponseEntity;
+import com.example.demo.exception.BadRequestException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/logs")
 public class TemperatureLogController {
 
-    private final TemperatureLogService logService;
+    private final TemperatureLogService temperatureLogService;
 
-    public TemperatureLogController(TemperatureLogService logService) {
-        this.logService = logService;
+    public TemperatureLogController(TemperatureLogService temperatureLogService) {
+        this.temperatureLogService = temperatureLogService;
     }
 
     @PostMapping
-    public ResponseEntity<TemperatureSensorLog> createLog(@RequestBody TemperatureSensorLog log) {
-        // Calling recordLog to match the Interface definition
-        TemperatureSensorLog savedLog = logService.recordLog(log);
+    public ResponseEntity<TemperatureSensorLog> recordLog(@RequestBody TemperatureSensorLog log) {
+        // Validate required fields
+        if (log.getShipmentId() == null) {
+            throw new BadRequestException("Shipment ID must be provided");
+        }
+        if (log.getSensorId() == null || log.getSensorId().trim().isEmpty()) {
+            throw new BadRequestException("Sensor ID must be provided");
+        }
+        if (log.getTemperatureValue() == null) {
+            throw new BadRequestException("Temperature value must be provided");
+        }
+
+        if (log.getRecordedAt() == null) {
+            log.setRecordedAt(LocalDateTime.now());
+        }
+
+        TemperatureSensorLog savedLog = temperatureLogService.recordLog(log);
         return ResponseEntity.status(201).body(savedLog);
     }
 
+    @GetMapping
+    public ResponseEntity<List<TemperatureSensorLog>> getAllLogs() {
+        List<TemperatureSensorLog> logs = temperatureLogService.getAllLogs();
+        return ResponseEntity.status(200).body(logs);
+    }
+
     @GetMapping("/{id}")
-    public ResponseEntity<TemperatureSensorLog> getById(@PathVariable long id) {
-        return logService.getLogById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<TemperatureSensorLog> getLogById(@PathVariable Long id) {
+        TemperatureSensorLog log = temperatureLogService.getLogById(id)
+                .orElseThrow(() -> new BadRequestException("Temperature log not found with ID: " + id));
+        return ResponseEntity.status(200).body(log);
     }
 
     @GetMapping("/shipment/{shipmentId}")
-    public List<TemperatureSensorLog> getByShipment(@PathVariable long shipmentId) {
-        return logService.getLogsByShipment(shipmentId);
-    }
-
-    @GetMapping
-    public List<TemperatureSensorLog> getAll() {
-        return logService.getAllLogs();
+    public ResponseEntity<List<TemperatureSensorLog>> getLogsByShipment(@PathVariable Long shipmentId) {
+        List<TemperatureSensorLog> logs = temperatureLogService.getLogsByShipment(shipmentId);
+        return ResponseEntity.status(200).body(logs);
     }
 }
