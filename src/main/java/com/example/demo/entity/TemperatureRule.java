@@ -72,8 +72,6 @@ public class TemperatureRule {
         return minTemp < maxTemp;
     }
 
-    
-
     public long getId() {
         return id;
     }

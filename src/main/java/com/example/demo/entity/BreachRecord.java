@@ -17,14 +17,14 @@ public class BreachRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "shipment_id", nullable = false)
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-    @JsonIdentityReference(alwaysAsId = true)
+    // @ManyToOne(fetch = FetchType.EAGER)
+    // @JoinColumn(name = "shipment_id", nullable = false)
+    // @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    // @JsonIdentityReference(alwaysAsId = true)
     private ShipmentRecord shipment;
 
-    @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "temperature_log_id", nullable = false)
+    // @OneToOne(fetch = FetchType.EAGER)
+    // @JoinColumn(name = "temperature_log_id", nullable = false)
     private TemperatureSensorLog temperatureLog;
 
     private String breachType; 
