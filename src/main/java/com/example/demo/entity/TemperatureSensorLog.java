@@ -66,3 +66,63 @@
 //     public String getLocation() { return location; }
 //     public void setLocation(String location) { this.location = location; }
 // }
+package com.example.demo.entity;
+
+import java.time.LocalDateTime;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import lombok.Data;
+
+@Data
+@Entity
+@Table(name = "temperature_sensor_log")
+public class TemperatureSensorLog {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotNull
+    @Column(nullable = false)
+    private String sensorId;
+
+    @NotNull
+    @Column(nullable = false)
+    private Double temperatureValue;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS")
+    @NotNull
+    @Column(nullable = false)
+    private LocalDateTime recordedAt;
+
+    private String location;
+
+    // Many-to-One relationship with ShipmentRecord
+    @ManyToOne
+    @JoinColumn(name = "shipment_id", nullable = false)
+    @JsonIgnoreProperties("temperatureLogs") // prevent infinite recursion
+    private ShipmentRecord shipment;
+
+    // ===== Default constructor =====
+    public TemperatureSensorLog() {}
+
+    // ===== Parameterized constructor =====
+    public TemperatureSensorLog(String sensorId, Double temperatureValue, LocalDateTime recordedAt, String location, ShipmentRecord shipment) {
+        this.sensorId = sensorId;
+        this.temperatureValue = temperatureValue;
+        this.recordedAt = recordedAt;
+        this.location = location;
+        this.shipment = shipment;
+    }
+
+    @PrePersist
+    public void prePersist() {
+        if (this.recordedAt == null) {
+            this.recordedAt = LocalDateTime.now();
+        }
+    }
+}
+
+
