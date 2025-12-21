@@ -37,11 +37,11 @@ public class TemperatureSensorLog {
 
     private String location;
 
-    // // This ensures "shipmentId" is visible in the JSON response even if the object is hidden
-    // @JsonProperty("shipmentId")
-    // public Long getShipmentIdValue() {
-    //     return (shipment != null) ? shipment.getId() : null;
-    // }
+    // This ensures "shipmentId" is visible in the JSON response even if the object is hidden
+    @JsonProperty("shipmentId")
+    public Long getShipmentIdValue() {
+        return (shipment != null) ? shipment.getId() : null;
+    }
 
     public TemperatureSensorLog() {}
 
