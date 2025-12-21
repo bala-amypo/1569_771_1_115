@@ -19,13 +19,13 @@ public class ShipmentRecord {
     private String productType;
     private String status;
 
-    @OneToMany(mappedBy = "shipment", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("shipment")
-    private List<TemperatureSensorLog> temperatureLogs;
+    // @OneToMany(mappedBy = "shipment", cascade = CascadeType.ALL)
+    // @JsonIgnoreProperties("shipment")
+    // private List<TemperatureSensorLog> temperatureLogs;
 
-    @OneToMany(mappedBy = "shipment", cascade = CascadeType.ALL)
-    @JsonIgnoreProperties("shipment")
-    private List<BreachRecord> breachRecords;
+    // @OneToMany(mappedBy = "shipment", cascade = CascadeType.ALL)
+    // @JsonIgnoreProperties("shipment")
+    // private List<BreachRecord> breachRecords;
 
     // Standard Getters/Setters/Constructors...
     public Long getId() { return id; }

@@ -21,11 +21,11 @@ public class BreachRecord {
     // @JoinColumn(name = "shipment_id", nullable = false)
     // @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     // @JsonIdentityReference(alwaysAsId = true)
-    private ShipmentRecord shipment;
+    // private ShipmentRecord shipment;
 
     // @OneToOne(fetch = FetchType.EAGER)
     // @JoinColumn(name = "temperature_log_id", nullable = false)
-    private TemperatureSensorLog temperatureLog;
+    // private TemperatureSensorLog temperatureLog;
 
     private String breachType; 
     private Double breachValue;
