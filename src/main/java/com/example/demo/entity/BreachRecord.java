@@ -75,69 +75,45 @@
 // }
 package com.example.demo.entity;
 
-import lombok.Data;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "breach_record")
-@Data
 public class BreachRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Relationship with ShipmentRecord
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "shipment_id", nullable = false)
-    private ShipmentRecord shipment;
+    @Column(nullable = false)
+    private Long shipmentId;
 
-    // Optional relationship with TemperatureSensorLog (if breach is temperature-related)
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "temperature_log_id")
-    private TemperatureSensorLog temperatureLog;
+    @Column(nullable = false)
+    private Long logId;
 
-    @Column
+    @Column(nullable = false)
     private String breachType;
 
-    @Column
+    @Column(nullable = false)
     private Double breachValue;
 
-    @Column
+    @Column(nullable = false)
     private String severity;
 
-    @Column(length = 500)
     private String details;
 
+    @NotNull
     @Column(nullable = false)
     private LocalDateTime detectedAt;
 
-    @Column
-    private Boolean resolved = false;
+    @Column(nullable = false)
+    private Boolean resolved;
 
-    // ===== Constructors =====
-
-    // Default constructor (required by JPA)
     public BreachRecord() {}
 
-    // Parameterized constructor
-    public BreachRecord(Long id, ShipmentRecord shipment, TemperatureSensorLog temperatureLog,
-                        String breachType, Double breachValue, String severity, String details,
-                        LocalDateTime detectedAt, Boolean resolved) {
-        this.id = id;
-        this.shipment = shipment;
-        this.temperatureLog = temperatureLog;
-        this.breachType = breachType;
-        this.breachValue = breachValue;
-        this.severity = severity;
-        this.details = details;
-        this.detectedAt = detectedAt;
-        this.resolved = resolved;
-    }
-
-    // ===== Default values before persist =====
     @PrePersist
     public void prePersist() {
         if (this.detectedAt == null) {
@@ -148,32 +124,69 @@ public class BreachRecord {
         }
     }
 
-    // ===== Explicit getters and setters (if needed) =====
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    // Getters and Setters
 
-    public ShipmentRecord getShipment() { return shipment; }
-    public void setShipment(ShipmentRecord shipment) { this.shipment = shipment; }
+    public Long getId() {
+        return id;
+    }
 
-    public TemperatureSensorLog getTemperatureLog() { return temperatureLog; }
-    public void setTemperatureLog(TemperatureSensorLog temperatureLog) { this.temperatureLog = temperatureLog; }
+    public Long getShipmentId() {
+        return shipmentId;
+    }
 
-    public String getBreachType() { return breachType; }
-    public void setBreachType(String breachType) { this.breachType = breachType; }
+    public void setShipmentId(Long shipmentId) {
+        this.shipmentId = shipmentId;
+    }
 
-    public Double getBreachValue() { return breachValue; }
-    public void setBreachValue(Double breachValue) { this.breachValue = breachValue; }
+    public Long getLogId() {
+        return logId;
+    }
 
-    public String getSeverity() { return severity; }
-    public void setSeverity(String severity) { this.severity = severity; }
+    public void setLogId(Long logId) {
+        this.logId = logId;
+    }
 
-    public String getDetails() { return details; }
-    public void setDetails(String details) { this.details = details; }
+    public String getBreachType() {
+        return breachType;
+    }
 
-    public LocalDateTime getDetectedAt() { return detectedAt; }
-    public void setDetectedAt(LocalDateTime detectedAt) { this.detectedAt = detectedAt; }
+    public void setBreachType(String breachType) {
+        this.breachType = breachType;
+    }
 
-    public Boolean getResolved() { return resolved; }
-    public void setResolved(Boolean resolved) { this.resolved = resolved; }
+    public Double getBreachValue() {
+        return breachValue;
+    }
+
+    public void setBreachValue(Double breachValue) {
+        this.breachValue = breachValue;
+    }
+
+    public String getSeverity() {
+        return severity;
+    }
+
+    public void setSeverity(String severity) {
+        this.severity = severity;
+    }
+
+    public String getDetails() {
+        return details;
+    }
+
+    public void setDetails(String details) {
+        this.details = details;
+    }
+
+    public Boolean getResolved() {
+        return resolved;
+    }
+
+    public void setResolved(Boolean resolved) {
+        this.resolved = resolved;
+    }
+
+    public LocalDateTime getDetectedAt() {
+        return detectedAt;
+    }
 }
-
