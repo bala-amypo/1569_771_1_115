@@ -21,9 +21,9 @@ public class BreachDetectionServiceImpl implements BreachDetectionService {
 
     @Override
     public BreachRecord logBreach(BreachRecord breach) {
-        if (breach.getShipment() == null || breach.getShipment().getId() == null) {
-            throw new BadRequestException("Shipment ID must be provided");
-        }
+        // if (breach.getShipment() == null || breach.getShipment().getId() == null) {
+        //     throw new BadRequestException("Shipment ID must be provided");
+        // }
         
         // Use LocalDateTime safely now that it is imported
         if (breach.getDetectedAt() == null) {
