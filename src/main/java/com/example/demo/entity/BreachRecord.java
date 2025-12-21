@@ -73,3 +73,50 @@
 //     public Boolean getResolved() { return resolved; }
 //     public void setResolved(Boolean resolved) { this.resolved = resolved; }
 // }
+
+package com.example.demo.entity;
+
+import lombok.Data;
+
+import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "breach_record")
+@Data
+public class BreachRecord {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    // Auto-generated detection time
+    @Column(nullable = false)
+    private LocalDateTime detectedAt;
+
+    // Relationship with ShipmentRecord
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "shipment_id", nullable = false)
+    private ShipmentRecord shipment;
+
+    // ===== Constructors =====
+
+    // Default constructor (required by JPA)
+    public BreachRecord() {
+    }
+
+    // Parameterized constructor
+    public BreachRecord(Long id, LocalDateTime detectedAt, ShipmentRecord shipment) {
+        this.id = id;
+        this.detectedAt = detectedAt;
+        this.shipment = shipment;
+    }
+
+    // Default values before persist
+    @PrePersist
+    public void prePersist() {
+        if (this.detectedAt == null) {
+            this.detectedAt = LocalDateTime.now();
+        }
+    }
+}
