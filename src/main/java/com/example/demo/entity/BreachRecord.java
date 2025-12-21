@@ -73,7 +73,6 @@
 //     public Boolean getResolved() { return resolved; }
 //     public void setResolved(Boolean resolved) { this.resolved = resolved; }
 // }
-
 package com.example.demo.entity;
 
 import lombok.Data;
@@ -90,33 +89,91 @@ public class BreachRecord {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Auto-generated detection time
-    @Column(nullable = false)
-    private LocalDateTime detectedAt;
-
     // Relationship with ShipmentRecord
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "shipment_id", nullable = false)
     private ShipmentRecord shipment;
 
+    // Optional relationship with TemperatureSensorLog (if breach is temperature-related)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "temperature_log_id")
+    private TemperatureSensorLog temperatureLog;
+
+    @Column
+    private String breachType;
+
+    @Column
+    private Double breachValue;
+
+    @Column
+    private String severity;
+
+    @Column(length = 500)
+    private String details;
+
+    @Column(nullable = false)
+    private LocalDateTime detectedAt;
+
+    @Column
+    private Boolean resolved = false;
+
     // ===== Constructors =====
 
     // Default constructor (required by JPA)
-    public BreachRecord() {
-    }
+    public BreachRecord() {}
 
     // Parameterized constructor
-    public BreachRecord(Long id, LocalDateTime detectedAt, ShipmentRecord shipment) {
+    public BreachRecord(Long id, ShipmentRecord shipment, TemperatureSensorLog temperatureLog,
+                        String breachType, Double breachValue, String severity, String details,
+                        LocalDateTime detectedAt, Boolean resolved) {
         this.id = id;
-        this.detectedAt = detectedAt;
         this.shipment = shipment;
+        this.temperatureLog = temperatureLog;
+        this.breachType = breachType;
+        this.breachValue = breachValue;
+        this.severity = severity;
+        this.details = details;
+        this.detectedAt = detectedAt;
+        this.resolved = resolved;
     }
 
-    // Default values before persist
+    // ===== Default values before persist =====
     @PrePersist
     public void prePersist() {
         if (this.detectedAt == null) {
             this.detectedAt = LocalDateTime.now();
         }
+        if (this.resolved == null) {
+            this.resolved = false;
+        }
     }
+
+    // ===== Explicit getters and setters (if needed) =====
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+
+    public ShipmentRecord getShipment() { return shipment; }
+    public void setShipment(ShipmentRecord shipment) { this.shipment = shipment; }
+
+    public TemperatureSensorLog getTemperatureLog() { return temperatureLog; }
+    public void setTemperatureLog(TemperatureSensorLog temperatureLog) { this.temperatureLog = temperatureLog; }
+
+    public String getBreachType() { return breachType; }
+    public void setBreachType(String breachType) { this.breachType = breachType; }
+
+    public Double getBreachValue() { return breachValue; }
+    public void setBreachValue(Double breachValue) { this.breachValue = breachValue; }
+
+    public String getSeverity() { return severity; }
+    public void setSeverity(String severity) { this.severity = severity; }
+
+    public String getDetails() { return details; }
+    public void setDetails(String details) { this.details = details; }
+
+    public LocalDateTime getDetectedAt() { return detectedAt; }
+    public void setDetectedAt(LocalDateTime detectedAt) { this.detectedAt = detectedAt; }
+
+    public Boolean getResolved() { return resolved; }
+    public void setResolved(Boolean resolved) { this.resolved = resolved; }
 }
+
