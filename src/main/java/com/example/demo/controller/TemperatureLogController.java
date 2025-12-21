@@ -19,26 +19,28 @@ public class TemperatureLogController {
         this.temperatureLogService = temperatureLogService;
     }
 
-    @PostMapping
-    public ResponseEntity<TemperatureSensorLog> recordLog(@RequestBody TemperatureSensorLog log) {
-        // Validate required fields
-        if (log.getShipmentId() == null) {
-            throw new BadRequestException("Shipment ID must be provided");
-        }
-        if (log.getSensorId() == null || log.getSensorId().trim().isEmpty()) {
-            throw new BadRequestException("Sensor ID must be provided");
-        }
-        if (log.getTemperatureValue() == null) {
-            throw new BadRequestException("Temperature value must be provided");
-        }
-
-        if (log.getRecordedAt() == null) {
-            log.setRecordedAt(LocalDateTime.now());
-        }
-
-        TemperatureSensorLog savedLog = temperatureLogService.recordLog(log);
-        return ResponseEntity.status(201).body(savedLog);
+   @PostMapping
+public ResponseEntity<TemperatureSensorLog> recordLog(@RequestBody TemperatureSensorLog log) {
+    // validate required fields
+    if (log.getShipmentId() == null) {
+        throw new BadRequestException("Shipment ID must be provided");
     }
+    if (log.getSensorId() == null || log.getSensorId().trim().isEmpty()) {
+        throw new BadRequestException("Sensor ID must be provided");
+    }
+    if (log.getTemperatureValue() == null) {
+        throw new BadRequestException("Temperature value must be provided");
+    }
+
+    // set recordedAt if missing
+    if (log.getRecordedAt() == null) {
+        log.setRecordedAt(LocalDateTime.now());
+    }
+
+    TemperatureSensorLog savedLog = temperatureLogService.recordLog(log);
+    return ResponseEntity.status(201).body(savedLog);
+}
+
 
     @GetMapping
     public ResponseEntity<List<TemperatureSensorLog>> getAllLogs() {
