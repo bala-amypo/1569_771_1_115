@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
-
 @RestController
 @RequestMapping("/api/temperature-rules")
 public class TemperatureRuleController {
@@ -21,25 +20,43 @@ public class TemperatureRuleController {
 
     @GetMapping("/{id}")
     public ResponseEntity<TemperatureRule> getRuleById(@PathVariable Long id) {
-        TemperatureRule rule = temperatureRuleService.getRuleById(id);
-        return ResponseEntity.status(200).body(rule);
+        return ResponseEntity.status(200)
+                .body(temperatureRuleService.getRuleById(id));
     }
 
-    @GetMapping("/search")
+    @GetMapping("/product/{productType}")
     public ResponseEntity<TemperatureRule> getRuleForProduct(
-            @RequestParam String productType, 
+            @PathVariable String productType,
             @RequestParam LocalDate date) {
-        TemperatureRule rule = temperatureRuleService.getRuleForProduct(productType, date);
-        return ResponseEntity.ok(rule);
+
+        return ResponseEntity.status(200)
+                .body(temperatureRuleService.getRuleForProduct(productType, date));
     }
 
     @PostMapping
     public ResponseEntity<TemperatureRule> createRule(@RequestBody TemperatureRule rule) {
-        return ResponseEntity.status(201).body(temperatureRuleService.createRule(rule));
+        return ResponseEntity.status(201)
+                .body(temperatureRuleService.createRule(rule));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TemperatureRule> updateRule(
+            @PathVariable Long id,
+            @RequestBody TemperatureRule rule) {
+
+        return ResponseEntity.status(200)
+                .body(temperatureRuleService.updateRule(id, rule));
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<List<TemperatureRule>> getActiveRules() {
+        return ResponseEntity.status(200)
+                .body(temperatureRuleService.getActiveRules());
     }
 
     @GetMapping
-    public List<TemperatureRule> getAllRules() {
-        return temperatureRuleService.getAllRules();
+    public ResponseEntity<List<TemperatureRule>> getAllRules() {
+        return ResponseEntity.status(200)
+                .body(temperatureRuleService.getAllRules());
     }
 }
