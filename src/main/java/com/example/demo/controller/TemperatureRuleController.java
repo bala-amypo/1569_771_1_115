@@ -25,21 +25,13 @@ public class TemperatureRuleController {
         return ResponseEntity.status(200).body(rule);
     }
 
-    @GetMapping("/product/{productType}")
+    @GetMapping("/search")
     public ResponseEntity<TemperatureRule> getRuleForProduct(
             @RequestParam String productType, 
             @RequestParam LocalDate date) {
         TemperatureRule rule = temperatureRuleService.getRuleForProduct(productType, date);
         return ResponseEntity.ok(rule);
     }
-        @PutMapping("/{id}")
-        public ResponseEntity<TemperatureRule> updateRule(
-                    @PathVariable Long id,
-                    @RequestBody TemperatureRule rule) {
-
-                TemperatureRule updatedRule = temperatureRuleService.updateRule(id, rule);
-                return ResponseEntity.status(200).body(updatedRule);
-            }
 
     @PostMapping
     public ResponseEntity<TemperatureRule> createRule(@RequestBody TemperatureRule rule) {
@@ -50,12 +42,4 @@ public class TemperatureRuleController {
     public List<TemperatureRule> getAllRules() {
         return temperatureRuleService.getAllRules();
     }
-
-       @GetMapping("/active")
-        public ResponseEntity<List<TemperatureRule>> getActiveRules() {
-            List<TemperatureRule> rules = temperatureRuleService.getActiveRules();
-            return ResponseEntity.status(200).body(rules);
-        }
 }
-
-
