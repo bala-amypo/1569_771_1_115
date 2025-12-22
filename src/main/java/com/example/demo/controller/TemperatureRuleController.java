@@ -56,6 +56,6 @@ public class TemperatureRuleController {
             List<TemperatureRule> rules = temperatureRuleService.getActiveRules();
             return ResponseEntity.status(200).body(rules);
         }
-
 }
+
 
