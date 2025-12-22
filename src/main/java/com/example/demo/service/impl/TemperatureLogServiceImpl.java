@@ -20,12 +20,11 @@ public class TemperatureLogServiceImpl implements TemperatureLogService {
 
     @Override
     public TemperatureSensorLog recordLog(TemperatureSensorLog log) {
-        // Ensure shipmentId is provided
+    
         if (log.getShipmentId() == null) {
             throw new ResourceNotFoundException("Shipment ID must be provided");
         }
 
-        // Set recordedAt if null (already handled by @PrePersist, but extra safety)
         if (log.getRecordedAt() == null) {
             log.setRecordedAt(java.time.LocalDateTime.now());
         }
