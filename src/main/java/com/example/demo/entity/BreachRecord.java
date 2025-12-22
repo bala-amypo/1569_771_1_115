@@ -49,8 +49,6 @@ public class BreachRecord {
         }
     }
 
-    // Getters and Setters
-
     public Long getId() {
         return id;
     }
