@@ -64,14 +64,14 @@ public class TemperatureRuleController {
         this.temperatureRuleService = temperatureRuleService;
     }
 
-    // POST /api/rules - Create rule
+
     @PostMapping
     public ResponseEntity<TemperatureRule> createRule(@RequestBody TemperatureRule rule) {
         TemperatureRule createdRule = temperatureRuleService.createRule(rule);
         return ResponseEntity.status(201).body(createdRule);
     }
 
-    // PUT /api/rules/{id} - Update rule
+
     @PutMapping("/{id}")
     public ResponseEntity<TemperatureRule> updateRule(
             @PathVariable Long id,
