@@ -77,9 +77,10 @@ public class User {
     public User() {
     }
 
-    // ✅ Parameterized constructor (without id)
-    public User(String name, String email, String password, String role) {
-        this.name = name;
+    // REQUIRED BY TEST
+    public User(long id, String fullName, String email, String password, String role) {
+        this.id = id;
+        this.fullName = fullName;
         this.email = email;
         this.password = password;
         this.role = role;
@@ -135,37 +136,3 @@ public class User {
     }
 }
 
-package com.example.demo.entity;
-
-import jakarta.persistence.*;
-
-@Entity
-public class User {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    private String fullName;
-    private String email;
-    private String password;
-    private String role;
-
-    public User() {}
-
-    // REQUIRED BY TEST
-    public User(long id, String fullName, String email, String password, String role) {
-        this.id = id;
-        this.fullName = fullName;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
-
-    public String getBody() {
-        return "success";
-    }
-
-    public Long getId() { return id; }
-    public String getEmail() { return email; }
-}
