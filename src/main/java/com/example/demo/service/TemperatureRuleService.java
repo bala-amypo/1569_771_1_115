@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.TemperatureRule;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface TemperatureRuleService {
@@ -8,9 +9,9 @@ public interface TemperatureRuleService {
     TemperatureRule createRule(TemperatureRule rule);
 
     TemperatureRule getRuleById(Long id);
-    TemperatureRule getRuleForProduct(String productType, LocalDate date);
 
-    TemperatureRule getRuleForProduct(String productType);
+    // ✅ MUST MATCH TEST
+    TemperatureRule getRuleForProduct(String productType, LocalDate date);
 
     TemperatureRule updateRule(Long id, TemperatureRule rule);
 

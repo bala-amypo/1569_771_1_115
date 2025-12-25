@@ -1,11 +1,12 @@
 package com.example.demo.service.impl;
 
-import org.springframework.stereotype.Service;
-import java.util.List;
-
-import com.example.demo.service.TemperatureRuleService;
-import com.example.demo.repository.TemperatureRuleRepository;
 import com.example.demo.entity.TemperatureRule;
+import com.example.demo.repository.TemperatureRuleRepository;
+import com.example.demo.service.TemperatureRuleService;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class TemperatureRuleServiceImpl implements TemperatureRuleService {
@@ -26,14 +27,15 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
         return repository.findById(id).orElse(null);
     }
 
+    // ✅ FIXED SIGNATURE
     @Override
-    public TemperatureRule getRuleForProduct(String productType) {
+    public TemperatureRule getRuleForProduct(String productType, LocalDate date) {
         return repository.findByProductTypeAndActiveTrue(productType).orElse(null);
     }
 
     @Override
     public TemperatureRule updateRule(Long id, TemperatureRule rule) {
-        rule.setId(id);
+        rule.setId(id);   // ✅ now exists
         return repository.save(rule);
     }
 
