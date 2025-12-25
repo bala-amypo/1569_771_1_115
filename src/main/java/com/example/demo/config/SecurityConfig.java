@@ -7,16 +7,16 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.example.demo.security.JwtUtil;
+
 @Configuration
 public class SecurityConfig {
 
-    // ✅ PasswordEncoder (already required)
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // ✅ DUMMY AuthenticationManager (for tests & startup)
     @Bean
     public AuthenticationManager authenticationManager() {
         return authentication -> new UsernamePasswordAuthenticationToken(
@@ -24,5 +24,11 @@ public class SecurityConfig {
                 authentication.getCredentials(),
                 authentication.getAuthorities()
         );
+    }
+
+    // ✅ JwtUtil bean
+    @Bean
+    public JwtUtil jwtUtil() {
+        return new JwtUtil("test-secret", 3600);
     }
 }
