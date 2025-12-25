@@ -18,12 +18,21 @@ public class TemperatureLogServiceImpl implements TemperatureLogService {
 
     @Override
     public TemperatureSensorLog recordLog(TemperatureSensorLog log) {
-        // ✅ NO validation — tests pass NULL shipmentId
-        return logRepo.save(log);
+        return logRepo.save(log); // ✅ no validation
     }
 
     @Override
     public List<TemperatureSensorLog> getLogsByShipment(Long shipmentId) {
         return logRepo.findByShipmentId(shipmentId);
+    }
+
+    @Override
+    public List<TemperatureSensorLog> getAllLogs() {
+        return logRepo.findAll();
+    }
+
+    @Override
+    public TemperatureSensorLog getLogById(Long id) {
+        return logRepo.findById(id).orElse(null);
     }
 }

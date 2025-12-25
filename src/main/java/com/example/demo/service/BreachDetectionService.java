@@ -7,7 +7,13 @@ public interface BreachDetectionService {
 
     BreachRecord logBreach(BreachRecord breach);
 
+    BreachRecord resolveBreach(Long id);
+
     List<BreachRecord> getBreachesByShipment(Long shipmentId);
 
-    BreachRecord resolveBreach(Long id);
+    // ✅ REQUIRED by controller
+    BreachRecord getBreachById(Long id);
+
+    // ✅ REQUIRED by controller
+    List<BreachRecord> getAllBreaches();
 }

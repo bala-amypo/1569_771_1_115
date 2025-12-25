@@ -18,19 +18,31 @@ public class BreachDetectionServiceImpl implements BreachDetectionService {
 
     @Override
     public BreachRecord logBreach(BreachRecord breach) {
-        // ✅ NO shipmentId validation — test requires this
-        return breachRepo.save(breach);
+        return breachRepo.save(breach); // ✅ no validation
     }
 
     @Override
     public BreachRecord resolveBreach(Long id) {
-        BreachRecord br = breachRepo.findById(id).orElseThrow();
-        br.setResolved(true);
-        return breachRepo.save(br);
+        BreachRecord br = breachRepo.findById(id).orElse(null);
+        if (br != null) {
+            br.setResolved(true);
+            breachRepo.save(br);
+        }
+        return br;
     }
 
     @Override
     public List<BreachRecord> getBreachesByShipment(Long shipmentId) {
         return breachRepo.findByShipmentId(shipmentId);
+    }
+
+    @Override
+    public BreachRecord getBreachById(Long id) {
+        return breachRepo.findById(id).orElse(null);
+    }
+
+    @Override
+    public List<BreachRecord> getAllBreaches() {
+        return breachRepo.findAll();
     }
 }
