@@ -1,13 +1,11 @@
 package com.example.demo.config;
 
+import com.example.demo.security.JwtUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import com.example.demo.security.JwtUtil;
 
 @Configuration
 public class SecurityConfig {
@@ -17,22 +15,14 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
+    // ✅ SINGLE AuthenticationManager
     @Bean
     public AuthenticationManager authenticationManager() {
-        return authentication -> new UsernamePasswordAuthenticationToken(
-                authentication.getPrincipal(),
-                authentication.getCredentials(),
-                authentication.getAuthorities()
-        );
+        return authentication -> authentication;
     }
 
-    // ✅ JwtUtil bean
     @Bean
     public JwtUtil jwtUtil() {
-        return new JwtUtil("test-secret", 3600);
-    }@Bean
-public AuthenticationManager authenticationManager() {
-    return authentication -> authentication;
-}
-
+        return new JwtUtil("12345678901234567890123456789012", 3600000);
+    }
 }
