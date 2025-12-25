@@ -31,7 +31,6 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
 
     @Override
     public TemperatureRule getRuleForProduct(String productType, LocalDate date) {
-
         return repository
                 .findByProductTypeAndEffectiveFromLessThanEqualAndEffectiveToGreaterThanEqual(
                         productType, date, date)
@@ -39,9 +38,32 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
                         new ResourceNotFoundException("Temperature rule not found"));
     }
 
-    // 🔴 THIS METHOD WAS MISSING
     @Override
     public List<TemperatureRule> getAllRules() {
         return repository.findAll();
+    }
+
+    // 🔴 IMPLEMENTATION FOR CONTROLLER
+    @Override
+    public TemperatureRule getRuleById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException("Rule not found with id: " + id));
+    }
+
+    @Override
+    public TemperatureRule updateRule(Long id, TemperatureRule rule) {
+
+        TemperatureRule existing = getRuleById(id);
+
+        existing.setProductType(rule.getProductType());
+        existing.setMinTemp(rule.getMinTemp());
+        existing.setMaxTemp(rule.getMaxTemp());
+        existing.setSeverity(rule.getSeverity());
+        existing.setActive(rule.getActive());
+        existing.setEffectiveFrom(rule.getEffectiveFrom());
+        existing.setEffectiveTo(rule.getEffectiveTo());
+
+        return repository.save(existing);
     }
 }

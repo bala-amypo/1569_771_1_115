@@ -13,6 +13,10 @@ public interface TemperatureRuleService {
 
     TemperatureRule getRuleForProduct(String productType, LocalDate date);
 
-    // 🔴 THIS METHOD MUST EXIST (tests expect it)
     List<TemperatureRule> getAllRules();
+
+    // 🔴 ADD THESE (Controller requires them)
+    TemperatureRule getRuleById(Long id);
+
+    TemperatureRule updateRule(Long id, TemperatureRule rule);
 }
