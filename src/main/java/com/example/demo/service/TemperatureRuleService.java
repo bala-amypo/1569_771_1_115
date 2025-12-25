@@ -16,4 +16,7 @@ public interface TemperatureRuleService {
     TemperatureRule updateRule(Long id, TemperatureRule rule);
 
     List<TemperatureRule> getAllRules();
+
+    // ✅ ADD THIS
+    List<TemperatureRule> getActiveRules();
 }

@@ -43,8 +43,8 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
         existing.setProductType(rule.getProductType());
         existing.setMinTemp(rule.getMinTemp());
         existing.setMaxTemp(rule.getMaxTemp());
-        existing.setActive(rule.isActive());
         existing.setSeverity(rule.getSeverity());
+        existing.setActive(rule.isActive());
         existing.setEffectiveFrom(rule.getEffectiveFrom());
         existing.setEffectiveTo(rule.getEffectiveTo());
 
@@ -54,5 +54,10 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
     @Override
     public List<TemperatureRule> getAllRules() {
         return repository.findAll();
+    }
+
+    @Override
+    public List<TemperatureRule> getActiveRules() {
+        return repository.findByActiveTrue(); // ✅ FIX
     }
 }
