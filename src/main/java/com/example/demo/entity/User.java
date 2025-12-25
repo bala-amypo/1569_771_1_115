@@ -1,8 +1,10 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "users")
 public class User {
 
     @Id
@@ -14,9 +16,11 @@ public class User {
     private String password;
     private String role;
 
+    private LocalDateTime createdAt;
+
     public User() {}
 
-    // Required by test cases
+    
     public User(long id, String fullName, String email, String password, String role) {
         this.id = id;
         this.fullName = fullName;
@@ -25,20 +29,7 @@ public class User {
         this.role = role;
     }
 
-    @PrePersist
-    public void prePersist() {
-        if (this.role == null) {
-            this.role = "USER";
-        }
-    }
-
-
-    // REQUIRED BY TEST CASE
-    public String getBody() {
-        return "success";
-    }
-
-    // ---------- GETTERS ----------
+ 
     public Long getId() {
         return id;
     }
@@ -59,7 +50,9 @@ public class User {
         return role;
     }
 
-    // ---------- SETTERS ----------
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
     public void setId(Long id) {
         this.id = id;
     }
@@ -78,5 +71,20 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+  
+    public String getBody() {
+        return "success";
+    }
+
+ 
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
     }
 }
