@@ -30,5 +30,9 @@ public class SecurityConfig {
     @Bean
     public JwtUtil jwtUtil() {
         return new JwtUtil("test-secret", 3600);
-    }
+    }@Bean
+public AuthenticationManager authenticationManager() {
+    return authentication -> authentication;
+}
+
 }

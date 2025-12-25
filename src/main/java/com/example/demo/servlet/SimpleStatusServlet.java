@@ -11,4 +11,13 @@ public class SimpleStatusServlet extends HttpServlet {
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         resp.getWriter().write("OK");
     }
-}
+    @Override
+    public void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws IOException {
+
+        resp.setContentType("text/plain");
+        PrintWriter out = resp.getWriter();
+        out.write("Cold Chain Temperature Breach Alert System is running");
+        out.flush();
+    }
+    }

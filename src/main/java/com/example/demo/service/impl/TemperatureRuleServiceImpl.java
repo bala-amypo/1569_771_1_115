@@ -83,4 +83,12 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
     public List<TemperatureRule> getActiveRules() {
         return repository.findByActiveTrue();
     }
+    @Override
+public TemperatureRule createRule(TemperatureRule rule) {
+    if (rule.getMinTemp() > rule.getMaxTemp()) {
+        throw new IllegalArgumentException("Invalid temperature range");
+    }
+    return repository.save(rule);
+
+
 }
