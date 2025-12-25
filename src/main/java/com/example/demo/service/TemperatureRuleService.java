@@ -8,6 +8,7 @@ public interface TemperatureRuleService {
     TemperatureRule createRule(TemperatureRule rule);
 
     TemperatureRule getRuleById(Long id);
+    TemperatureRule getRuleForProduct(String productType, LocalDate date);
 
     TemperatureRule getRuleForProduct(String productType);
 

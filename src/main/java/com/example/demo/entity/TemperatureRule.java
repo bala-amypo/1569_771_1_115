@@ -4,36 +4,24 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "temperature_rules")
 public class TemperatureRule {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
-    private String productType;
-    private Double minTemperature;
-    private Double maxTemperature;
-    private String severity;
-    private boolean active = true;
+    private double minTemp;
+    private double maxTemp;
+    private LocalDate effectiveFrom;
+    private LocalDate effectiveTo;
 
-    public TemperatureRule() {}
+    public void setMinTemp(double v) { this.minTemp = v; }
+    public void setMaxTemp(double v) { this.maxTemp = v; }
+    public void setEffectiveFrom(LocalDate d) { this.effectiveFrom = d; }
+    public void setEffectiveTo(LocalDate d) { this.effectiveTo = d; }
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public String getProductType() { return productType; }
-    public void setProductType(String productType) { this.productType = productType; }
-
-    public Double getMinTemperature() { return minTemperature; }
-    public void setMinTemperature(Double minTemperature) { this.minTemperature = minTemperature; }
-
-    public Double getMaxTemperature() { return maxTemperature; }
-    public void setMaxTemperature(Double maxTemperature) { this.maxTemperature = maxTemperature; }
-
-    public String getSeverity() { return severity; }
-    public void setSeverity(String severity) { this.severity = severity; }
-
-    public boolean isActive() { return active; }
-    public void setActive(boolean active) { this.active = active; }
+    public double getMinTemp() { return minTemp; }
+    public double getMaxTemp() { return maxTemp; }
+    public LocalDate getEffectiveFrom() { return effectiveFrom; }
+    public LocalDate getEffectiveTo() { return effectiveTo; }
 }
