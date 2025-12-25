@@ -10,19 +10,20 @@ import java.util.List;
 @Service
 public class TemperatureLogServiceImpl implements TemperatureLogService {
 
-    private final TemperatureSensorLogRepository logRepository;
+    private final TemperatureSensorLogRepository repository;
 
-    public TemperatureLogServiceImpl(TemperatureSensorLogRepository logRepository) {
-        this.logRepository = logRepository;
+    public TemperatureLogServiceImpl(TemperatureSensorLogRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public TemperatureSensorLog recordLog(TemperatureSensorLog log) {
-        return logRepository.save(log);
+        // ✅ DO NOT validate shipmentId
+        return repository.save(log);
     }
 
     @Override
     public List<TemperatureSensorLog> getLogsByShipment(Long shipmentId) {
-        return logRepository.findByShipmentId(shipmentId);
+        return repository.findByShipmentId(shipmentId);
     }
 }

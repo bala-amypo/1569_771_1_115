@@ -10,27 +10,27 @@ import java.util.List;
 @Service
 public class BreachDetectionServiceImpl implements BreachDetectionService {
 
-    private final BreachRecordRepository breachRepository;
+    private final BreachRecordRepository repository;
 
-    public BreachDetectionServiceImpl(BreachRecordRepository breachRepository) {
-        this.breachRepository = breachRepository;
+    public BreachDetectionServiceImpl(BreachRecordRepository repository) {
+        this.repository = repository;
     }
 
     @Override
     public BreachRecord logBreach(BreachRecord breach) {
-        return breachRepository.save(breach);
-    }
-
-    @Override
-    public List<BreachRecord> getBreachesByShipment(Long shipmentId) {
-        return breachRepository.findByShipmentId(shipmentId);
+        // ✅ DO NOT validate shipmentId
+        return repository.save(breach);
     }
 
     @Override
     public BreachRecord resolveBreach(Long id) {
-        BreachRecord breach = breachRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Breach not found"));
-        breach.setResolved(true);
-        return breachRepository.save(breach);
+        BreachRecord br = repository.findById(id).orElseThrow();
+        br.setResolved(true);
+        return repository.save(br);
+    }
+
+    @Override
+    public List<BreachRecord> getBreachesByShipment(Long shipmentId) {
+        return repository.findByShipmentId(shipmentId);
     }
 }
