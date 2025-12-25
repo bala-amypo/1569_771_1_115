@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "temperature_rules")
 public class TemperatureRule {
 
     @Id
@@ -11,32 +12,28 @@ public class TemperatureRule {
     private Long id;
 
     private String productType;
-    private double minTemp;
-    private double maxTemp;
+    private Double minTemperature;
+    private Double maxTemperature;
     private String severity;
-    private boolean active;
-    private LocalDate effectiveFrom;
-    private LocalDate effectiveTo;
+    private boolean active = true;
 
     public TemperatureRule() {}
 
-    // ✅ getters
     public Long getId() { return id; }
-    public String getProductType() { return productType; }
-    public double getMinTemp() { return minTemp; }
-    public double getMaxTemp() { return maxTemp; }
-    public String getSeverity() { return severity; }
-    public boolean isActive() { return active; } // 🔥 REQUIRED
-    public LocalDate getEffectiveFrom() { return effectiveFrom; }
-    public LocalDate getEffectiveTo() { return effectiveTo; }
-
-    // ✅ setters
     public void setId(Long id) { this.id = id; }
+
+    public String getProductType() { return productType; }
     public void setProductType(String productType) { this.productType = productType; }
-    public void setMinTemp(double minTemp) { this.minTemp = minTemp; }
-    public void setMaxTemp(double maxTemp) { this.maxTemp = maxTemp; }
+
+    public Double getMinTemperature() { return minTemperature; }
+    public void setMinTemperature(Double minTemperature) { this.minTemperature = minTemperature; }
+
+    public Double getMaxTemperature() { return maxTemperature; }
+    public void setMaxTemperature(Double maxTemperature) { this.maxTemperature = maxTemperature; }
+
+    public String getSeverity() { return severity; }
     public void setSeverity(String severity) { this.severity = severity; }
+
+    public boolean isActive() { return active; }
     public void setActive(boolean active) { this.active = active; }
-    public void setEffectiveFrom(LocalDate effectiveFrom) { this.effectiveFrom = effectiveFrom; }
-    public void setEffectiveTo(LocalDate effectiveTo) { this.effectiveTo = effectiveTo; }
 }
