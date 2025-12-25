@@ -28,6 +28,13 @@ public class User {
         this.password = password;
         this.role = role;
     }
+        @PrePersist
+    public void prePersist() {
+        if (this.role == null) {
+            this.role = "MONITOR";
+        }
+
+
 
     @PrePersist
     public void prePersist() {

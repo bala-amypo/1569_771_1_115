@@ -1,11 +1,11 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.LoginRequest;
-import com.example.demo.dto.RegisterRequest;
+import com.example.demo.dto.*;
 import com.example.demo.entity.User;
+import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserService;
-
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,28 +13,31 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
 
     private final UserService userService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtil jwtUtil;
 
-    public AuthController(UserService userService) {
+    public AuthController(UserService userService,
+                          AuthenticationManager authenticationManager,
+                          JwtUtil jwtUtil) {
         this.userService = userService;
+        this.authenticationManager = authenticationManager;
+        this.jwtUtil = jwtUtil;
     }
 
-    // ===== REGISTER =====
-    @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody RegisterRequest request) {
-        User user = new User();
-        user.setFullName(request.getFullName());
-        user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
-        user.setRole("USER");
-
-        return ResponseEntity.ok(userService.register(user));
+    public ResponseEntity<AuthResponse> login(LoginRequest req) {
+        User u = userService.findByEmail(req.getEmail());
+        String token = jwtUtil.generateToken(u.getId(), u.getEmail(), u.getRole());
+        return ResponseEntity.ok(new AuthResponse(token));
     }
 
-    // ===== LOGIN =====
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest request) {
-        return ResponseEntity.ok(
-                userService.login(request.getEmail(), request.getPassword())
-        );
+    public ResponseEntity<AuthResponse> register(RegisterRequest req) {
+        User u = new User();
+        u.setName(req.getFullName());
+        u.setEmail(req.getEmail());
+        u.setPassword(req.getPassword());
+        u = userService.registerUser(u);
+
+        String token = jwtUtil.generateToken(u.getId(), u.getEmail(), u.getRole());
+        return ResponseEntity.ok(new AuthResponse(token));
     }
 }
