@@ -20,7 +20,7 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
     @Override
     public TemperatureRule createRule(TemperatureRule rule) {
         if (rule.getMinTemp() > rule.getMaxTemp())
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Min > Max");
         return repo.save(rule);
     }
 
