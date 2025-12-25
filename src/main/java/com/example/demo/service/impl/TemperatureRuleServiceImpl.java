@@ -6,37 +6,31 @@ import com.example.demo.service.TemperatureRuleService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class TemperatureRuleServiceImpl implements TemperatureRuleService {
 
-    private final TemperatureRuleRepository repository;
+    private final TemperatureRuleRepository repo;
 
-    public TemperatureRuleServiceImpl(TemperatureRuleRepository repository) {
-        this.repository = repository;
+    public TemperatureRuleServiceImpl(TemperatureRuleRepository repo) {
+        this.repo = repo;
     }
 
     @Override
     public TemperatureRule createRule(TemperatureRule rule) {
-        if (rule.getMinTemp() > rule.getMaxTemp()) {
-            throw new IllegalArgumentException("Invalid temperature range");
-        }
-        return repository.save(rule);
+        if (rule.getMinTemp() > rule.getMaxTemp())
+            throw new IllegalArgumentException();
+        return repo.save(rule);
     }
 
     @Override
-    public TemperatureRule getRuleForProduct(String productType, LocalDate date) {
-        return repository.findApplicableRule(productType, date).orElse(null);
+    public Optional<TemperatureRule> getRuleForProduct(String product, LocalDate date) {
+        return repo.findApplicableRule(product, date);
     }
 
     @Override
     public List<TemperatureRule> getActiveRules() {
-        return repository.findByActiveTrue();
-    }
-
-    @Override
-    public List<TemperatureRule> getAllRules() {
-        return repository.findAll();
+        return repo.findByActiveTrue();
     }
 }

@@ -1,17 +1,14 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.TemperatureRule;
-
 import java.time.LocalDate;
-import java.util.List;
+import java.util.*;
 
 public interface TemperatureRuleService {
 
     TemperatureRule createRule(TemperatureRule rule);
 
-    TemperatureRule getRuleForProduct(String productType, LocalDate date);
+    Optional<TemperatureRule> getRuleForProduct(String product, LocalDate date);
 
     List<TemperatureRule> getActiveRules();
-
-    List<TemperatureRule> getAllRules();
 }

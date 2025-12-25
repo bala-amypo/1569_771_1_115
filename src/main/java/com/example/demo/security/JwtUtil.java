@@ -1,35 +1,49 @@
 package com.example.demo.security;
 
+import io.jsonwebtoken.*;
+import java.util.Date;
+
 public class JwtUtil {
 
     private final String secret;
-    private final int expiry;
+    private final long expiry;
 
     public JwtUtil(String secret, int expiry) {
         this.secret = secret;
         this.expiry = expiry;
     }
 
-    public String generateToken(Long userId, String email, String role) {
-        return userId + "|" + email + "|" + role;
-    }
-
-    public String extractEmail(String token) {
-        try { return token.split("\\|")[1]; }
-        catch (Exception e) { return null; }
-    }
-
-    public String extractRole(String token) {
-        try { return token.split("\\|")[2]; }
-        catch (Exception e) { return null; }
-    }
-
-    public Long extractUserId(String token) {
-        try { return Long.parseLong(token.split("\\|")[0]); }
-        catch (Exception e) { return null; }
+    public String generateToken(Long id, String email, String role) {
+        return Jwts.builder()
+                .claim("id", id)
+                .claim("role", role)
+                .setSubject(email)
+                .setExpiration(new Date(System.currentTimeMillis() + expiry))
+                .signWith(SignatureAlgorithm.HS256, secret)
+                .compact();
     }
 
     public boolean validateToken(String token) {
-        return token != null && token.contains("|");
+        try {
+            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public String extractEmail(String token) {
+        return Jwts.parser().setSigningKey(secret)
+                .parseClaimsJws(token).getBody().getSubject();
+    }
+
+    public String extractRole(String token) {
+        return (String) Jwts.parser().setSigningKey(secret)
+                .parseClaimsJws(token).getBody().get("role");
+    }
+
+    public Long extractUserId(String token) {
+        return ((Number) Jwts.parser().setSigningKey(secret)
+                .parseClaimsJws(token).getBody().get("id")).longValue();
     }
 }

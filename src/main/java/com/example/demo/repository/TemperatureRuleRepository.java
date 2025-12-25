@@ -1,26 +1,24 @@
 package com.example.demo.repository;
 
 import com.example.demo.entity.TemperatureRule;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
-public interface TemperatureRuleRepository
-        extends JpaRepository<TemperatureRule, Long> {
-
-    List<TemperatureRule> findByActiveTrue();
+public interface TemperatureRuleRepository extends JpaRepository<TemperatureRule, Long> {
 
     @Query("""
         SELECT r FROM TemperatureRule r
-        WHERE r.productType = :productType
-          AND :date BETWEEN r.effectiveFrom AND r.effectiveTo
-        """)
+        WHERE r.productType = :product
+        AND r.active = true
+        AND :date BETWEEN r.effectiveFrom AND r.effectiveTo
+    """)
     Optional<TemperatureRule> findApplicableRule(
-            @Param("productType") String productType,
-            @Param("date") Object date
+            @Param("product") String product,
+            @Param("date") LocalDate date
     );
+
+    List<TemperatureRule> findByActiveTrue();
 }
