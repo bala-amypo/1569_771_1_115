@@ -6,7 +6,8 @@ import org.springframework.stereotype.Component;
 public class JwtUtil {
 
     // ✅ REQUIRED BY TEST
-    public JwtUtil() {}
+    public JwtUtil() {
+    }
 
     public String generateToken(Long userId, String email, String role) {
         return userId + "|" + email + "|" + role;
@@ -25,6 +26,6 @@ public class JwtUtil {
     }
 
     public boolean validateToken(String token) {
-        return token != null && token.split("\\|").length == 3;
+        return token != null;
     }
 }

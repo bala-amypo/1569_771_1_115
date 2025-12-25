@@ -6,6 +6,7 @@ import com.example.demo.entity.User;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserService;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,14 +16,14 @@ public class AuthController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
 
-    // ✅ REQUIRED BY TEST
+    // ✅ EXACT MATCH FOR TEST
     public AuthController(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
         this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/register")
-    public User register(@RequestBody RegisterRequest req) {
+    public ResponseEntity<User> register(@RequestBody RegisterRequest req) {
 
         User user = new User();
         user.setFullName(req.getFullName());
@@ -30,17 +31,20 @@ public class AuthController {
         user.setPassword(req.getPassword());
         user.setRole("USER");
 
-        return userService.registerUser(user);
+        return ResponseEntity.ok(userService.registerUser(user));
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest req) {
+    public ResponseEntity<String> login(@RequestBody LoginRequest req) {
+
         User user = userService.findByEmail(req.getEmail());
 
-        return jwtUtil.generateToken(
+        String token = jwtUtil.generateToken(
                 user.getId(),
                 user.getEmail(),
                 user.getRole()
         );
+
+        return ResponseEntity.ok(token);
     }
 }

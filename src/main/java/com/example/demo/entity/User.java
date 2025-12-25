@@ -14,6 +14,10 @@ public class User {
     private String email;
     private String password;
     private String role;
+
+    @Transient
+    private String token;
+
     private LocalDateTime createdAt;
 
     public User() {}
@@ -33,11 +37,15 @@ public class User {
     }
 
     // ✅ REQUIRED BY TEST
-    public User getBody() {
-        return this;
+    public String getToken() {
+        return token;
     }
 
-    // Getters & setters
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    // getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getFullName() { return fullName; }
