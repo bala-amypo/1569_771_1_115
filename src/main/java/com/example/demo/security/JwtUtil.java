@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtUtil {
 
-    // 🔴 REQUIRED DEFAULT CONSTRUCTOR
+    // ✅ REQUIRED BY TEST
     public JwtUtil() {}
 
     public String generateToken(Long userId, String email, String role) {

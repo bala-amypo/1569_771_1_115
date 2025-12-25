@@ -15,7 +15,7 @@ public class AuthController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
 
-    // 🔴 REQUIRED BY TEST
+    // ✅ REQUIRED BY TEST
     public AuthController(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
         this.jwtUtil = jwtUtil;
@@ -35,7 +35,6 @@ public class AuthController {
 
     @PostMapping("/login")
     public String login(@RequestBody LoginRequest req) {
-
         User user = userService.findByEmail(req.getEmail());
 
         return jwtUtil.generateToken(

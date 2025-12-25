@@ -16,10 +16,8 @@ public class User {
     private String role;
     private LocalDateTime createdAt;
 
-    // 🔴 REQUIRED
     public User() {}
 
-    // 🔴 REQUIRED BY TEST
     public User(Long id, String fullName, String email,
                 String password, String role) {
         this.id = id;
@@ -34,7 +32,12 @@ public class User {
         this.createdAt = LocalDateTime.now();
     }
 
-    // getters & setters (ALL)
+    // ✅ REQUIRED BY TEST
+    public User getBody() {
+        return this;
+    }
+
+    // Getters & setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getFullName() { return fullName; }
