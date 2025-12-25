@@ -29,6 +29,8 @@ import java.util.List;
 
 public interface TemperatureRuleService {
 
+    TemperatureRule createRule(TemperatureRule rule);
+
     TemperatureRule getRuleForProduct(String productType, LocalDate date);
 
     List<TemperatureRule> getActiveRules();

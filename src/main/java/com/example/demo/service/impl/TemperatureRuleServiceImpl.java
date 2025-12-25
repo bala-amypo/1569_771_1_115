@@ -69,6 +69,11 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
     }
 
     @Override
+    public TemperatureRule createRule(TemperatureRule rule) {
+        return repository.save(rule);
+    }
+
+    @Override
     public TemperatureRule getRuleForProduct(String productType, LocalDate date) {
         return repository.findByProductTypeAndActiveTrue(productType)
                 .orElse(null);

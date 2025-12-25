@@ -33,4 +33,11 @@ public class JwtUtil {
     public String extractRole(String token) { return "USER"; }
     public Long extractUserId(String token) { return 1L; }
     public boolean validateToken(String token) { return true; }
+
+    public String generateToken(long userId, String email, String role) {
+        return "mock-jwt-token";
+    }
+    public String generateToken(String email) {
+        return "mock-jwt-token";
+    }
 }
