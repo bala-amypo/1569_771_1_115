@@ -18,8 +18,6 @@ public class BreachDetectionServiceImpl implements BreachDetectionService {
 
     @Override
     public BreachRecord logBreach(BreachRecord breach) {
-        // ❌ DO NOT validate shipmentId
-        // Tests expect pure persistence
         return breachRepository.save(breach);
     }
 
@@ -32,7 +30,6 @@ public class BreachDetectionServiceImpl implements BreachDetectionService {
     public BreachRecord resolveBreach(Long id) {
         BreachRecord breach = breachRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Breach not found"));
-
         breach.setResolved(true);
         return breachRepository.save(breach);
     }

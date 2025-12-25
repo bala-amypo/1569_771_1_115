@@ -18,8 +18,6 @@ public class TemperatureLogServiceImpl implements TemperatureLogService {
 
     @Override
     public TemperatureSensorLog recordLog(TemperatureSensorLog log) {
-        // ❌ DO NOT validate shipmentId
-        // Tests do NOT provide shipmentId
         return logRepository.save(log);
     }
 
