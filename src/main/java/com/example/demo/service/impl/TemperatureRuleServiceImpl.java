@@ -18,18 +18,41 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
     }
 
     @Override
-    public List<TemperatureRule> getActiveRules() {
-        return repository.findByActiveTrue();
+    public TemperatureRule getRuleById(Long id) {
+        return repository.findById(id).orElse(null);
     }
 
     @Override
-    public TemperatureRule getApplicableRule(String productType) {
+    public TemperatureRule getRuleForProduct(String productType, LocalDate date) {
         return repository
                 .findFirstByProductTypeAndEffectiveFromLessThanEqualAndEffectiveToGreaterThanEqual(
-                        productType,
-                        LocalDate.now(),
-                        LocalDate.now()
-                )
+                        productType, date, date)
                 .orElse(null);
+    }
+
+    @Override
+    public TemperatureRule createRule(TemperatureRule rule) {
+        return repository.save(rule);
+    }
+
+    @Override
+    public TemperatureRule updateRule(Long id, TemperatureRule rule) {
+        TemperatureRule existing = getRuleById(id);
+        if (existing == null) return null;
+
+        existing.setProductType(rule.getProductType());
+        existing.setMinTemp(rule.getMinTemp());
+        existing.setMaxTemp(rule.getMaxTemp());
+        existing.setActive(rule.isActive());
+        existing.setSeverity(rule.getSeverity());
+        existing.setEffectiveFrom(rule.getEffectiveFrom());
+        existing.setEffectiveTo(rule.getEffectiveTo());
+
+        return repository.save(existing);
+    }
+
+    @Override
+    public List<TemperatureRule> getAllRules() {
+        return repository.findAll();
     }
 }
