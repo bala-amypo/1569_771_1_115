@@ -64,6 +64,9 @@ public class BreachRecord {
     public Long getLogId() {
         return logId;
     }
+     public void setId(Long id) {
+        this.id = id;
+    }
 
     public void setLogId(Long logId) {
         this.logId = logId;

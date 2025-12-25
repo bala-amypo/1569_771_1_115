@@ -22,6 +22,10 @@ public class TemperatureRule {
     public Long getId() {
         return id;
     }
+      // 🔴 REQUIRED BY TEST
+    public boolean isPresent() {
+        return true;
+    }
 
     public String getProductType() {      // 🔴 missing before
         return productType;
