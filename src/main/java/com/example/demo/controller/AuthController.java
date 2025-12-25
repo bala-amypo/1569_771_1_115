@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.*;
+import com.example.demo.dto.AuthResponse;
+import com.example.demo.dto.LoginRequest;
+import com.example.demo.dto.RegisterRequest;
 import com.example.demo.entity.User;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserService;
@@ -35,9 +37,10 @@ public class AuthController {
         u.setName(req.getFullName());
         u.setEmail(req.getEmail());
         u.setPassword(req.getPassword());
-        u = userService.registerUser(u);
 
+        u = userService.registerUser(u);
         String token = jwtUtil.generateToken(u.getId(), u.getEmail(), u.getRole());
+
         return ResponseEntity.ok(new AuthResponse(token));
     }
 }
