@@ -36,6 +36,12 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
                 .findByProductTypeAndEffectiveFromLessThanEqualAndEffectiveToGreaterThanEqual(
                         productType, date, date)
                 .orElseThrow(() ->
-                        new ResourceNotFoundException("Rule not found"));
+                        new ResourceNotFoundException("Temperature rule not found"));
+    }
+
+    // 🔴 THIS METHOD WAS MISSING
+    @Override
+    public List<TemperatureRule> getAllRules() {
+        return repository.findAll();
     }
 }

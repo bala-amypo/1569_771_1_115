@@ -1,18 +1,18 @@
 package com.example.demo.service;
-import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.TemperatureRule;
 
-@Service
-public interface TemperatureRuleService{
+import java.time.LocalDate;
+import java.util.List;
+
+public interface TemperatureRuleService {
+
     TemperatureRule createRule(TemperatureRule rule);
-    TemperatureRule updateRule(long id,TemperatureRule rule);
-    TemperatureRule getRuleById(Long id);
+
     List<TemperatureRule> getActiveRules();
-    TemperatureRule getRuleForProduct(String productType,LocalDate date);
+
+    TemperatureRule getRuleForProduct(String productType, LocalDate date);
+
+    // 🔴 THIS METHOD MUST EXIST (tests expect it)
     List<TemperatureRule> getAllRules();
 }
