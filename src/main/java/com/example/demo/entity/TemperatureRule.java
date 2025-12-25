@@ -7,38 +7,35 @@ import java.time.LocalDate;
 public class TemperatureRule {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
 
     private String productType;
-    private Double minTemp;
-    private Double maxTemp;
-    private Boolean active;
-
+    private double minTemp;
+    private double maxTemp;
+    private boolean active;
     private LocalDate effectiveFrom;
     private LocalDate effectiveTo;
 
-   
-    public Double getMinTemp() { return minTemp; }
-    public void setMinTemp(Double minTemp) { this.minTemp = minTemp; }
+    // getters & setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Double getMaxTemp() { return maxTemp; }
-    public void setMaxTemp(Double maxTemp) { this.maxTemp = maxTemp; }
+    public String getProductType() { return productType; }
+    public void setProductType(String productType) { this.productType = productType; }
 
-    public Boolean isActive() { return active; }
-    public void setActive(Boolean active) { this.active = active; }
+    public double getMinTemp() { return minTemp; }
+    public void setMinTemp(double minTemp) { this.minTemp = minTemp; }
+
+    public double getMaxTemp() { return maxTemp; }
+    public void setMaxTemp(double maxTemp) { this.maxTemp = maxTemp; }
+
+    public boolean isActive() { return active; }
+    public void setActive(boolean active) { this.active = active; }
 
     public LocalDate getEffectiveFrom() { return effectiveFrom; }
     public void setEffectiveFrom(LocalDate effectiveFrom) { this.effectiveFrom = effectiveFrom; }
 
     public LocalDate getEffectiveTo() { return effectiveTo; }
     public void setEffectiveTo(LocalDate effectiveTo) { this.effectiveTo = effectiveTo; }
-
-    public String getProductType() { return productType; }
-    public void setProductType(String productType) { this.productType = productType; }
-
-    // Fake Optional-like helper for tests
-    public boolean isPresent() {
-        return true;
-    }
 }
