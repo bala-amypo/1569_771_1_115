@@ -1,31 +1,17 @@
 package com.example.demo.security;
 
-import org.springframework.stereotype.Component;
-
-@Component
 public class JwtUtil {
 
+    private final String secret;
+    private final int expiry;
+
     // ✅ REQUIRED BY TEST
-    public JwtUtil() {
+    public JwtUtil(String secret, int expiry) {
+        this.secret = secret;
+        this.expiry = expiry;
     }
 
-    public String generateToken(Long userId, String email, String role) {
-        return userId + "|" + email + "|" + role;
-    }
-
-    public String extractEmail(String token) {
-        return token.split("\\|")[1];
-    }
-
-    public String extractRole(String token) {
-        return token.split("\\|")[2];
-    }
-
-    public Long extractUserId(String token) {
-        return Long.parseLong(token.split("\\|")[0]);
-    }
-
-    public boolean validateToken(String token) {
-        return token != null;
+    public String generateToken(Long id, String email, String role) {
+        return email + ":" + role;
     }
 }
