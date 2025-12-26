@@ -12,17 +12,17 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    private static final String SECRET = "secretkey"; // test compatible
+    private static final String SECRET = "secretkey";
 
-    // REQUIRED BY TEST: NO ARGS
+    // REQUIRED BY TESTS
     public JwtUtil() {}
 
-    // REQUIRED BY TEST: EXACT SIGNATURE
+    // REQUIRED SIGNATURE BY TESTS
     public String generateToken(UserDetails userDetails, User user) {
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())      // email
-                .claim("role", user.getRole())              // role claim
-                .claim("userId", user.getId())              // id claim
+                .claim("userId", user.getId())               // user id
+                .claim("role", user.getRole())               // role
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 3600000))
                 .signWith(SignatureAlgorithm.HS256, SECRET)
