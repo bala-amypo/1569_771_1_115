@@ -91,6 +91,7 @@
 //         return new AuthResponse(token, user.getRole(), user.getEmail());
 //     }
 // }
+
 package com.example.demo.controller;
 
 import com.example.demo.dto.LoginRequest;
@@ -106,7 +107,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/login")
+@RequestMapping("/auth")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -121,59 +122,45 @@ public class AuthController {
         this.userRepository = userRepository;
     }
 
-    @PostMapping
-    public ResponseEntity<LoginResponse> login(
-            @RequestBody LoginRequest request) {
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
 
-        // 🔐 Authenticate
         authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
+            new UsernamePasswordAuthenticationToken(
+                request.getEmail(), request.getPassword()
+            )
         );
 
-        // ✅ FETCH USER FROM DB (THIS FIXES YOUR ERROR)
         User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() ->
-                        new RuntimeException("User not found")
-                );
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // 🔑 UserDetails object
-        UserDetails userDetails =
-                org.springframework.security.core.userdetails.User
-                        .withUsername(user.getEmail())
-                        .password(user.getPassword())
-                        .authorities(user.getRole())
-                        .build();
+        UserDetails userDetails = org.springframework.security.core.userdetails.User
+                .withUsername(user.getEmail())
+                .password(user.getPassword())
+                .authorities(user.getRole())
+                .build();
 
-        // 🔐 Generate JWT
         String token = jwtUtil.generateToken(userDetails, user);
 
-        // ✅ Response DTO
-        LoginResponse loginResponse = new LoginResponse(
-                token,
-                user.getId(),
-                user.getEmail(),
-                user.getRole()
-        );
-
-         // REQUIRED: RETURN TOKEN INSIDE DTO
         return ResponseEntity.ok(
-        new LoginResponse(
-                token,
-                user.getId(),
-                user.getEmail(),
-                user.getRole()
-        )
-);
-
+                new LoginResponse(
+                        token,
+                        user.getId(),
+                        user.getEmail(),
+                        user.getRole()
+                )
+        );
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
-        return ResponseEntity.ok("User registered");
+    public ResponseEntity<User> register(@RequestBody RegisterRequest request) {
+
+        User user = new User();
+        user.setFullName(request.getFullName()); // if exists
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+        user.setRole(request.getRole());
+
+        return ResponseEntity.ok(userRepository.save(user));
     }
-
-
 }
