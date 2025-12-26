@@ -1,4 +1,3 @@
-//swagger config
 package com.example.demo.config;
 
 import io.swagger.v3.oas.models.Components;
