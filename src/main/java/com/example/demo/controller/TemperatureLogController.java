@@ -46,4 +46,19 @@ public class TemperatureLogController {
 
         return ResponseEntity.ok(log);
     }
+
+    @GetMapping("/shipment/{shipmentId}")
+    public ResponseEntity<List<TemperatureSensorLog>> getLogsByShipmentId(
+            @PathVariable Long shipmentId) {
+
+        List<TemperatureSensorLog> logs =
+                temperatureLogService.getLogsByShipmentId(shipmentId);
+
+        if (logs.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(logs);
+    }
+
 }
