@@ -91,76 +91,59 @@
 //         return new AuthResponse(token, user.getRole(), user.getEmail());
 //     }
 // }
-
 package com.example.demo.controller;
 
 import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.LoginResponse;
 import com.example.demo.dto.RegisterRequest;
 import com.example.demo.entity.User;
-import com.example.demo.repository.UserRepository;
 import com.example.demo.security.JwtUtil;
+import com.example.demo.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/auth") // 👈 COMMON BASE PATH UPDATED HERE
 public class AuthController {
 
+    private final UserService userService;
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
-    private final UserRepository userRepository;
 
-    public AuthController(AuthenticationManager authenticationManager,
-                          JwtUtil jwtUtil,
-                          UserRepository userRepository) {
+    public AuthController(UserService userService,
+                          AuthenticationManager authenticationManager,
+                          JwtUtil jwtUtil) {
+        this.userService = userService;
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
-        this.userRepository = userRepository;
     }
 
+    // LOGIN: POST /auth/login
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest req) {
 
         authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(
-                request.getEmail(), request.getPassword()
-            )
+            new UsernamePasswordAuthenticationToken(req.getEmail(), req.getPassword())
         );
 
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User u = userService.findByEmail(req.getEmail());
+        String token = jwtUtil.generateToken(u.getId(), u.getEmail(), u.getRole());
 
-        UserDetails userDetails = org.springframework.security.core.userdetails.User
-                .withUsername(user.getEmail())
-                .password(user.getPassword())
-                .authorities(user.getRole())
-                .build();
-
-        String token = jwtUtil.generateToken(userDetails, user);
-
-        return ResponseEntity.ok(
-                new LoginResponse(
-                        token,
-                        user.getId(),
-                        user.getEmail(),
-                        user.getRole()
-                )
-        );
+        return ResponseEntity.ok(new LoginResponse(token));
     }
 
+    // REGISTER: POST /auth/register
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody RegisterRequest request) {
+    public ResponseEntity<LoginResponse> register(@RequestBody RegisterRequest req) {
 
-        User user = new User();
-        user.setFullName(request.getFullName()); // if exists
-        user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
-        user.setRole(request.getRole());
+        User saved = userService.registerUser(
+            new User(null, req.getFullName(), req.getEmail(), req.getPassword(), "MONITOR")
+        );
 
-        return ResponseEntity.ok(userRepository.save(user));
+        String token = jwtUtil.generateToken(saved.getId(), saved.getEmail(), saved.getRole());
+
+        return ResponseEntity.ok(new LoginResponse(token));
     }
 }
