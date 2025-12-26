@@ -111,20 +111,19 @@ public class SecurityConfig {
             .sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                        "/auth/**",       // <- new path
-                        "/login/**",
-                        "/swagger-ui/**",
-                        "/v3/api-docs/**",
-                        "/hello-servlet"
-                ).permitAll()
-                .anyRequest().authenticated()
+                    .requestMatchers(
+                            "/auth/login",        
+                            "/auth/register",     
+                            "/auth/**",           
+                            "/swagger-ui/**",
+                            "/v3/api-docs/**",
+                            "/hello-servlet"
+                    ).permitAll()
+                    .anyRequest().authenticated()
             )
             .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
-
     // Required by tests & runtime
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration)
