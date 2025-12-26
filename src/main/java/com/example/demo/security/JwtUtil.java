@@ -64,4 +64,3 @@ public class JwtUtil {
                 .get("id", Long.class);
     }
 }
-wor
