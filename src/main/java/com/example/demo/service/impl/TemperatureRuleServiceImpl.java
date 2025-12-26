@@ -34,7 +34,6 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
         return repo.findByActiveTrue();
     }
 
-        // ✅ NEW: Update rule
     @Override
     public TemperatureRule updateRule(Long id, TemperatureRule rule) {
 
@@ -57,7 +56,7 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
         return repo.save(existingRule);
     }
 
-    // ✅ NEW: Get all rules
+    
     @Override
     public List<TemperatureRule> getAllRules() {
         return repo.findAll();
