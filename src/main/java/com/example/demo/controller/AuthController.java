@@ -159,7 +159,15 @@ public class AuthController {
         );
 
          // REQUIRED: RETURN TOKEN INSIDE DTO
-        return ResponseEntity.ok(new LoginResponse(token));
+        return ResponseEntity.ok(
+        new LoginResponse(
+                token,
+                user.getId(),
+                user.getEmail(),
+                user.getRole()
+        )
+);
+
     }
 
     @PostMapping("/register")

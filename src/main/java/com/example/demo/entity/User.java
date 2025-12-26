@@ -23,7 +23,6 @@ public class User {
         this.token = token;
     }
 
-
     public User() {}
 
     public User(Long id, String fullName, String email, String password, String role) {
