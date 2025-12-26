@@ -52,7 +52,7 @@ public class TemperatureLogController {
             @PathVariable Long shipmentId) {
 
         List<TemperatureSensorLog> logs =
-                temperatureLogService.getLogsByShipmentId(shipmentId);
+                temperatureLogService.getLogsByShipment(shipmentId);
 
         if (logs.isEmpty()) {
             return ResponseEntity.notFound().build();
@@ -60,5 +60,4 @@ public class TemperatureLogController {
 
         return ResponseEntity.ok(logs);
     }
-
 }
