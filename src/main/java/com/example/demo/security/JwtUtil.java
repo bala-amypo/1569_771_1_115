@@ -144,4 +144,23 @@ public class JwtUtil {
                 .parseClaimsJws(token)
                 .getBody();
     }
+    // ✅ REQUIRED FOR JwtAuthenticationFilter
+
+public boolean validateToken(String token) {
+    try {
+        extractAllClaims(token);
+        return true;
+    } catch (Exception e) {
+        return false;
+    }
+}
+
+public String getEmail(String token) {
+    return extractEmail(token);
+}
+
+public String getRole(String token) {
+    return extractRole(token);
+}
+
 }
