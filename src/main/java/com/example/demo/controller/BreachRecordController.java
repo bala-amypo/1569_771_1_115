@@ -4,11 +4,13 @@ import com.example.demo.entity.BreachRecord;
 import com.example.demo.service.BreachDetectionService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/breaches")
+@SecurityRequirement(name = "bearerAuth")
 public class BreachRecordController {
 
     private final BreachDetectionService breachService;

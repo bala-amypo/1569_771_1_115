@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 import com.example.demo.entity.AlertRecord;
 import com.example.demo.service.AlertService;
@@ -20,7 +21,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/api/alerts")
 @Tag(name = "Alerts")
-
+@SecurityRequirement(name = "bearerAuth")
 public class AlertRecordController {
 
     private final AlertService alertService;

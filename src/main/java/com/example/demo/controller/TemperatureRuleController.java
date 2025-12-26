@@ -4,6 +4,7 @@ import com.example.demo.entity.TemperatureRule;
 import com.example.demo.service.TemperatureRuleService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/rules")
 @Tag(name = "Temperature Rules")
+@SecurityRequirement(name = "bearerAuth")
 public class TemperatureRuleController {
 
     private final TemperatureRuleService service;
