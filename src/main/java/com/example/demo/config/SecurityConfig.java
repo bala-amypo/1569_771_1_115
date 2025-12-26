@@ -15,7 +15,6 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // ✅ SINGLE AuthenticationManager
     @Bean
     public AuthenticationManager authenticationManager() {
         return authentication -> authentication;
