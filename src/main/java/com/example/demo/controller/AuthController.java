@@ -161,15 +161,10 @@ public class AuthController {
         return ResponseEntity.ok(loginResponse);
     }
 
-   @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody RegisterRequest request) {
+  @PostMapping("/register")
+public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+    return ResponseEntity.ok("User registered");
+}
 
-        User user = new User();
-        user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
-        user.setRole(request.getRole());
-
-        return ResponseEntity.ok(userRepository.save(user));
-    }
 
 }

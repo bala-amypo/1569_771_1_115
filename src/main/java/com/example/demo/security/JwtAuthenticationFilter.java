@@ -48,4 +48,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+
+    if (jwtUtil.validateToken(token)) {
+        String email = jwtUtil.extractEmail(token);
+        String role = jwtUtil.extractRole(token);
+    }
+
 }
