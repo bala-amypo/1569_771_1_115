@@ -91,16 +91,17 @@
 //         return new AuthResponse(token, user.getRole(), user.getEmail());
 //     }
 // }
-
 package com.example.demo.controller;
 
 import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.LoginResponse;
 import com.example.demo.entity.User;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.security.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -109,17 +110,21 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
+    private final UserRepository userRepository;
 
-    public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
+    public AuthController(AuthenticationManager authenticationManager,
+                          JwtUtil jwtUtil,
+                          UserRepository userRepository) {
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
+        this.userRepository = userRepository;
     }
 
     @PostMapping
     public ResponseEntity<LoginResponse> login(
             @RequestBody LoginRequest request) {
 
-        // 🔐 Authenticate user
+        // 🔐 Authenticate
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -127,20 +132,24 @@ public class AuthController {
                 )
         );
 
-        // ⚠️ Load user from DB (example)
-        User user = /* fetch user by email */;
+        // ✅ FETCH USER FROM DB (THIS FIXES YOUR ERROR)
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() ->
+                        new RuntimeException("User not found")
+                );
 
-        // 🔑 Generate JWT
-        String token = jwtUtil.generateToken(
-                new org.springframework.security.core.userdetails.User(
-                        user.getEmail(),
-                        user.getPassword(),
-                        java.util.Collections.emptyList()
-                ),
-                user
-        );
+        // 🔑 UserDetails object
+        UserDetails userDetails =
+                org.springframework.security.core.userdetails.User
+                        .withUsername(user.getEmail())
+                        .password(user.getPassword())
+                        .authorities(user.getRole())
+                        .build();
 
-        // ✅ CREATE RESPONSE DTO
+        // 🔐 Generate JWT
+        String token = jwtUtil.generateToken(userDetails, user);
+
+        // ✅ Response DTO
         LoginResponse loginResponse = new LoginResponse(
                 token,
                 user.getId(),
@@ -148,7 +157,6 @@ public class AuthController {
                 user.getRole()
         );
 
-        // ✅ THIS IS THE LINE YOU ASKED ABOUT
         return ResponseEntity.ok(loginResponse);
     }
 }
