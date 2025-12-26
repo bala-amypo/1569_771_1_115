@@ -161,10 +161,10 @@ public class AuthController {
         return ResponseEntity.ok(loginResponse);
     }
 
-  @PostMapping("/register")
-public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
-    return ResponseEntity.ok("User registered");
-}
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
+        return ResponseEntity.ok("User registered");
+    }
 
 
 }
