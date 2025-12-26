@@ -23,7 +23,7 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
             throw new IllegalArgumentException("Min > Max");
         return repo.save(rule);
     }
-
+    
     @Override
     public Optional<TemperatureRule> getRuleForProduct(String product, LocalDate date) {
         return repo.findApplicableRule(product, date);
@@ -33,4 +33,34 @@ public class TemperatureRuleServiceImpl implements TemperatureRuleService {
     public List<TemperatureRule> getActiveRules() {
         return repo.findByActiveTrue();
     }
+
+        // ✅ NEW: Update rule
+    @Override
+    public TemperatureRule updateRule(Long id, TemperatureRule rule) {
+
+        TemperatureRule existingRule = repo.findById(id)
+                .orElseThrow(() ->
+                        new NoSuchElementException("TemperatureRule not found with id " + id)
+                );
+
+        if (rule.getMinTemp() > rule.getMaxTemp()) {
+            throw new IllegalArgumentException("Min temperature cannot be greater than Max temperature");
+        }
+
+        existingRule.setProductType(rule.getProductType());
+        existingRule.setMinTemp(rule.getMinTemp());
+        existingRule.setMaxTemp(rule.getMaxTemp());
+        existingRule.setActive(rule.isActive());
+        existingRule.setEffectiveFrom(rule.getEffectiveFrom());
+        existingRule.setEffectiveTo(rule.getEffectiveTo());
+
+        return repo.save(existingRule);
+    }
+
+    // ✅ NEW: Get all rules
+    @Override
+    public List<TemperatureRule> getAllRules() {
+        return repo.findAll();
+    }
+
 }
