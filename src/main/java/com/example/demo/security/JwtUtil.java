@@ -81,39 +81,41 @@
 // }
 package com.example.demo.security;
 
-import java.util.Date;
-
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
-
 import com.example.demo.entity.User;
-
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+
+import java.util.Date;
 
 @Component
 public class JwtUtil {
 
-    private final String SECRET_KEY = "secret";
+    private static final String SECRET = "secretkey";
 
-    // ✅ NO-ARGS CONSTRUCTOR (TEST EXPECTS THIS)
+    // REQUIRED: Test expects a NO-ARGS constructor
     public JwtUtil() {}
 
-    // ✅ REQUIRED BY TESTS
+    // REQUIRED: EXACT signature used in tests
     public String generateToken(UserDetails userDetails, User user) {
         return Jwts.builder()
-                .setSubject(userDetails.getUsername())
-                .claim("role", user.getRole())
-                .claim("userId", user.getId())
+                .setSubject(userDetails.getUsername())               // email
+                .claim("role", user.getRole())                       // role claim
+                .claim("userId", user.getId())                       // id claim
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .signWith(SignatureAlgorithm.HS256, SECRET)
                 .compact();
     }
 
     public boolean validateToken(String token) {
-        return !extractAllClaims(token).getExpiration().before(new Date());
+        try {
+            return !extractAllClaims(token).getExpiration().before(new Date());
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public String extractEmail(String token) {
@@ -130,7 +132,7 @@ public class JwtUtil {
 
     private Claims extractAllClaims(String token) {
         return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
+                .setSigningKey(SECRET)
                 .parseClaimsJws(token)
                 .getBody();
     }
