@@ -14,15 +14,15 @@ public class JwtUtil {
 
     private static final String SECRET = "secretkey";
 
-    // REQUIRED BY TESTS
+    // REQUIRED NO-ARGS CONSTRUCTOR
     public JwtUtil() {}
 
-    // REQUIRED SIGNATURE BY TESTS
+    // REQUIRED EXACT METHOD SIGNATURE
     public String generateToken(UserDetails userDetails, User user) {
         return Jwts.builder()
-                .setSubject(userDetails.getUsername())      // email
-                .claim("userId", user.getId())               // user id
-                .claim("role", user.getRole())               // role
+                .setSubject(userDetails.getUsername())
+                .claim("userId", user.getId())
+                .claim("role", user.getRole())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 3600000))
                 .signWith(SignatureAlgorithm.HS256, SECRET)
