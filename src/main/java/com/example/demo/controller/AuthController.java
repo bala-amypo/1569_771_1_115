@@ -41,53 +41,114 @@
 //         return ResponseEntity.ok(new AuthResponse(token));
 //     }
 // }
+// package com.example.demo.controller;
+
+// import com.example.demo.dto.AuthRequest;
+// import com.example.demo.dto.AuthResponse;
+// import com.example.demo.dto.RegisterRequest;
+// import com.example.demo.entity.User;
+// import com.example.demo.security.JwtUtil;
+// import com.example.demo.service.UserService;
+
+// import io.swagger.v3.oas.annotations.tags.Tag;
+// import org.springframework.security.crypto.password.PasswordEncoder;
+// import org.springframework.web.bind.annotation.*;
+
+// @RestController
+// @RequestMapping("/auth")
+// @Tag(name = "Authentication")
+// public class AuthController {
+
+//     private final UserService userService;
+//     private final JwtUtil jwtUtil;
+//     private final PasswordEncoder passwordEncoder;
+
+//     public AuthController(UserService userService, JwtUtil jwtUtil, PasswordEncoder passwordEncoder) {
+//         this.userService = userService;
+//         this.jwtUtil = jwtUtil;
+//         this.passwordEncoder = passwordEncoder;
+//     }
+
+//     @PostMapping("/register")
+//     public User register(@RequestBody RegisterRequest request) {
+//         User user = new User();
+//         user.setFullName(request.getFullName());
+//         user.setEmail(request.getEmail());
+//         user.setPassword(request.getPassword());
+//         user.setRole(request.getRole());
+//         return userService.registerUser(user);
+//     }
+
+//     @PostMapping("/login")
+//     public AuthResponse login(@RequestBody AuthRequest request) {
+//         User user = userService.findByEmail(request.getEmail());
+
+//         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+//             throw new RuntimeException("Invalid credentials");
+//         }
+
+//         String token = jwtUtil.createToken(user.getId(), user.getEmail(), user.getRole());
+//         return new AuthResponse(token, user.getRole(), user.getEmail());
+//     }
+// }
+
 package com.example.demo.controller;
 
-import com.example.demo.dto.AuthRequest;
-import com.example.demo.dto.AuthResponse;
-import com.example.demo.dto.RegisterRequest;
+import com.example.demo.dto.LoginRequest;
+import com.example.demo.dto.LoginResponse;
 import com.example.demo.entity.User;
 import com.example.demo.security.JwtUtil;
-import com.example.demo.service.UserService;
-
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth")
-@Tag(name = "Authentication")
+@RequestMapping("/login")
 public class AuthController {
 
-    private final UserService userService;
+    private final AuthenticationManager authenticationManager;
     private final JwtUtil jwtUtil;
-    private final PasswordEncoder passwordEncoder;
 
-    public AuthController(UserService userService, JwtUtil jwtUtil, PasswordEncoder passwordEncoder) {
-        this.userService = userService;
+    public AuthController(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
+        this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
-        this.passwordEncoder = passwordEncoder;
     }
 
-    @PostMapping("/register")
-    public User register(@RequestBody RegisterRequest request) {
-        User user = new User();
-        user.setFullName(request.getFullName());
-        user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
-        user.setRole(request.getRole());
-        return userService.registerUser(user);
-    }
+    @PostMapping
+    public ResponseEntity<LoginResponse> login(
+            @RequestBody LoginRequest request) {
 
-    @PostMapping("/login")
-    public AuthResponse login(@RequestBody AuthRequest request) {
-        User user = userService.findByEmail(request.getEmail());
+        // 🔐 Authenticate user
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
 
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            throw new RuntimeException("Invalid credentials");
-        }
+        // ⚠️ Load user from DB (example)
+        User user = /* fetch user by email */;
 
-        String token = jwtUtil.createToken(user.getId(), user.getEmail(), user.getRole());
-        return new AuthResponse(token, user.getRole(), user.getEmail());
+        // 🔑 Generate JWT
+        String token = jwtUtil.generateToken(
+                new org.springframework.security.core.userdetails.User(
+                        user.getEmail(),
+                        user.getPassword(),
+                        java.util.Collections.emptyList()
+                ),
+                user
+        );
+
+        // ✅ CREATE RESPONSE DTO
+        LoginResponse loginResponse = new LoginResponse(
+                token,
+                user.getId(),
+                user.getEmail(),
+                user.getRole()
+        );
+
+        // ✅ THIS IS THE LINE YOU ASKED ABOUT
+        return ResponseEntity.ok(loginResponse);
     }
 }
