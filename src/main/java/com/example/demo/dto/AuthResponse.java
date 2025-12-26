@@ -32,14 +32,14 @@ public class AuthResponse {
         this.role = role;
     }
 
-    // ✅ REQUIRED (OLDER CONSTRUCTOR)
+ 
     public AuthResponse(String token, String email, String role) {
         this.token = token;
         this.email = email;
         this.role = role;
     }
 
-    // ✅ REQUIRED GETTERS (TEST USES THESE)
+   
     public String getToken() {
         return token;
     }

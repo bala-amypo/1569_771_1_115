@@ -13,7 +13,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/auth") // 👈 COMMON BASE PATH UPDATED HERE
+@RequestMapping("/auth") 
 public class AuthController {
 
     private final UserService userService;
@@ -28,7 +28,7 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
-    // LOGIN: POST /auth/login
+    
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest req) {
 
@@ -42,7 +42,7 @@ public class AuthController {
         return ResponseEntity.ok(new LoginResponse(token));
     }
 
-    // REGISTER: POST /auth/register
+
     @PostMapping("/register")
     public ResponseEntity<LoginResponse> register(@RequestBody RegisterRequest req) {
 
