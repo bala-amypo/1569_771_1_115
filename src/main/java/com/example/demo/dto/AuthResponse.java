@@ -1,17 +1,3 @@
-// package com.example.demo.dto;
-
-// public class AuthResponse {
-
-//     private String token;
-
-//     public AuthResponse(String token) {
-//         this.token = token;
-//     }
-
-//     public String getToken() {
-//         return token;
-//     }
-// }
 package com.example.demo.dto;
 
 public class AuthResponse {
@@ -21,10 +7,10 @@ public class AuthResponse {
     private String role;
     private Long userId;
 
-    // ✅ REQUIRED
+
     public AuthResponse() {}
 
-    // ✅ REQUIRED BY TEST (4-ARG CONSTRUCTOR)
+
     public AuthResponse(String token, long userId, String email, String role) {
         this.token = token;
         this.userId = userId;
